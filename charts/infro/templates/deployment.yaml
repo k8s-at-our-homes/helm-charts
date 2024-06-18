@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: "core"
     {{- include "labels" . | nindent 4 }}
 spec:
-  revisionHistoryLimit: 0
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicas }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   selector:
@@ -25,6 +25,7 @@ spec:
         app.kubernetes.io/component: "core"
         {{- include "labels" . | nindent 8 }}
     spec:
+      nodeSelector: {{ .Values.nodeSelector | toYaml | nindent 8 }}
       securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: core
