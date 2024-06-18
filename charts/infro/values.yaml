@@ -26,7 +26,7 @@ securityContext:
 image:
   registry: docker.io
   repository: infrolabs/infro-core
-  tag: latest@sha256:c2293d7611a64aaa8a101de2d2b35eba6e170f98
+  tag: latest@sha256:c6c4fef1fe102118ff40fe84cc9a9d8bc39f3e12928a290d725ae75756d5afe7
   pullPolicy: IfNotPresent
 
 config:
