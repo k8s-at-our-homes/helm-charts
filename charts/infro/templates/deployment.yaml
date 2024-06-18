@@ -44,7 +44,7 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
           env:
-            {{- $secretName := default .Values.config.existingSecretName | include "infro.fullname" . }}
+            {{- $secretName := default ( include "infro.fullname" . ) .Values.config.existingSecretName }}
             - name: config
               valueFrom:
                 secretKeyRef:
