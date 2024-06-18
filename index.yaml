@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   infro:
   - apiVersion: v2
+    created: "2024-06-18T21:12:09.658324228Z"
+    digest: 3d72f5a19a9e4694f07342a0655efc35b93471ed41fa0da6a927e184efd31202
+    name: infro
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.2/infro-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
     created: "2024-06-18T20:47:48.783831922Z"
     digest: e403f8883d0d08b36a10bf27c41ad83fb688eaf08bde4ee102ab360d337384f4
     name: infro
@@ -15,4 +22,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-18T20:47:48.783844475Z"
+generated: "2024-06-18T21:12:09.65833632Z"
