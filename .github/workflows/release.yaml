@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-env:
-  GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
 jobs:
   release:
@@ -43,5 +41,5 @@ jobs:
             if [ -z "${pkg:-}" ]; then
               break
             fi
-            helm push "${pkg}" "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts"
+            helm push "${pkg}" "oci://ghcr.io/FlorisFeddema/helm-charts"
           done
