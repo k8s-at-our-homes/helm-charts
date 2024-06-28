@@ -50,6 +50,7 @@ spec:
           readinessProbe:
             httpGet:
               port: http
+              path: /health
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
@@ -57,6 +58,7 @@ spec:
           livenessProbe:
             httpGet:
               port: http
+              path: /health
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             successThreshold: {{ .Values.livenessProbe.successThreshold }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
