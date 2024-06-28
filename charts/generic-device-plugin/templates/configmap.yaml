@@ -1,14 +1,12 @@
-{{- if not .Values.config.existingSecretName }}
-kind: Secret
 apiVersion: v1
+kind: ConfigMap
 metadata:
   name: {{ include "common.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ template "common.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "core"
+    app.kubernetes.io/component: "generic-device-plugin"
     {{- include "labels" . | nindent 4 }}
-stringData:
-    owner: {{ .Values.config.owner | quote }}
-    config: {{ .Values.config.config | quote }}
-{{- end }}
+data:
+  config.yaml: |
+    devices: {{ .Values.devices | toYaml | nindent 4 }}

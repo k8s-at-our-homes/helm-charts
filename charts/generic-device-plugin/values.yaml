@@ -1,0 +1,34 @@
+revisionHistoryLimit: 0
+
+nodeSelector: {}
+
+resources: {}
+#  requests:
+#    cpu: 50m
+#    memory: 10Mi
+#  limits:
+#    memory: 20Mi
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+
+securityContext:
+  capabilities:
+    drop: [ "ALL" ]
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+
+image:
+  registry: docker.io
+  repository: squat/generic-device-plugin
+  tag: latest@sha256:ba6f0b4cf6c858d6ad29ba4d32e4da11638abbc7d96436bf04f582a97b2b8821
+  pullPolicy: IfNotPresent
+
+
+domain: device.local
+
+devices:
