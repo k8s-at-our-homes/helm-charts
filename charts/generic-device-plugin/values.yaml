@@ -16,11 +16,15 @@ podSecurityContext:
   runAsNonRoot: true
 
 securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
   capabilities:
     drop: [ "ALL" ]
-  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
-  privileged: false
+  seccompProfile:
+    type: "RuntimeDefault"
+  seLinuxOptions:
+    type: "container_device_plugin_t"
 
 image:
   registry: docker.io
