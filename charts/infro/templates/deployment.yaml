@@ -16,7 +16,6 @@ spec:
       app.kubernetes.io/name: {{ template "common.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
       app.kubernetes.io/component: "core"
-      {{- include "labels" . | nindent 6 }}
   template:
     metadata:
       labels:
