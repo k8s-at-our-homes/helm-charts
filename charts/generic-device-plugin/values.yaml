@@ -28,7 +28,19 @@ image:
   tag: latest@sha256:ba6f0b4cf6c858d6ad29ba4d32e4da11638abbc7d96436bf04f582a97b2b8821
   pullPolicy: IfNotPresent
 
+readinessProbe:
+  failureThreshold: 3
+  successThreshold: 1
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  failureThreshold: 3
+  successThreshold: 1
+  initialDelaySeconds: 5
+  periodSeconds: 10
 
 domain: device.local
-
-devices:
+# valid options: all, debug, info, warn, error, none
+logLevel: error
+devices: {}
