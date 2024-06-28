@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   generic-device-plugin:
   - apiVersion: v2
+    created: "2024-06-28T19:20:00.509701732Z"
+    digest: 7c352eae795706c1586b99ee5ec0543fe2410239f55ffb4a9968f43c89ff87c0
+    name: generic-device-plugin
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.1/generic-device-plugin-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     created: "2024-06-28T19:16:45.512380104Z"
     digest: 03606fb692ef15a5b2e908946b022940dcb809866f15b21316215fb69b915e58
     name: generic-device-plugin
@@ -44,4 +51,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-28T19:16:45.64044594Z"
+generated: "2024-06-28T19:20:00.509736367Z"
