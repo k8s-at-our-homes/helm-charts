@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "common.fullname" . }}-service-monitor
+  labels:
+    app.kubernetes.io/name: {{ template "common.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: "adguard"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "common.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: "adguard-sync"
+  namespaceSelector:
+    matchNames:
+      - adguard
+  endpoints:
+    - port: sync
+      path: /metrics

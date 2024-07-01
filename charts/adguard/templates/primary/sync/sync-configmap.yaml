@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "common.fullname" . }}-sync-config
+  labels:
+    app.kubernetes.io/name: {{ template "common.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: "adguard-sync"
+    {{- include "common.labels" . | nindent 4 }}
+data:
+  LOG_LEVEL: "{{ .Values.sync.config.loglevel }}"
+  CRON: "{{ .Values.sync.config.cron }}"
+  RUN_ON_START: "true"
+  API_PORT: "8080"
+  API_METRICS_ENABLED: "true"
+
+  ORIGIN_URL: "http://{{ template "common.fullname" . }}-web.{{ $.Release.Namespace }}.svc:3000"
+  ORIGIN_USERNAME: "admin"
+
+  {{ range $i, $v := untilStep 1 ((add1 .Values.secondary.replicas) | int ) 1 }}
+  REPLICA{{ $v }}_URL: "http://{{ template "common.fullname" $ }}-secondary-{{ $i }}.{{ template "common.fullname" $ }}-secondary.{{ $.Release.Namespace }}.svc:3000"
+  REPLICA{{ $v }}_USERNAME: "admin"
+  REPLICA{{ $v }}_AUTO_SETUP: "true"
+  REPLICA{{ $v }}_DHCP_SERVER_ENABLED: "false"
+  {{ end }}

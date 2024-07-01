@@ -1,0 +1,50 @@
+image:
+  registry: docker.io
+  repository: adguard/adguardhome
+  tag: v0.107.51
+
+primary:
+  replicas: 1
+  resources: {}
+  strategy:
+    type: Recreate
+
+secondary:
+  replicas: 3
+  resources: {}
+
+  topologySpreadConstraints: []
+
+persistence:
+  labels: {}
+  size: 1Gi
+
+service:
+  annotations: {}
+
+init:
+  image:
+    registry: docker.io
+    repository: busybox
+    tag: 1.36.1
+
+ingress:
+  enabled: true
+  domain: adguard.example.com
+  annotations: {}
+
+sync:
+  resources: {}
+
+  config:
+    secret:
+      name: adguard-sync-credentials
+      sealedValues:
+        password: ''
+    loglevel: error
+    cron: "*/1 * * * *"
+
+  image:
+    registry: ghcr.io
+    repository: bakito/adguardhome-sync
+    tag: v0.6.11
