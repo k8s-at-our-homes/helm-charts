@@ -32,6 +32,9 @@ ingress:
   enabled: true
   domain: adguard.example.com
   annotations: {}
+  tls:
+    enabled: false
+    secretName: adguard-tls
 
 sync:
   resources: {}
