@@ -36,7 +36,27 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
+  immich:
+  - apiVersion: v2
+    created: "2024-07-01T20:50:00.649939421Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.6.0
+    digest: 9abb17b340bb1d3d7481f0e4e52c9f5a907d99d50d0f9a62a3847139128dc716
+    name: immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-1.0.0/immich-1.0.0.tgz
+    version: 1.0.0
   infro:
+  - apiVersion: v2
+    created: "2024-07-01T20:50:00.775252715Z"
+    digest: d49f9ebb8cfe08aa8f20f845448e7641842d457e6b0c0d44f0e89bb65af70447
+    name: infro
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.6/infro-1.0.6.tgz
+    version: 1.0.6
   - apiVersion: v2
     created: "2024-06-28T20:22:50.189971098Z"
     digest: 321e450e5953071abb3cdca0f931805bfb381bf533d5ae8a39e2b7fac90cdea8
@@ -79,4 +99,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-06-28T20:22:50.190001866Z"
+generated: "2024-07-01T20:50:00.775307659Z"
