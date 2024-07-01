@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: {{ template "common.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: "core"
-    {{- include "labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   replicas: {{ .Values.replicas }}
@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/name: {{ template "common.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: "core"
-        {{- include "labels" . | nindent 8 }}
+        {{- include "common.labels" . | nindent 8 }}
     spec:
       nodeSelector: {{ .Values.nodeSelector | toYaml | nindent 8 }}
       securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
