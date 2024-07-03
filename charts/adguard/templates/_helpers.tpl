@@ -3,11 +3,10 @@
 {{- end -}}
 
 {{- define "common.fullname" -}}
-{{- $name := .Chart.Name -}}
-{{- if contains $name .Release.Name -}}
+{{- if contains .Chart.Name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 

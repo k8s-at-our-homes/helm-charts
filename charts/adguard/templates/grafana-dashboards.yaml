@@ -8,10 +8,6 @@ metadata:
   name: {{ $dashboardName | trunc 63 | trimSuffix "-" }}
   labels:
     grafana_dashboard: "1"
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard"
-    {{- include "common.labels" . | nindent 4 }}
 data:
   {{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
 {{- end }}
