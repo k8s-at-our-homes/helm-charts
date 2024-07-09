@@ -36,7 +36,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.sync.config.secretName }}
-                  key: ORIGIN_PASSWORD
+                  key: password
           {{- range $i, $v := untilStep 1 ((add1 .Values.secondary.replicas) | int ) 1 }}
             - name: REPLICA{{ $v }}_PASSWORD
               valueFrom:
