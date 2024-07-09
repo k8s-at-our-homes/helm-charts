@@ -22,11 +22,11 @@ persistence:
 service:
   annotations: {}
 
-init:
+secretInit:
   image:
     registry: docker.io
-    repository: busybox
-    tag: 1.36.1
+    repository: bitnami/kubectl
+    tag: 1.30.2
 
 ingress:
   enabled: true
@@ -40,10 +40,7 @@ sync:
   resources: {}
 
   config:
-    secret:
-      name: adguard-sync-credentials
-      sealedValues:
-        password: ''
+    secretName: adguard-sync-credentials
     loglevel: error
     cron: "*/1 * * * *"
 

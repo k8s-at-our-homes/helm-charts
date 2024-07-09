@@ -31,9 +31,20 @@ spec:
           restartPolicy: Always
           args:
             - run
+          env:
+            - name: ORIGIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.sync.config.secretName }}
+                  key: ORIGIN_PASSWORD
+          {{- range $i, $v := untilStep 1 ((add1 .Values.secondary.replicas) | int ) 1 }}
+            - name: REPLICA{{ $v }}_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "common.fullname" . }}-secondary-password
+                  key: password
+          {{- end }}
           envFrom:
-            - secretRef:
-                name: {{ .Values.sync.config.secret.name }}
             - configMapRef:
                 name: {{ template "common.fullname" . }}-sync-config
           ports:
