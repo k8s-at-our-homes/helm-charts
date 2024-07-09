@@ -23,6 +23,8 @@ service:
   annotations: {}
 
 secretInit:
+  resources: {}
+
   image:
     registry: docker.io
     repository: bitnami/kubectl

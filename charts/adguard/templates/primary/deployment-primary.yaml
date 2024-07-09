@@ -41,7 +41,7 @@ spec:
             - name: REPLICA{{ $v }}_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "common.fullname" . }}-secondary-password
+                  name: {{ template "common.fullname" $ }}-secondary-password
                   key: password
           {{- end }}
           envFrom:
