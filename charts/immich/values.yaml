@@ -62,6 +62,7 @@ server:
     repository: immich-app/immich-server
     tag: v1.108.0
     pullPolicy: IfNotPresent
+  podSecurityContext: {}
 
 #  resources:
 #    requests:
