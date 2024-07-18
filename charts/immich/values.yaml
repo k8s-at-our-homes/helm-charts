@@ -12,7 +12,7 @@ ingress:
 #    nginx.ingress.kubernetes.io/proxy-body-size: "0"
   tls:
     enabled: true
-    secretName: immich-tls
+    secretName:
 
 database:
   image:
