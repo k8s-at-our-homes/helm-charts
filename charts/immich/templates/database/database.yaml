@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ template "common.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich"
+    app.kubernetes.io/component: "db"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   instances: {{ .Values.database.replicas }}
@@ -45,3 +45,18 @@ spec:
           name: {{ .Values.database.backups.secretName }}
           key: SECRET_KEY
   {{ end }}
+
+  {{- if .Values.database.topologySpreadConstraints }}
+  topologySpreadConstraints:
+  {{- range .Values.database.topologySpreadConstraints }}
+  - maxSkew: 1
+    topologyKey: {{ .topologyKey }}
+    whenUnsatisfiable: {{ .whenUnsatisfiable }}
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: {{ template "common.name" $ }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        app.kubernetes.io/component: "db"
+        {{- include "common.labels" $ | nindent 8 }}
+  {{- end }}
+  {{- end }}

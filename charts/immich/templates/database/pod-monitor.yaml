@@ -2,11 +2,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: {{ template "common.fullname" . }}-data
+  name: {{ .Values.database.clusterName }}-monitor
   labels:
     app.kubernetes.io/name: {{ template "common.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich"
+    app.kubernetes.io/component: "db"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   selector:

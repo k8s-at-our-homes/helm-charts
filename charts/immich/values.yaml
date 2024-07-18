@@ -22,15 +22,22 @@ database:
   clusterName: immich-postgresql
   logLevel: error
   replicas: 2
+  size: 32Gi
+
   monitoring:
     enabled: true
-  size: 32Gi
+
   backups:
     enabled: false
     secretName: ''
     retention: ''
     path: ''
     endpoint: ''
+
+  topologySpreadConstraints: 
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
 
 machineLearning:
   replicas: 1
