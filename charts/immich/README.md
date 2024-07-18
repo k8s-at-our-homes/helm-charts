@@ -12,5 +12,5 @@ helm install immich k8s-at-our-home/immich
 Or get the chart from ghcr.io:
 
 ```bash
-helm install generic-device-plugin oci://ghcr.io/k8s-at-our-homes/helm-charts/immich
+helm install immich oci://ghcr.io/k8s-at-our-homes/helm-charts
 ```
