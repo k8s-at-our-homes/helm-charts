@@ -13,6 +13,13 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
+  {{- if hasKey .Values.persistence "storageClass" }}
   {{- with .Values.persistence.storageClass }}
   storageClassName: {{ . }}
+  {{- else }}
+  storageClassName: ""
   {{- end }}
+  {{- end }}
+  {{- with .Values.persistence.existingVolume }}
+  volumeName: {{ . }}
+  {{- end}}
