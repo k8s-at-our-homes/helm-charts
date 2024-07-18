@@ -1,6 +1,10 @@
 apiVersion: v2
 name: immich
-version: 1.2.0
+version: 1.2.1
+
+home: https://immich.app
+sources:
+- https://github.com/immich-app/immich
 
 dependencies:
   - name: redis
