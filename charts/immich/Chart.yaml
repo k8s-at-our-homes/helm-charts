@@ -1,6 +1,6 @@
 apiVersion: v2
 name: immich
-version: 1.3.1
+version: 1.3.2
 
 home: https://immich.app
 sources:
@@ -8,6 +8,6 @@ sources:
 
 dependencies:
   - name: redis
-    version: 19.6.3
+    version: 19.6.4
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
