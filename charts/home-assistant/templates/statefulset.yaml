@@ -17,7 +17,7 @@ spec:
     spec:
       serviceAccountName: {{ template "common.fullname" . }}
       nodeName: {{ .Values.nodeName }}
-      tolerations: {{ toYaml .Values.tolerations | nindent 6 }}
+      tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
       securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
         - name: config-loader
