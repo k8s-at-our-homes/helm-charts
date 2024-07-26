@@ -14,7 +14,7 @@ data:
   API_PORT: "8080"
   API_METRICS_ENABLED: "true"
 
-  ORIGIN_URL: "localhost:3000"
+  ORIGIN_URL: "http://localhost:3000"
   ORIGIN_USERNAME: "admin"
 
   {{ range $i, $v := untilStep 1 ((add1 .Values.secondary.replicas) | int ) 1 }}
