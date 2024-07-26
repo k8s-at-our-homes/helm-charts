@@ -45,7 +45,7 @@ machineLearning:
   image:
     registry: ghcr.io
     repository: immich-app/immich-machine-learning
-    tag: v1.109.2
+    tag: v1.110.0
     pullPolicy: IfNotPresent
 
 #  resources:
