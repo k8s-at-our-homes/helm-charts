@@ -44,6 +44,7 @@ secondary:
     annotations: {}
 
   topologySpreadConstraints: []
+  tolerations: []
 
 secretInit:
   image:

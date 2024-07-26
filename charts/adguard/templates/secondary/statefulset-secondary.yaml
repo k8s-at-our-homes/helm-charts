@@ -25,6 +25,7 @@ spec:
         {{- include "common.labels" . | nindent 8 }}
     spec:
       topologySpreadConstraints: {{ toYaml .Values.secondary.topologySpreadConstraints | nindent 8 }}
+      tolerations: {{ toYaml .Values.secondary.tolerations | nindent 8 }}
       containers:
         - name: adguard
           image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
