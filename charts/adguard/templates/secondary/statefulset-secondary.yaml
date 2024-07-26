@@ -27,7 +27,7 @@ spec:
       topologySpreadConstraints: {{ toYaml .Values.secondary.topologySpreadConstraints | nindent 8 }}
       containers:
         - name: adguard
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -60,9 +60,9 @@ spec:
     - metadata:
         name: data
         labels:
-          {{ toYaml .Values.persistence.labels | nindent 10 }}
+          {{ toYaml .Values.global.persistence.labels | nindent 10 }}
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ .Values.persistence.size }}
+            storage: {{ .Values.global.persistence.size }}

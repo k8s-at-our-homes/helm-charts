@@ -1,52 +1,56 @@
-image:
-  registry: docker.io
-  repository: adguard/adguardhome
-  tag: v0.107.52
+global:
+  image:
+    registry: docker.io
+    repository: adguard/adguardhome
+    tag: v0.107.52
+  
+  persistence:
+    labels: {}
+    size: 1Gi
 
 primary:
   replicas: 1
+  secretName: adguard-sync-credentials
   resources: {}
   strategy:
     type: Recreate
+
+  ingress:
+    enabled: true
+    domain: adguard.example.com
+    annotations: {}
+    tls:
+      enabled: true
+      secretName:
+  
+  sync:
+    resources: {}
+
+    config:
+      loglevel: error
+      cron: "*/1 * * * *"
+
+    image:
+      registry: ghcr.io
+      repository: bakito/adguardhome-sync
+      tag: v0.6.12
+
 
 secondary:
   replicas: 3
   resources: {}
 
+  service:
+    annotations: {}
+
   topologySpreadConstraints: []
 
-persistence:
-  labels: {}
-  size: 1Gi
-
-service:
-  annotations: {}
-
 secretInit:
-  resources: {}
-
   image:
     registry: docker.io
     repository: bitnami/kubectl
     tag: 1.30.3
 
-ingress:
-  enabled: true
-  domain: adguard.example.com
-  annotations: {}
-  tls:
-    enabled: false
-    secretName:
+  primary: false
 
-sync:
   resources: {}
-
-  config:
-    secretName: adguard-sync-credentials
-    loglevel: error
-    cron: "*/1 * * * *"
-
-  image:
-    registry: ghcr.io
-    repository: bakito/adguardhome-sync
-    tag: v0.6.12

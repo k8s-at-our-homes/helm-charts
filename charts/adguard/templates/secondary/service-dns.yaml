@@ -5,10 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ template "common.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard"
+    app.kubernetes.io/component: "adguard-secondary"
     {{- include "common.labels" . | nindent 4 }}
   annotations:
-    {{- toYaml .Values.service.annotations | nindent 4 }}
+    {{- toYaml .Values.secondary.service.annotations | nindent 4 }}
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local

@@ -8,13 +8,13 @@ metadata:
     app.kubernetes.io/component: "adguard-sync"
     {{- include "common.labels" . | nindent 4 }}
 data:
-  LOG_LEVEL: "{{ .Values.sync.config.loglevel }}"
-  CRON: "{{ .Values.sync.config.cron }}"
+  LOG_LEVEL: "{{ .Values.primary.sync.config.loglevel }}"
+  CRON: "{{ .Values.primary.sync.config.cron }}"
   RUN_ON_START: "true"
   API_PORT: "8080"
   API_METRICS_ENABLED: "true"
 
-  ORIGIN_URL: "http://{{ template "common.fullname" . }}-web.{{ $.Release.Namespace }}.svc:3000"
+  ORIGIN_URL: "localhost:3000"
   ORIGIN_USERNAME: "admin"
 
   {{ range $i, $v := untilStep 1 ((add1 .Values.secondary.replicas) | int ) 1 }}
