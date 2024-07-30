@@ -61,9 +61,14 @@ spec:
     - metadata:
         name: data
         labels:
+          app.kubernetes.io/name: {{ template "common.name" . }}
+          app.kubernetes.io/instance: {{ .Release.Name }}
+          app.kubernetes.io/component: "adguard-secondary"
+          {{- if .Values.global.persistence.labels }}
           {{ toYaml .Values.global.persistence.labels | nindent 10 }}
+          {{- end}}
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ .Values.global.persistence.size }}
+            storage: {{ .Values.secondary.persistence.size | default .Values.global.persistence.size }}

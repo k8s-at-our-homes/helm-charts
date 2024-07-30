@@ -9,8 +9,8 @@ metadata:
     {{- include "common.labels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
-  replicas: {{ .Values.primary.replicas }}
-  strategy: {{ toYaml .Values.primary.strategy | nindent 4 }}
+  replicas: 1
+  strategy: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "common.name" . }}

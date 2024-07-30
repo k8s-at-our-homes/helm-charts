@@ -3,7 +3,7 @@ global:
     registry: docker.io
     repository: adguard/adguardhome
     tag: v0.107.52
-  
+
   persistence:
     labels: {}
     size: 1Gi
@@ -12,8 +12,10 @@ primary:
   replicas: 1
   secretName: adguard-sync-credentials
   resources: {}
-  strategy:
-    type: Recreate
+
+  persistence:
+    size:
+    existingVolume:
 
   ingress:
     enabled: true
@@ -39,6 +41,9 @@ primary:
 secondary:
   replicas: 3
   resources: {}
+
+  persistence:
+    size:
 
   service:
     annotations: {}

@@ -7,12 +7,13 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: "adguard-primary"
     {{- include "common.labels" . | nindent 4 }}
-    {{ if .Values.global.persistence.labels }}
+    {{- if .Values.global.persistence.labels }}
     {{ toYaml .Values.global.persistence.labels | nindent 4 }}
-    {{ end }}
+    {{- end}}
 spec:
   accessModes:
     - ReadWriteOnce
+  volumeName: {{ .Values.primary.persistence.existingVolume }}
   resources:
     requests:
-      storage: {{ .Values.global.persistence.size }}
+      storage: {{ .Values.primary.persistence.size | default .Values.global.persistence.size }}
