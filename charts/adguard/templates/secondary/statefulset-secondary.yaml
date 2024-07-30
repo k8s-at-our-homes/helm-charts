@@ -65,7 +65,7 @@ spec:
           app.kubernetes.io/instance: {{ .Release.Name }}
           app.kubernetes.io/component: "adguard-secondary"
           {{- if .Values.global.persistence.labels }}
-          {{- toYaml .Values.global.persistence.labels | nindent 10 }}
+          {{ toYaml .Values.global.persistence.labels | nindent 10 }}
           {{- end}}
       spec:
         accessModes: [ "ReadWriteOnce" ]

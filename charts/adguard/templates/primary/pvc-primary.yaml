@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: "adguard-primary"
     {{- include "common.labels" . | nindent 4 }}
     {{- if .Values.global.persistence.labels }}
-    {{- toYaml .Values.global.persistence.labels | nindent 4 }}
+    {{ toYaml .Values.global.persistence.labels | nindent 4 }}
     {{- end}}
 spec:
   accessModes:
