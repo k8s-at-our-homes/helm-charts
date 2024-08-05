@@ -28,6 +28,7 @@ jobs:
     needs: create-matrix
 
     strategy:
+      fail-fast: false
       matrix:
         chart: ${{ fromJSON(needs.create-matrix.outputs.charts) }}
 
