@@ -62,6 +62,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check for chart version change
+        run: |
+          old_version=$(git show origin/main:charts/${{ matrix.chart }}/Chart.yaml | yq eval ".version")
+          new_version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
+          if [ "$old_version" == "$new_version" ]; then
+            echo "Chart version not changed"
+            exit 1
+          fi
+
       - name: Push chart to GHCR
         run: |
           echo "Pushing chart ${{ matrix.chart }}"
