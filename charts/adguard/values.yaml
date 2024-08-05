@@ -57,6 +57,8 @@ secretInit:
     repository: bitnami/kubectl
     tag: 1.30.3
 
-  primary: false
+  primary:
+    create: false
+    annotations: {}
 
   resources: {}
