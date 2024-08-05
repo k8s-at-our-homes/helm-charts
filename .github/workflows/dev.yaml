@@ -1,0 +1,55 @@
+on:
+  pull_request:
+    paths:
+      - 'charts/**'
+
+jobs:
+  create-matrix:
+    runs-on: ubuntu-latest
+
+    outputs:
+      charts: ${{ steps.charts.outputs.charts }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create changed charts matrix
+        id: charts
+        run: |
+          charts=$(git diff --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "charts=${charts}" >> "$GITHUB_OUTPUT"
+
+  build-charts:
+    runs-on: ubuntu-latest
+    needs: create-matrix
+
+    strategy:
+      matrix:
+        chart: ${{ fromJSON(needs.create-matrix.outputs.charts) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.12.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push chart to GHCR
+        run: |
+          echo "Pushing chart ${{ matrix.chart }}"
+#            helm push "${{ matrix.chart }}" "oci://ghcr.io/${{ github.repository }}"
+
