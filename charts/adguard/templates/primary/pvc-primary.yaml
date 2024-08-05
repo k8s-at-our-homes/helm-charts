@@ -13,7 +13,9 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  {{- if .Values.primary.persistence.existingVolume }}
   volumeName: {{ .Values.primary.persistence.existingVolume }}
+  {{- end }}
   resources:
     requests:
       storage: {{ .Values.primary.persistence.size | default .Values.global.persistence.size }}
