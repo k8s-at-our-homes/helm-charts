@@ -37,6 +37,3 @@ config:
   existingSecretName:
   owner:
   config:
-
-
-aaaa: "s"
