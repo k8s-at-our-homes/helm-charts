@@ -42,6 +42,10 @@ jobs:
         with:
           version: v3.12.0
 
+      - name: Run Helm template
+        run: |
+          helm template "${{ matrix.chart }}" charts/${{ matrix.chart }}
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
