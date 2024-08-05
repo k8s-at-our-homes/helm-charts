@@ -20,6 +20,7 @@ jobs:
         id: charts
         run: |
           charts=$(git diff --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "::set-output name=charts::$charts"
           echo "charts=${charts}" >> "$GITHUB_OUTPUT"
 
   build-charts:
