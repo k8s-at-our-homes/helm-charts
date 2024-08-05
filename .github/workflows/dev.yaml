@@ -19,7 +19,7 @@ jobs:
       - name: Create changed charts matrix
         id: charts
         run: |
-          charts=$(git diff --merge-base main --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          charts=$(git diff --merge-base origin/main --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
           echo "charts=${charts}"
           echo "charts=${charts}" >> "$GITHUB_OUTPUT"
 
