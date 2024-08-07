@@ -79,6 +79,10 @@ jobs:
             exit 1
           fi
 
+      - name: helm login
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io -u $ --password-stdin
+
       - name: Push chart to GHCR
         run: |
           version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
