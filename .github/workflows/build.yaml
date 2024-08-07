@@ -70,7 +70,7 @@ jobs:
             echo "Chart exists in main branch"
           else
             echo "Chart does not exist in main branch"
-            exit 1
+            exit 0
           fi
           old_version=$(git show origin/main:charts/${{ matrix.chart }}/Chart.yaml | yq eval ".version")
           new_version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
