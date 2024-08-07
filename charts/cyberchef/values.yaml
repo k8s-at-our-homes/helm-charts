@@ -10,7 +10,6 @@ resources: {}
 #    memory: 2048Mi
 
 podSecurityContext:
-  runAsUser: 0
   runAsNonRoot: false # Bind to port 80 requires root
 
 securityContext:
@@ -18,7 +17,7 @@ securityContext:
     drop: [ "ALL" ]
     add: [ "NET_BIND_SERVICE" ]
   allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: true
+  readOnlyRootFilesystem: false
   privileged: false
 
 image:
