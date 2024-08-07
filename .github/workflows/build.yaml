@@ -66,6 +66,12 @@ jobs:
 
       - name: Check for chart version change
         run: |
+          if git cat-file -e origin/main:charts/${{ matrix.chart }}/Chart.yaml >/dev/null; then
+            echo "Chart exists in main branch"
+          else
+            echo "Chart does not exist in main branch"
+            exit 1
+          fi
           old_version=$(git show origin/main:charts/${{ matrix.chart }}/Chart.yaml | yq eval ".version")
           new_version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
           if [ "$old_version" == "$new_version" ]; then
