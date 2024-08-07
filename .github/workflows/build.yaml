@@ -84,4 +84,5 @@ jobs:
           version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
           yq e -i '.version = "env(version)-${{ github.base_ref }}.${{ github.run_id }}"' charts/${{ matrix.chart }}/Chart.yaml
           echo "Pushing chart ${{ matrix.chart }} with version $version-${{ github.head_ref }}.${GITHUB_SHA::7}"
+          help package charts/${{ matrix.chart }}
           helm push "charts/${{ matrix.chart }}" "oci://ghcr.io/${{ github.repository }}" --debug 
