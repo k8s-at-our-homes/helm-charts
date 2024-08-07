@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.fullname" . }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "common.selectorLabels" . | nindent 8 }}
+    spec:
+      nodeSelector: {{ .Values.nodeSelector | toYaml | nindent 8 }}
+      securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: core
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
