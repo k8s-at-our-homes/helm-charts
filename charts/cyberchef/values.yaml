@@ -10,6 +10,7 @@ resources: {}
 #    memory: 2048Mi
 
 podSecurityContext:
+  runAsUser: 0
   runAsNonRoot: false # Bind to port 80 requires root
 
 securityContext:
