@@ -18,6 +18,7 @@ podSecurityContext:
 securityContext:
   capabilities:
     drop: [ "ALL" ]
+    add: [ "NET_BIND_SERVICE" ]
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
   privileged: false
