@@ -127,6 +127,14 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-1.0.0/adguard-1.0.0.tgz
     version: 1.0.0
+  cyberchef:
+  - apiVersion: v2
+    created: "2024-08-08T21:13:16.120694259Z"
+    digest: 8a5acfd8a927f6382a7b9eecfecee62b5c3f8365966e3d1991f86641ed6956d4
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.0/cyberchef-1.0.0.tgz
+    version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
     created: "2024-06-28T19:43:18.843204459Z"
@@ -407,4 +415,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-08-05T17:24:54.728720248Z"
+generated: "2024-08-08T21:13:16.12083413Z"
