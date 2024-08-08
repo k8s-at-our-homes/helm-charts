@@ -25,7 +25,7 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
           volumeMounts:
-            - mountPath: /var/cache/nginx/
+            - mountPath: /tmp/
               name: cache
       volumes:
         - name: cache
