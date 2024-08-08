@@ -68,6 +68,7 @@ jobs:
         id: version
         run: |
           echo ::set-output name=VERSION::$(head -n 1 images/${{ matrix.imageName }}/Dockerfile | awk -F: '{print $NF}' | awk '{print $1}')
+          echo ::set-output name=SHA::${GITHUB_SHA::7}
 
       - name: Build and push
         uses: docker/build-push-action@v6
@@ -87,5 +88,5 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${GITHUB_SHA::7}
+            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.version.outputs.SHA }}
           push: true
