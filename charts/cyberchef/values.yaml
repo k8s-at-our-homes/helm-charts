@@ -1,0 +1,38 @@
+replicas: 1
+
+nodeSelector: {}
+
+resources: {}
+#  requests:
+#    memory: 512Mi
+#    cpu: 100m
+#  limits:
+#    memory: 2048Mi
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+
+securityContext:
+  capabilities:
+    drop: [ "ALL" ]
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+
+image:
+  registry: ghcr.io
+  repository: k8s-at-our-homes/cyberchef
+  tag: 10.18.9
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  domain: cyberchef.example.com
+  class:
+  annotations: {}
+  tls:
+    enabled: true
+    secretName:

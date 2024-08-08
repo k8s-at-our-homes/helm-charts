@@ -1,0 +1,100 @@
+name: Build Images
+
+on:
+  push:
+    paths:
+      - 'images/**'
+  pull_request:
+    paths:
+      - 'images/**'
+
+jobs:
+  create-matrix:
+    runs-on: ubuntu-latest
+
+    outputs:
+      images: ${{ steps.images.outputs.images }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create changed images matrix
+        id: images
+        run: |
+          images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "images=${images}"
+          echo "images=${images}" >> "$GITHUB_OUTPUT"
+
+  build-images:
+    runs-on: ubuntu-latest
+    needs: create-matrix
+
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        imageName: ${{ fromJSON(needs.create-matrix.outputs.images) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get short SHA
+        id: sha
+        run: |
+          sha=$(echo "${GITHUB_SHA::7}")
+          echo "SHA=$sha"
+          echo "SHA=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Get version from Dockerfile
+        id: version
+        run: |
+          version=$(head -n 1 images/${{ matrix.imageName }}/Dockerfile | awk -F: '{print $NF}' | awk '{print $1}')
+          echo "VERSION=$version"
+          echo "VERSION=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        if: github.ref == 'refs/heads/main'
+        with:
+          context: 'images/${{ matrix.imageName }}'
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}
+          push: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        if: github.ref != 'refs/heads/main'
+        with:
+          context: 'images/${{ matrix.imageName }}'
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.sha.outputs.SHA }}
+          push: true
