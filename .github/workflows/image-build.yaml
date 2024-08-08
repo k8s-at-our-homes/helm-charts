@@ -2,8 +2,6 @@ name: Build Images
 
 on:
   push:
-    branches:
-      - main
     paths:
       - 'images/**'
 
@@ -70,10 +68,21 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v6
+        if: github.ref == 'refs/heads/main'
         with:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:latest
-            ghcr.io/florisfeddema/enphase-envoy-prometheus-exporter:${{ steps.version.outputs.VERSION }}
+            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}
+          push: true
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        if: github.ref != 'refs/heads/main'
+        with:
+          context: 'images/${{ matrix.imageName }}'
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${GITHUB_SHA::7}
           push: true
