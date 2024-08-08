@@ -64,15 +64,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get short SHA
+        id: sha
+        run: |
+          sha=$(echo "${GITHUB_SHA::7}")
+          echo "SHA=$sha"
+          echo "SHA=$sha" >> "$GITHUB_OUTPUT"
+
       - name: Get version from Dockerfile
         id: version
         run: |
-          sha=$(echo "${GITHUB_SHA::7}")
-          echo "$sha"
-          echo "$sha" >> "SHA"
           version=$(head -n 1 images/${{ matrix.imageName }}/Dockerfile | awk -F: '{print $NF}' | awk '{print $1}')
-          echo "$version"
-          echo "$version" >> "VERSION"
+          echo "VERSION=$version"
+          echo "VERSION=$version" >> "$GITHUB_OUTPUT"
           
           
       - name: Build and push
@@ -93,5 +97,5 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.version.outputs.SHA }}
+            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.sha.outputs.SHA }}
           push: true
