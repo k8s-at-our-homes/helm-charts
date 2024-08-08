@@ -67,8 +67,13 @@ jobs:
       - name: Get version from Dockerfile
         id: version
         run: |
-          echo "${GITHUB_SHA::7}" >> "SHA"
-          head -n 1 images/${{ matrix.imageName }}/Dockerfile | awk -F: '{print $NF}' | awk '{print $1}' >> "VERSION"
+          sha=$(echo "${GITHUB_SHA::7}")
+          echo "$sha"
+          echo "$sha" >> "SHA"
+          version=$(head -n 1 images/${{ matrix.imageName }}/Dockerfile | awk -F: '{print $NF}' | awk '{print $1}')
+          echo "$version"
+          echo "$version" >> "VERSION"
+          
           
       - name: Build and push
         uses: docker/build-push-action@v6
