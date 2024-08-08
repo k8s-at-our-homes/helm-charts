@@ -86,8 +86,8 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:latest
-            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}
           push: true
 
       - name: Build and push
@@ -97,5 +97,5 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.sha.outputs.SHA }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.sha.outputs.SHA }}
           push: true
