@@ -24,7 +24,7 @@ securityContext:
 
 image:
   registry: ghcr.io
-  repository: gchq/cyberchef
+  repository: k8s-at-our-homes/cyberchef
   tag: 10.18.9
   pullPolicy: IfNotPresent
 
