@@ -16,7 +16,7 @@ spec:
               service:
                 name: {{ template "common.fullname" . }}
                 port:
-                  number: 80
+                  number: 8080
             path: /
             pathType: Prefix
   {{- if .Values.ingress.tls.enabled }}
