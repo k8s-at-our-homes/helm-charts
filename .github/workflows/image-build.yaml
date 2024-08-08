@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      charts: ${{ steps.charts.outputs.charts }}
+      images: ${{ steps.images.outputs.images }}
 
     steps:
       - name: Checkout
