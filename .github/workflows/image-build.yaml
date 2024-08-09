@@ -24,6 +24,15 @@ jobs:
           fetch-depth: 0
 
       - name: Create changed images matrix
+        if: github.ref == 'refs/heads/main'
+        id: images
+        run: |
+          images=$(git diff origin/main~1 --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')         
+          echo "images=${images}"
+          echo "images=${images}" >> "$GITHUB_OUTPUT"
+
+      - name: Create changed images matrix
+        if: github.ref != 'refs/heads/main'
         id: images
         run: |
           images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
