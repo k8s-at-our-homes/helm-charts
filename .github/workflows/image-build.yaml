@@ -2,6 +2,8 @@ name: Build Images
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'images/**'
   pull_request:
@@ -22,6 +24,15 @@ jobs:
           fetch-depth: 0
 
       - name: Create changed images matrix
+        if: github.ref == 'refs/heads/main'
+        id: images
+        run: |
+          images=$(git diff origin/main~1 --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')         
+          echo "images=${images}"
+          echo "images=${images}" >> "$GITHUB_OUTPUT"
+
+      - name: Create changed images matrix
+        if: github.ref != 'refs/heads/main'
         id: images
         run: |
           images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
@@ -96,5 +107,5 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ github.head_ref }}.${{ steps.sha.outputs.SHA }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ steps.sha.outputs.SHA }}
           push: true
