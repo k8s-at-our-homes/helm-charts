@@ -24,10 +24,10 @@ jobs:
           fetch-depth: 0
 
       - name: Create changed images matrix
-        if: github.ref == 'refs/heads/main'
         id: images
         run: |
-          if [ $(git branch) == "main" ]; then
+          BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+          if [[ "$BRANCH" != "x" ]]; then
             images=$(git diff origin/main~1 --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')         
           else
             images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
