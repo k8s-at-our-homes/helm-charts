@@ -68,7 +68,7 @@ spec:
       metadata:
         name: config
         labels:
-          {{- include "common.labels" . | nindent 10 }}
+          {{- include "common.selectorLabels" . | nindent 10 }}
           {{ if .Values.persistence.labels }}
           {{ toYaml .Values.persistence.labels | nindent 10 }}
           {{ end }}
