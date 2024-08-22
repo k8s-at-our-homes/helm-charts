@@ -41,6 +41,7 @@ primary:
 secondary:
   replicas: 3
   resources: {}
+  priorityClassName:
 
   persistence:
     size:
