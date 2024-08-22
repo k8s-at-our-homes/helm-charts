@@ -86,6 +86,7 @@ jobs:
       - name: Push chart to GHCR
         run: |
           version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
-          echo "Pushing chart ${{ matrix.chart }} with version $version-${{ github.head_ref }}.${GITHUB_SHA::7}"
-          helm package charts/${{ matrix.chart }} --version "$version-${{ github.head_ref }}.${GITHUB_SHA::7}"
-          helm push "${{ matrix.chart }}-$version-${{ github.head_ref }}.${GITHUB_SHA::7}.tgz" "oci://ghcr.io/${{ github.repository }}"
+          branchName=$(echo "${{ github.head_ref }}" | tr '/' '-' | tr '.' '-')
+          echo "Pushing chart ${{ matrix.chart }} with version $version-$branchName.${GITHUB_SHA::7}"
+          helm package charts/${{ matrix.chart }} --version "$version-$branchName.${GITHUB_SHA::7}"
+          helm push "${{ matrix.chart }}-$version-$branchName.${GITHUB_SHA::7}.tgz" "oci://ghcr.io/${{ github.repository }}"
