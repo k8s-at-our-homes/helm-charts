@@ -12,9 +12,9 @@ podSecurityContext: {}
 
 securityContext:
   allowPrivilegeEscalation: false
-  capabilities:
-    drop: [ "ALL" ]
-    add: ["NET_RAW", "NET_BIND_SERVICE"]
+  capabilities: {}
+
+useHostNetworking: false
 
 persistence:
   size: 500Mi
