@@ -16,6 +16,10 @@ spec:
         {{- include "common.selectorLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ template "common.fullname" . }}
+      {{- if .Values.useHostNetworking}}
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      {{- end }}
       nodeName: {{ .Values.nodeName }}
       tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
       securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
