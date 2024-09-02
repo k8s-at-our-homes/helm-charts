@@ -98,7 +98,7 @@ jobs:
     steps:
       - name: Check build chart matrix status
         run: |
-          result="${{ needs.build.result }}"
+          result="${{ needs.build-chart.result }}"
           if [[ $result == "success" || $result == "skipped" ]]; then
             exit 0
           else
