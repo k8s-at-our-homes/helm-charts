@@ -90,3 +90,14 @@ jobs:
           echo "Pushing chart ${{ matrix.chart }} with version $version-$branchName.${GITHUB_SHA::7}"
           helm package charts/${{ matrix.chart }} --version "$version-$branchName.${GITHUB_SHA::7}"
           helm push "${{ matrix.chart }}-$version-$branchName.${GITHUB_SHA::7}.tgz" "oci://ghcr.io/${{ github.repository }}"
+
+  check-chart-results:
+    runs-on: ubuntu-latest
+    needs: build-charts
+
+    if: ${{ always() }}
+
+    steps:
+      - name: Check build chart matrix status
+        if: ${{ needs.build-charts.result != 'success' }}
+        run: exit 1

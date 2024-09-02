@@ -105,3 +105,14 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ steps.sha.outputs.SHA }}
           push: true
+
+  check-image-results:
+    runs-on: ubuntu-latest
+    needs: build-images
+
+    if: ${{ always() }}
+
+    steps:
+      - name: Check build image matrix status
+        if: ${{ needs.build-images.result != 'success' }}
+        run: exit 1
