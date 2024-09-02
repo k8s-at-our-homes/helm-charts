@@ -2,8 +2,6 @@ name: Build Helm Charts
 
 on:
   pull_request:
-    paths:
-      - 'charts/**'
 
 jobs:
   create-matrix:
