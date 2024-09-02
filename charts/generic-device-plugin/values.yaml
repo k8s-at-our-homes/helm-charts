@@ -42,5 +42,5 @@ livenessProbe:
 
 domain: device.local
 # valid options: all, debug, info, warn, error, none
-logLevel: warn
+logLevel: error
 devices: {}
