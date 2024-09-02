@@ -98,4 +98,4 @@ jobs:
     steps:
       - name: Check build chart matrix status
         run: |
-          echo ${{ fromJSON(needs.create-matrix.outputs.charts) }} 
+          echo ${{ needs.create-matrix.outputs.charts }}
