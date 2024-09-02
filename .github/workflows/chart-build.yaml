@@ -99,7 +99,7 @@ jobs:
       - name: Check build chart matrix status
         run: |
           result="${{ needs.build-charts.result }}"
-          amount=$(echo ${{  needs.create-matrix.outputs.charts  }} | jq length)
+          amount=$(echo '${{ needs.create-matrix.outputs.charts }}' | jq length)
           if [[ $result == "failure" && $amount -gt 0  ]]; then
             exit 1
           else
