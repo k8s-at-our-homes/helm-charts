@@ -4,7 +4,7 @@ image:
   tag: 2024.8.3
 
 nodeName:
-tolerations: []
+#tolerations: []
 
 resources: {}
 
@@ -41,4 +41,4 @@ config:
     allowPrivilegeEscalation: false
     capabilities:
       drop: [ "ALL" ]
-      add: []
+#      add: []

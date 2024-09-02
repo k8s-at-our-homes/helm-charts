@@ -53,6 +53,9 @@ spec:
             - name: http
               containerPort: 8123
               protocol: TCP
+              {{- if .Values.useHostNetworking }}
+              hostPort: 8123
+              {{- end }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
           livenessProbe:
