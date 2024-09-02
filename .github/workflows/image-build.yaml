@@ -112,5 +112,10 @@ jobs:
 
     steps:
       - name: Check build image matrix status
-        if: ${{ needs.build-images.result != 'success' }}
-        run: exit 1
+        run: |
+          result="${{ needs.build.result }}"
+          if [[ $result == "success" || $result == "skipped" ]]; then
+            exit 0
+          else
+            exit 1
+          fi
