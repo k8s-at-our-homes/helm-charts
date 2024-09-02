@@ -99,7 +99,8 @@ jobs:
       - name: Check build chart matrix status
         run: |
           result="${{ needs.build-charts.result }}"
-          if [[ $result == "success" || $result == "skipped" ]]; then
+          amount=$(echo ${{ fromJSON(needs.create-matrix.outputs.charts) }} | jq length)
+          if [[ $result == "failure" && $amount -gt 0  ]]; then
             exit 0
           else
             exit 1
