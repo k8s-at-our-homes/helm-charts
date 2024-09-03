@@ -41,5 +41,5 @@ config:
     allowPrivilegeEscalation: false
     capabilities:
       drop: [ "ALL" ]
-      add: []
+      add:
 
