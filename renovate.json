@@ -4,19 +4,19 @@
     "config:recommended",
     ":gitSignOff"
   ],
-  "baseBranches": [
-    "main"
-  ],
-  "automergeSchedule": [
-    "at any time"
-  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
         "patch"
       ],
-      "automerge": true,
-      "ignoreTests": true
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
+      ],
+      "groupName": "immich"
     }
   ],
   "prHourlyLimit": 0,
