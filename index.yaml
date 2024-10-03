@@ -222,6 +222,13 @@ entries:
     version: 1.0.0
   home-assistant:
   - apiVersion: v2
+    created: "2024-10-03T06:23:08.77118644Z"
+    digest: 4c282411f1170ac5a4409437021d2f0d449c21751807aad23f908a6d08e19901
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.6.0/home-assistant-1.6.0.tgz
+    version: 1.6.0
+  - apiVersion: v2
     created: "2024-09-27T22:35:34.764480472Z"
     digest: f7a9e156078669205b618d84c836ed7eb1fe21c267e13a35787dbfc4e1d63b3a
     name: home-assistant
@@ -313,6 +320,21 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2024-10-03T06:23:08.917177706Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.1.7
+    digest: 5db6e41f7961faba18b3f1628aaa428df2c5c13ec5752bb2edabdaf417877d26
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-2.4.0/immich-2.4.0.tgz
+    version: 2.4.0
   - apiVersion: v2
     created: "2024-10-03T01:10:32.264762772Z"
     dependencies:
@@ -759,4 +781,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-10-03T01:10:32.26506776Z"
+generated: "2024-10-03T06:23:08.917533403Z"
