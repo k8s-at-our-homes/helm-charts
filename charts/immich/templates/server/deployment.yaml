@@ -68,7 +68,7 @@ spec:
             failureThreshold: 3
             httpGet:
               port: http
-              path: /api/server-info/ping
+              path: /api/server/ping
           readinessProbe:
             initialDelaySeconds: 0
             timeoutSeconds: 1
@@ -76,7 +76,7 @@ spec:
             failureThreshold: 3
             httpGet:
               port: http
-              path: /api/server-info/ping
+              path: /api/server/ping
           volumeMounts:
             - name: library
               mountPath: /usr/src/app/upload
