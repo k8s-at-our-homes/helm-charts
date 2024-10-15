@@ -61,19 +61,17 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.clusterName }}-app
                   key: password
-          livenessProbe:
-            initialDelaySeconds: 0
-            timeoutSeconds: 1
+          startupProbe:
             periodSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 60
+            httpGet:
+              port: http
+              path: /api/server/ping
+          livenessProbe:
             httpGet:
               port: http
               path: /api/server/ping
           readinessProbe:
-            initialDelaySeconds: 0
-            timeoutSeconds: 1
-            periodSeconds: 10
-            failureThreshold: 3
             httpGet:
               port: http
               path: /api/server/ping
