@@ -35,18 +35,10 @@ spec:
             - name: TRANSFORMERS_CACHE
               value: /cache
           livenessProbe:
-            initialDelaySeconds: 0
-            timeoutSeconds: 1
-            periodSeconds: 10
-            failureThreshold: 3
             httpGet:
               port: http
               path: /ping
           readinessProbe:
-            initialDelaySeconds: 0
-            timeoutSeconds: 1
-            periodSeconds: 10
-            failureThreshold: 3
             httpGet:
               port: http
               path: /ping
