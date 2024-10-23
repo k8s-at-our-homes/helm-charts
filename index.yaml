@@ -171,6 +171,13 @@ entries:
     version: 1.0.0
   cyberchef:
   - apiVersion: v2
+    created: "2024-10-23T18:41:53.028558398Z"
+    digest: 329d8926c8df7a57b690df0cbb59a6dafd06d1d039e5f801192d9c6d9883a5b9
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.3/cyberchef-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     created: "2024-08-15T16:44:51.103778557Z"
     digest: 33468c670fda47b46c266a8bf78213c3501bb185cabbfa4421035a298de1200b
     name: cyberchef
@@ -899,4 +906,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-10-18T18:39:39.226496573Z"
+generated: "2024-10-23T18:41:53.028770224Z"
