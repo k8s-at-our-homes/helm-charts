@@ -31,8 +31,8 @@ spec:
           image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           env:
-            - name: IMMICH_METRICS
-              value: "true"
+            - name: IMMICH_TELEMETRY_INCLUDE
+              value: "all"
             - name: IMMICH_METRICS_PORT
               value: "8081"
             - name: IMMICH_PORT
