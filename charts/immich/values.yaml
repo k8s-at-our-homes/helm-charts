@@ -45,7 +45,7 @@ machineLearning:
   image:
     registry: ghcr.io
     repository: immich-app/immich-machine-learning
-    tag: v1.120.1
+    tag: v1.120.2
     pullPolicy: IfNotPresent
 
 #  resources:
@@ -60,7 +60,7 @@ server:
   image:
     registry: ghcr.io
     repository: immich-app/immich-server
-    tag: v1.120.1
+    tag: v1.120.2
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
