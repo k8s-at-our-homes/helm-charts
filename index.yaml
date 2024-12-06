@@ -257,6 +257,13 @@ entries:
     version: 1.0.0
   home-assistant:
   - apiVersion: v2
+    created: "2024-12-06T03:14:33.475615544Z"
+    digest: b0c90b6e844ec99038430ee780d3e377bd48181a837ce05648687df30aaf6987
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.8.0/home-assistant-1.8.0.tgz
+    version: 1.8.0
+  - apiVersion: v2
     created: "2024-11-22T15:45:11.945353409Z"
     digest: 5ba0caad342d6a6be9b551471a84eb6f9673c4557fe6592e6e50e4a725c92b06
     name: home-assistant
@@ -1097,4 +1104,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-06T03:03:14.30490266Z"
+generated: "2024-12-06T03:14:33.475948247Z"
