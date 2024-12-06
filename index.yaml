@@ -412,6 +412,21 @@ entries:
     version: 1.0.0
   immich:
   - apiVersion: v2
+    created: "2024-12-06T03:03:14.30456144Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.3.0
+    digest: 45818b2464b6a3fd1a55876fb7041f437daa781ae0b13cf344221cc62734f582
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-2.11.0/immich-2.11.0.tgz
+    version: 2.11.0
+  - apiVersion: v2
     created: "2024-11-20T20:53:09.379715297Z"
     dependencies:
     - condition: redis.enabled
@@ -1082,4 +1097,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-11-22T15:45:11.945720949Z"
+generated: "2024-12-06T03:03:14.30490266Z"
