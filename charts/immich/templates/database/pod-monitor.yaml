@@ -4,8 +4,6 @@ kind: PodMonitor
 metadata:
   name: {{ .Values.database.clusterName }}-monitor
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: "db"
     {{- include "common.labels" . | nindent 4 }}
 spec:
