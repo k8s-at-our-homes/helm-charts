@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2024-12-11T07:15:29.922820306Z"
+    digest: 3e0fe406d3b221aaf7f86cc220b2ce394d3e66be1f4411e3b5a3216c47d2de51
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-3.3.2/adguard-3.3.2.tgz
+    version: 3.3.2
+  - apiVersion: v2
     created: "2024-11-21T17:25:28.271993648Z"
     digest: 5d2e91e50f186ed5bfbadf3c1d028b323929f0db22a95588439a638497b2912f
     name: adguard
@@ -1185,4 +1192,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2024-12-11T07:14:37.468628152Z"
+generated: "2024-12-11T07:15:29.923083076Z"
