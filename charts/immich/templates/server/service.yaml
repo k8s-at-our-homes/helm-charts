@@ -3,18 +3,14 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich"
+    app.kubernetes.io/component: "server"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
-    - port: 3001
-      targetPort: 3001
-      protocol: TCP
-      name: http
+    - name: http
+      port: 2283
+      targetPort: http
   selector:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-server"
+    app.kubernetes.io/component: "server"
+    {{- include "common.selectorLabels" . | nindent 4 }}

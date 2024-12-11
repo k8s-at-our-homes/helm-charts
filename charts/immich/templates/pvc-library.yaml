@@ -3,9 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ template "common.fullname" . }}-library
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich"
+    app.kubernetes.io/component: "library"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   accessModes:

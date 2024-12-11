@@ -3,16 +3,15 @@ kind: ServiceMonitor
 metadata:
   name: {{ template "common.fullname" . }}-server
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-server"
+    app.kubernetes.io/component: "server"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "common.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: "immich-server"
+      app.kubernetes.io/component: "server"
+      {{- include "common.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: metrics
+    - port: api-metrics
+      scheme: http
+    - port: microservices-metrics
       scheme: http
