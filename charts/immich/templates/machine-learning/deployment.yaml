@@ -24,7 +24,7 @@ spec:
           imagePullPolicy: {{ .Values.machineLearning.image.pullPolicy }}
           env:
             - name: IMMICH_PORT
-              value: 3003
+              value: '3003'
             - name: TZ
               value: {{ .Values.timezone }}
             # Keeps image recognition and search model in memory for faster response times

@@ -25,7 +25,7 @@ spec:
           imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           env:
             - name: IMMICH_PORT
-              value: 2283
+              value: '2283'
             - name: TZ
               value: {{ .Values.timezone }}
             - name: IMMICH_TELEMETRY_INCLUDE
