@@ -72,9 +72,9 @@ spec:
           ports:
             - name: http
               containerPort: 2283
-            - name: api-metrics
+            - name: server-metrics
               containerPort: 8081
-            - name: microservices-metrics
+            - name: jobs-metrics
               containerPort: 8082
           resources: {{ toYaml .Values.server.resources | nindent 12 }}
       volumes:

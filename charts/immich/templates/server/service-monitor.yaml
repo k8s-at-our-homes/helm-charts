@@ -11,7 +11,7 @@ spec:
       app.kubernetes.io/component: "server"
       {{- include "common.selectorLabels" . | nindent 6 }}
   endpoints:
-    - port: api-metrics
+    - port: server-metrics
       scheme: http
-    - port: microservices-metrics
+    - port: jobs-metrics
       scheme: http

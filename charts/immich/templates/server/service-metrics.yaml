@@ -8,12 +8,12 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: api-metrics
+    - name: server-metrics
       port: 8081
-      targetPort: api-metrics
-    - name: microservices-metrics
+      targetPort: server-metrics
+    - name: jobs-metrics
       port: 8082
-      targetPort: microservices-metrics
+      targetPort: jobs-metrics
   selector:
       app.kubernetes.io/component: "server"
       {{- include "common.selectorLabels" . | nindent 6 }}
