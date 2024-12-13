@@ -52,6 +52,7 @@ spec:
     whenUnsatisfiable: {{ .whenUnsatisfiable }}
     labelSelector:
       matchLabels:
-        "cnpg.io/cluster": {{ .Values.database.clusterName }}
+        "cnpg.io/cluster": {{ $.Values.database.clusterName }}
+        "cnpg.io/podRole": instance
   {{- end }}
   {{- end }}
