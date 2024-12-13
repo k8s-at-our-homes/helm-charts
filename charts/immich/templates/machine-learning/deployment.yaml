@@ -27,17 +27,18 @@ spec:
               value: '3003'
             - name: TZ
               value: {{ .Values.timezone }}
-            # Keeps image recognition and search model in memory for faster response times
             {{- with .Values.machineLearning.modelPreload.objectRecognition }}
+            # Keeps image recognition and search model in memory for faster response times
             - name: MACHINE_LEARNING_PRELOAD__CLIP
               value: {{ . }}
             {{- end }}
-            # Keeps face recognition model in memory for faster response times
             {{- with .Values.machineLearning.modelPreload.faceRecognition }}
+            # Keeps face recognition model in memory for faster response times
             - name: MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION
               value: {{ . }}
             {{- end }}
-            {{ if .Values.machineLearning.replicas | int | gt 1 }} # If multiple replicas, disable http keepalive for proper loadbalancing
+            {{ if .Values.machineLearning.replicas | int | gt 1 }}
+            # If multiple replicas, disable http keepalive for proper loadbalancing
             - name: MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S
               value: 0
             {{- end }}

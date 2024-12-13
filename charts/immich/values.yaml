@@ -51,8 +51,8 @@ machineLearning:
     pullPolicy: IfNotPresent
   
   modelPreload:
-    objectRecognition: ''
-    faceRecognition: ''
+    objectRecognition: # 'immich-app/ViT-L-16-SigLIP-384__webli'
+    faceRecognition: # 'immich-app/buffalo_l'
 
 #  resources:
 #    requests:
