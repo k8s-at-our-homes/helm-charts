@@ -5,9 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.ingress.annotations | nindent 4 }}
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-server"
+    app.kubernetes.io/component: "server"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- if .Values.ingress.class}}
@@ -21,7 +19,7 @@ spec:
               service:
                 name: {{ template "common.fullname" . }}
                 port:
-                  number: 3001
+                  name: http
             path: /
             pathType: Prefix
   {{- if .Values.ingress.tls.enabled }}

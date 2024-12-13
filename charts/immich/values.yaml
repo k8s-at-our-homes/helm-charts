@@ -1,3 +1,5 @@
+timezone: Europe/Amsterdam
+
 persistence:
   size: 200Gi
   storageClass: ''
@@ -47,6 +49,10 @@ machineLearning:
     repository: immich-app/immich-machine-learning
     tag: v1.122.2
     pullPolicy: IfNotPresent
+  
+  modelPreload:
+    objectRecognition: # 'immich-app/ViT-L-16-SigLIP-384__webli'
+    faceRecognition: # 'immich-app/buffalo_l'
 
 #  resources:
 #    requests:

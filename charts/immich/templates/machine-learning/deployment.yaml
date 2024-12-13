@@ -3,27 +3,20 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}-machine-learning
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-machine-learning"
+    app.kubernetes.io/component: "machine-learning"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
-  replicas: {{ .Values.server.replicas }}
-  strategy:
-    type: Recreate
+  replicas: {{ .Values.machineLearning.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "common.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: "immich-machine-learning"
+      app.kubernetes.io/component: "machine-learning"
+      {{- include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "common.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/component: "immich-machine-learning"
-        {{- include "common.labels" . | nindent 8 }}
+        app.kubernetes.io/component: "machine-learning"
+        {{- include "common.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: server
@@ -31,9 +24,24 @@ spec:
           imagePullPolicy: {{ .Values.machineLearning.image.pullPolicy }}
           env:
             - name: IMMICH_PORT
-              value: "3003"
-            - name: TRANSFORMERS_CACHE
-              value: /cache
+              value: '3003'
+            - name: TZ
+              value: {{ .Values.timezone }}
+            {{- with .Values.machineLearning.modelPreload.objectRecognition }}
+            # Keeps image recognition and search model in memory for faster response times
+            - name: MACHINE_LEARNING_PRELOAD__CLIP
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.machineLearning.modelPreload.faceRecognition }}
+            # Keeps face recognition model in memory for faster response times
+            - name: MACHINE_LEARNING_PRELOAD__FACIAL_RECOGNITION
+              value: {{ . }}
+            {{- end }}
+            {{ if .Values.machineLearning.replicas | int | gt 1 }}
+            # If multiple replicas, disable http keepalive for proper loadbalancing
+            - name: MACHINE_LEARNING_HTTP_KEEPALIVE_TIMEOUT_S
+              value: 0
+            {{- end }}
           livenessProbe:
             httpGet:
               port: http
@@ -48,7 +56,6 @@ spec:
           ports:
             - name: http
               containerPort: 3003
-              protocol: TCP
           resources: {{ toYaml .Values.machineLearning.resources | nindent 12 }}
       volumes:
         - name: cache

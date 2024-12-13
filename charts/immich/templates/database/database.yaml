@@ -3,8 +3,6 @@ kind: Cluster
 metadata:
   name: {{ .Values.database.clusterName }}
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: "db"
     {{- include "common.labels" . | nindent 4 }}
 spec:
@@ -54,8 +52,6 @@ spec:
     whenUnsatisfiable: {{ .whenUnsatisfiable }}
     labelSelector:
       matchLabels:
-        app.kubernetes.io/name: {{ template "common.name" $ }}
-        app.kubernetes.io/instance: {{ $.Release.Name }}
         app.kubernetes.io/component: "db"
         {{- include "common.labels" $ | nindent 8 }}
   {{- end }}

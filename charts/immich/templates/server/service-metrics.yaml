@@ -3,18 +3,17 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-server-metrics
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-server"
+    app.kubernetes.io/component: "server"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
-    - port: 8081
-      targetPort: 8081
-      protocol: TCP
-      name: metrics
+    - name: server-metrics
+      port: 8081
+      targetPort: server-metrics
+    - name: jobs-metrics
+      port: 8082
+      targetPort: jobs-metrics
   selector:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "immich-server"
+      app.kubernetes.io/component: "server"
+      {{- include "common.selectorLabels" . | nindent 6 }}
