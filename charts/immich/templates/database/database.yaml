@@ -52,7 +52,7 @@ spec:
     whenUnsatisfiable: {{ .whenUnsatisfiable }}
     labelSelector:
       matchLabels:
-        app.kubernetes.io/component: "db"
-        {{- include "common.labels" $ | nindent 8 }}
+        "cnpg.io/cluster": {{ $.Values.database.clusterName }}
+        "cnpg.io/podRole": instance
   {{- end }}
   {{- end }}
