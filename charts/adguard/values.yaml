@@ -56,7 +56,7 @@ secretInit:
   image:
     registry: docker.io
     repository: bitnami/kubectl
-    tag: 1.31.4
+    tag: 1.32.0
 
   primary:
     create: false
