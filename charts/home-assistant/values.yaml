@@ -20,6 +20,15 @@ persistence:
   size: 500Mi
   labels: {}
 
+route:
+  enabled: false
+  annotations: {}
+  hostnames:
+    - home.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
 ingress:
   enabled: true
   domain: home.example.com

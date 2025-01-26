@@ -28,6 +28,15 @@ image:
   tag: 10.19.4
   pullPolicy: IfNotPresent
 
+route:
+  enabled: false
+  annotations: {}
+  hostnames:
+    - cyberchef.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
 ingress:
   enabled: true
   domain: cyberchef.example.com

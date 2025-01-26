@@ -17,6 +17,15 @@ primary:
     size:
     existingVolume:
 
+  route:
+    enabled: false
+    annotations: {}
+    hostnames:
+      - adguard.example.com
+    parentRefs: []
+    filters: []
+    matches: []
+
   ingress:
     enabled: true
     domain: adguard.example.com

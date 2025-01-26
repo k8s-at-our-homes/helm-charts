@@ -6,6 +6,15 @@ persistence:
   # existingVolume:
   accessMode: ReadWriteMany
 
+route:
+  enabled: false
+  annotations: {}
+  hostnames:
+    - immich.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
 ingress:
   enabled: true
   domain: immich.example.com
