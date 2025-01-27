@@ -26,6 +26,7 @@ jobs:
   build-charts:
     runs-on: ubuntu-latest
     needs: create-matrix
+    if: ${{ needs.create-matrix.outputs.charts != 'charts=[]' }}
 
     permissions:
       contents: read

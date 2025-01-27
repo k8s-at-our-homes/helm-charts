@@ -36,6 +36,7 @@ jobs:
   build-images:
     runs-on: ubuntu-latest
     needs: create-matrix
+    if: ${{ needs.create-matrix.outputs.images != 'images=[]' }}
 
     permissions:
       contents: read
