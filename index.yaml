@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2025-01-27T19:20:46.639919543Z"
+    digest: 1360d4ffa470a5c433563987ba39c26908ec8d19df1e6e3e24bd36420dcdb0f3
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-3.5.0/adguard-3.5.0.tgz
+    version: 3.5.0
+  - apiVersion: v2
     created: "2025-01-23T17:19:44.48527971Z"
     digest: 1e062fe96d81ff090629602e64b1314d13bbd77dcb753dd09da4853a90d67bff
     name: adguard
@@ -255,6 +262,13 @@ entries:
     version: 1.0.0
   cyberchef:
   - apiVersion: v2
+    created: "2025-01-27T19:20:46.761303318Z"
+    digest: 8116dd943a6b600af87745d868bccacf7f4afabb24e804356657d13788838ff3
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.1.0/cyberchef-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     created: "2024-10-23T18:41:53.028558398Z"
     digest: 329d8926c8df7a57b690df0cbb59a6dafd06d1d039e5f801192d9c6d9883a5b9
     name: cyberchef
@@ -319,6 +333,13 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-01-27T19:20:46.857934198Z"
+    digest: 7b772fd4eb1b6a7d9e5fc362049643dddc745e6c31480316d5d4df6e77747a95
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.11.0/home-assistant-1.11.0.tgz
+    version: 1.11.0
   - apiVersion: v2
     created: "2025-01-27T10:49:50.594151614Z"
     digest: 1c0a86efc129af147e905548e9c01fdda828570a2480506b065321deba5d989f
@@ -579,6 +600,21 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2025-01-27T19:20:46.959846235Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.6.3
+    digest: cee34ac2533fa5d3b2ba570b7abedbc38ed946e3b522f6e5ae54cc5458e3d7e3
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-3.4.0/immich-3.4.0.tgz
+    version: 3.4.0
   - apiVersion: v2
     created: "2025-01-26T20:52:02.960857069Z"
     dependencies:
@@ -1520,4 +1556,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-01-27T10:49:50.594559602Z"
+generated: "2025-01-27T19:20:46.960515513Z"
