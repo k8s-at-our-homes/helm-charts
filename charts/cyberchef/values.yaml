@@ -30,6 +30,8 @@ image:
 
 route:
   enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
   annotations: {}
   hostnames:
     - cyberchef.example.com
