@@ -33,14 +33,15 @@ jobs:
           echo "images=${images}"
           if [[ "$images" == "[]" ]]; then
             echo "No images changed, skipping build"
-            exit 78
+            echo "images=[empty]" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
           echo "images=${images}" >> "$GITHUB_OUTPUT"
 
   build-images:
     runs-on: ubuntu-latest
     needs: create-matrix
-    if: ${{ needs.create-matrix.outputs.images != 'images=[]' }}
+    if: ${{ needs.create-matrix.outputs.images != 'images=[empty]' }}
 
     permissions:
       contents: read
