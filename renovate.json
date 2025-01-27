@@ -28,5 +28,6 @@
   "configMigration": true,
   "separateMinorPatch": true,
   "separateMajorMinor": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
+  "prTitle": "chore(deps) {{packageName}}: update {{depName}} to {{currentValue}}"
 }
