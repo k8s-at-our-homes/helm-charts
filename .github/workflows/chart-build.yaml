@@ -2,6 +2,8 @@ name: Build Helm Charts
 
 on:
   pull_request:
+    paths:
+      - 'charts/**'
 
 jobs:
   create-matrix:
@@ -26,7 +28,6 @@ jobs:
   build-charts:
     runs-on: ubuntu-latest
     needs: create-matrix
-    if: ${{ needs.create-matrix.outputs.charts != 'charts=[]' }}
 
     permissions:
       contents: read
@@ -35,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        chart: ${{ fromJSON(needs.create-matrix.outputs.charts) || '[empty]' }}
+        chart: ${{ fromJSON(needs.create-matrix.outputs.charts) }}
 
     steps:
       - name: Checkout
