@@ -7,8 +7,6 @@ on:
     paths:
       - 'images/**'
   pull_request:
-    paths:
-      - 'images/**'
 
 jobs:
   create-matrix:
