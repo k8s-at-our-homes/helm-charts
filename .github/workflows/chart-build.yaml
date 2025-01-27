@@ -23,7 +23,7 @@ jobs:
           echo "charts=${charts}"
           if [[ "charts" == "[]" ]]; then
             echo "No charts changed, skipping build"
-            echo "charts=[empty]" >> "$GITHUB_OUTPUT"
+            echo "charts=[\"empty\"]" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "charts=${charts}" >> "$GITHUB_OUTPUT"

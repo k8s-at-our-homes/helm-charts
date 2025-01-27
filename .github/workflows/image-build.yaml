@@ -33,7 +33,7 @@ jobs:
           echo "images=${images}"
           if [[ "$images" == "[]" ]]; then
             echo "No images changed, skipping build"
-            echo "images=[empty]" >> "$GITHUB_OUTPUT"
+            echo "images=[\"empty\"]" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "images=${images}" >> "$GITHUB_OUTPUT"
