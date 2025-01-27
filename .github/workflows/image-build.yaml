@@ -31,6 +31,10 @@ jobs:
             images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
           fi
           echo "images=${images}"
+          if [[ "$images" == "[]" ]]; then
+            echo "No images changed, skipping build"
+            exit 78
+          fi
           echo "images=${images}" >> "$GITHUB_OUTPUT"
 
   build-images:
@@ -45,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        imageName: ${{ fromJSON(needs.create-matrix.outputs.images) || '[empty]' }}
+        imageName: ${{ fromJSON(needs.create-matrix.outputs.images) }}
 
     steps:
       - name: Checkout
