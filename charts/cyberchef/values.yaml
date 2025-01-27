@@ -28,6 +28,17 @@ image:
   tag: 10.19.4
   pullPolicy: IfNotPresent
 
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+    - cyberchef.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
 ingress:
   enabled: true
   domain: cyberchef.example.com

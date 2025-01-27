@@ -17,6 +17,17 @@ primary:
     size:
     existingVolume:
 
+  route:
+    enabled: false
+    apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    annotations: {}
+    hostnames:
+      - adguard.example.com
+    parentRefs: []
+    filters: []
+    matches: []
+
   ingress:
     enabled: true
     domain: adguard.example.com

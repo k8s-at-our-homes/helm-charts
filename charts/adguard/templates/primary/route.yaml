@@ -1,0 +1,33 @@
+{{- if .Values.primary.route.enabled -}}
+apiVersion: {{ .Values.primary.route.apiVersion}}
+kind: {{ .Values.primary.route.kind}}
+metadata:
+  name: {{ template "common.fullname" . }}
+  annotations: {{ toYaml .Values.primary.route.annotations | nindent 4 }}
+  labels:
+    app.kubernetes.io/name: {{ template "common.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: "adguard"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  {{- with .Values.primary.route.parentRefs }}
+  parentRefs:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.primary.route.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    - backendRefs:
+        - name: {{ template "common.fullname" . }}-web
+          port: 3000
+      {{- with .Values.primary.route.filters }}
+      filters:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.primary.route.matches }}
+      matches:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- end }}
