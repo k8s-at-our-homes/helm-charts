@@ -35,7 +35,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        chart: ${{ fromJSON(needs.create-matrix.outputs.charts) }}
+        chart: ${{ fromJSON(needs.create-matrix.outputs.charts) || '[empty]' }}
 
     steps:
       - name: Checkout

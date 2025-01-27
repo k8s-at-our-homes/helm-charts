@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        imageName: ${{ fromJSON(needs.create-matrix.outputs.images) }}
+        imageName: ${{ fromJSON(needs.create-matrix.outputs.images) || '[empty]' }}
 
     steps:
       - name: Checkout
