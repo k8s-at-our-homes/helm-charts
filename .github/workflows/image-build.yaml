@@ -31,17 +31,11 @@ jobs:
             images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
           fi
           echo "images=${images}"
-          if [[ "$images" == "[]" ]]; then
-            echo "No images changed, skipping build"
-            echo "images=[empty]" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
           echo "images=${images}" >> "$GITHUB_OUTPUT"
 
   build-images:
     runs-on: ubuntu-latest
     needs: create-matrix
-    if: ${{ needs.create-matrix.outputs.images != 'images=[empty]' }}
 
     permissions:
       contents: read
@@ -114,7 +108,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-images, create-matrix]
 
-    if: ${{ needs.create-matrix.outputs.images != 'images=[empty]' }}
+    if: ${{ always() }}
 
     steps:
       - name: Check build image matrix status
