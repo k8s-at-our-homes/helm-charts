@@ -26,10 +26,16 @@ jobs:
         run: |
           BRANCH="$(git rev-parse --abbrev-ref HEAD)"
           if [[ "$BRANCH" != "x" ]]; then
-            images=$(git diff origin/main~1 --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')         
+            allImages=$(git diff origin/main~1 --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')         
           else
-            images=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+            allImages=$(git diff --merge-base origin/main --name-only | grep ^images/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
           fi
+          echo "allImages=${allImages}"
+          images=$(echo $allImages | jq -r '.[]' | while read -r image; do
+            if [ -f "images/$image/Dockerfile" ]; then
+              echo $image
+            fi
+          done | jq -R -s -c 'split("\n")[:-1]')
           echo "images=${images}"
           echo "images=${images}" >> "$GITHUB_OUTPUT"
 
