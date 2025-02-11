@@ -19,7 +19,13 @@ jobs:
       - name: Create changed charts matrix
         id: charts
         run: |
-          charts=$(git diff --merge-base origin/main --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          allCharts=$(git diff --merge-base origin/main --name-only | grep ^charts/ | cut -d/ -f2 | uniq | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "allCharts=${allCharts}"
+          charts=$(echo $allCharts | jq -r '.[]' | while read -r chart; do
+            if [ -f "charts/$chart/Chart.yaml" ]; then
+              echo $chart
+            fi
+          done | jq -R -s -c 'split("\n")[:-1]')
           echo "charts=${charts}"
           if [[ $charts == "[]" ]]; then
             echo "No charts changed, skipping build"
@@ -52,13 +58,6 @@ jobs:
         uses: azure/setup-helm@v4
         with:
           version: v3.12.0
-
-      - name: Check if path exists
-        run: |
-          if [ ! -d "charts/${{ matrix.chart }}" ]; then
-            echo "Chart directory not found"
-            exit 0
-          fi
 
       - name: Run Helm dependency build
         run: |
