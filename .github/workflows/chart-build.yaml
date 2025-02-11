@@ -53,6 +53,13 @@ jobs:
         with:
           version: v3.12.0
 
+      - name: Check if path exists
+        run: |
+          if [ ! -d "charts/${{ matrix.chart }}" ]; then
+            echo "Chart directory not found"
+            exit 0
+          fi
+
       - name: Run Helm dependency build
         run: |
           helm dependency build charts/${{ matrix.chart }}
