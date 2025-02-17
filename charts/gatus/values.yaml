@@ -1,0 +1,42 @@
+gatus:
+  deployment:
+    annotateConfigChecksum: false
+
+  env:
+    GATUS_CONFIG_PATH: /configfiles
+
+  extraVolumeMounts:
+    - name: config
+      mountPath: /configfiles
+
+  extraInitContainers:
+    - name: config-loader
+      image: ghcr.io/kiwigrid/k8s-sidecar:1.30.0
+      restartPolicy: Always
+      env:
+        - name: NAMESPACE
+          value: ALL
+        - name: IGNORE_ALREADY_PROCESSED
+          value: "true"
+        - name: LABEL
+          value: "gatus-configfile"
+        - name: FOLDER
+          value: /configfiles
+        - name: RESOURCE
+          value: "both"
+      volumeMounts:
+        - name: config
+          mountPath: /configfiles
+
+  serviceAccount:
+    create: true
+    autoMount: true
+
+  serviceMonitor:
+    enabled: true
+
+  config:
+    metrics: true
+    skip-invalid-config-update: true
+    disable-monitoring-lock: true
+    endpoints: null
