@@ -1,3 +1,18 @@
+grafana:
+  dashboard:
+    enabled: false
+
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+    - gatus.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
 gatus:
   deployment:
     annotateConfigChecksum: false
@@ -16,6 +31,24 @@ gatus:
       env:
         - name: NAMESPACE
           value: ALL
+        - name: IGNORE_ALREADY_PROCESSED
+          value: "true"
+        - name: LABEL
+          value: "gatus-configfile"
+        - name: FOLDER
+          value: /configfiles
+        - name: RESOURCE
+          value: "both"
+      volumeMounts:
+        - name: config
+          mountPath: /configfiles
+    - name: init-config-loader
+      image: ghcr.io/kiwigrid/k8s-sidecar:1.30.0
+      env:
+        - name: METHOD
+          value: "LIST"
+        - name: NAMESPACE
+          value: "ALL"
         - name: IGNORE_ALREADY_PROCESSED
           value: "true"
         - name: LABEL
