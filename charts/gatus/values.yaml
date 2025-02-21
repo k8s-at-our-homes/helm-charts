@@ -30,8 +30,6 @@ gatus:
       env:
         - name: METHOD
           value: "LIST"
-        - name: LOG_LEVEL
-          value: "DEBUG"
         - name: NAMESPACE
           value: "ALL"
         - name: IGNORE_ALREADY_PROCESSED
