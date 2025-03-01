@@ -93,5 +93,6 @@ redis:
   architecture: standalone
   auth:
     enabled: false
+    usePasswordFiles: false
   master:
     revisionHistoryLimit: 0
