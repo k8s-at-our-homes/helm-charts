@@ -310,6 +310,18 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.0/cyberchef-1.0.0.tgz
     version: 1.0.0
+  gatus:
+  - apiVersion: v2
+    created: "2025-03-03T09:26:52.549067995Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.1.0
+    digest: ca2ae6b0fc9458e14c22c2ed6eda9c543a0b7eece46264c05594d992e45fb38e
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-1.0.0/gatus-1.0.0.tgz
+    version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
     created: "2024-06-28T19:43:18.843204459Z"
@@ -1746,4 +1758,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-01T11:22:07.175062857Z"
+generated: "2025-03-03T09:26:52.54936542Z"
