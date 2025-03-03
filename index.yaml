@@ -312,6 +312,17 @@ entries:
     version: 1.0.0
   gatus:
   - apiVersion: v2
+    created: "2025-03-03T09:57:45.391132921Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.2.0
+    digest: 5783f6c9b89c6c93ce6e2eb7e6bdf54677fef12ed9a922b0b416dfb4b71bcb2c
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-1.1.0/gatus-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     created: "2025-03-03T09:26:52.549067995Z"
     dependencies:
     - name: gatus
@@ -1758,4 +1769,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-03T09:26:52.54936542Z"
+generated: "2025-03-03T09:57:45.39177942Z"
