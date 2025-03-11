@@ -312,6 +312,17 @@ entries:
     version: 1.0.0
   gatus:
   - apiVersion: v2
+    created: "2025-03-11T09:24:53.908772123Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.2.0
+    digest: 2ff0c52c811b5e2cb3583a44317ae1f8631ecab6cf76399e4684e8a274db85fe
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-1.1.2/gatus-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
     created: "2025-03-03T09:59:37.259135224Z"
     dependencies:
     - name: gatus
@@ -381,6 +392,13 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-03-11T09:24:54.013414818Z"
+    digest: 870e88c74dfa89e86c44dc8453f346ac869983994a4a9109b4cbe6ddedd98a0d
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.14.1/home-assistant-1.14.1.tgz
+    version: 1.14.1
   - apiVersion: v2
     created: "2025-03-06T07:32:21.719738836Z"
     digest: 556527aea9644af4a466065123e391f060bbdb3c2b38a2df2b3d4d928fe37d85
@@ -1877,4 +1895,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-03-10T15:03:15.325852449Z"
+generated: "2025-03-11T09:24:54.014820273Z"
