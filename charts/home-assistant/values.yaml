@@ -1,7 +1,7 @@
 image:
   registry: ghcr.io
   repository: home-assistant/home-assistant
-  tag: 2025.3.4
+  tag: 2025.4.0
 
 nodeName:
 tolerations:
