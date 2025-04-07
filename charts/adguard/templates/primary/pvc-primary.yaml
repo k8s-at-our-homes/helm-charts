@@ -15,6 +15,13 @@ spec:
     - ReadWriteOnce
   {{- if .Values.primary.persistence.existingVolume }}
   volumeName: {{ .Values.primary.persistence.existingVolume }}
+  storageClassName: ""
+  {{- else }}
+  {{- if hasKey .Values.primary.persistence "storageClass" }}
+  storageClassName: {{ .Values.primary.persistence.storageClass | quote }}
+  {{- else if hasKey .Values.global.persistence "storageClass" }}
+  storageClassName: {{ .Values.global.persistence.storageClass | quote }}
+  {{- end }}
   {{- end }}
   resources:
     requests:
