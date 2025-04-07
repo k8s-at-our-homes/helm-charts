@@ -17,6 +17,7 @@ primary:
   persistence:
     size:
     existingVolume:
+    # storageClass: ""
 
   route:
     enabled: false
