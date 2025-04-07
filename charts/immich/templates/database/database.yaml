@@ -29,7 +29,7 @@ spec:
   storage:
     size: {{ .Values.database.size }}
     {{- if hasKey .Values.database "storageClass" }}
-    storageClassName: {{ .Values.database.storageClass | quote }}
+    storageClass: {{ .Values.database.storageClass | quote }}
     {{- end }}
   {{ if .Values.database.backups.enabled }}
   backup:
