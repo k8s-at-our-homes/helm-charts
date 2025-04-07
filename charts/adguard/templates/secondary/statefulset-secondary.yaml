@@ -69,6 +69,12 @@ spec:
           {{ toYaml .Values.global.persistence.labels | nindent 10 }}
           {{- end}}
       spec:
+       
+        {{- if hasKey .Values.secondary.persistence "storageClass" }}
+        storageClassName: {{ .Values.secondary.persistence.storageClass | quote }}
+        {{- else if hasKey .Values.global.persistence "storageClass" }}
+        storageClassName: {{ .Values.global.persistence.storageClass | quote }}
+        {{- end }}
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
