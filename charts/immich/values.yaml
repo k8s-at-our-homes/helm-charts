@@ -37,6 +37,7 @@ database:
   logLevel: error
   replicas: 2
   size: 32Gi
+  # storageClass: ""
 
   monitoring:
     enabled: true
