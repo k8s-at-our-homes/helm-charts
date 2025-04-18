@@ -36,22 +36,22 @@ spec:
         - name: DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: host
         - name: DATABASE_NAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: dbname
         - name: DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: username
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: password
         - name: REDIS_URL
           value: redis://{{ .Release.Name }}-redis-master
@@ -102,22 +102,22 @@ spec:
         - name: DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: host
         - name: DATABASE_NAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: dbname
         - name: DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: username
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}
+              name: {{ .Values.database.clusterName }}-app
               key: password
         - name: REDIS_URL
           value: redis://{{ .Release.Name }}-redis-master
