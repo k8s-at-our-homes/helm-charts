@@ -1,0 +1,75 @@
+timezone: Europe/Amsterdam
+
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+  - timeline.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
+ingress:
+  enabled: true
+  domain: timeline.example.com
+  annotations:
+  tls:
+    enabled: true
+    secretName:
+
+database:
+  image:
+    registry: ghcr.io
+    repository: cloudnative-pg/postgis
+    tag: 17-3.5-103
+
+  clusterName: dawarich
+  logLevel: error
+  replicas: 2
+  size: 5Gi
+  # storageClass: ""
+
+  monitoring:
+    enabled: true
+
+  backups:
+    enabled: false
+    secretName: ''
+    retention: ''
+    path: ''
+    endpoint: ''
+
+  topologySpreadConstraints: 
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+
+app:
+  image:
+    registry: docker.io
+    repository: freikin/dawarich
+    tag: 0.25.4
+    pullPolicy: IfNotPresent
+  podSecurityContext: {}
+
+  persistence:
+    size: 500Mi
+    labels: {}
+
+#  resources:
+#    requests:
+#      cpu: 10m
+#      memory: 128Mi
+#    limits:
+#      memory: 512Mi
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+    usePasswordFiles: false
+  master:
+    revisionHistoryLimit: 0

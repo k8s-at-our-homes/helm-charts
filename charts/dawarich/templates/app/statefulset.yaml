@@ -1,0 +1,150 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: {{ template "common.fullname" . }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "common.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ['web-entrypoint.sh']
+        args: ['bin/rails', 'server', '-p', '3000', '-b', '::']
+        env:
+        - name: TIME_ZONE
+          value: {{ .Values.timezone }}
+        - name: SELF_HOSTED
+          value: 'true'
+        - name: APPLICATION_PROTOCOL
+          value: http
+        - name: RAILS_ENV
+          value: 'production'
+        - name: APPLICATION_HOSTS
+          value: '{{ template "common.fullname" . }},{{ .Values.route.hostnames | join "," }},{{ .Values.ingress.domain }}'
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: host
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: dbname
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: password
+        - name: REDIS_URL
+          value: redis://{{ .Release.Name }}-redis-master
+        startupProbe:
+          httpGet:
+            port: http
+            path: /api/v1/health
+            httpHeaders:
+            - name: Host
+              value: {{ template "common.fullname" . }}
+        livenessProbe:
+          httpGet:
+            port: http
+            path: /api/v1/health
+            httpHeaders:
+            - name: Host
+              value: {{ template "common.fullname" . }}
+        readinessProbe:
+          httpGet:
+            port: http
+            path: /api/v1/health
+            httpHeaders:
+            - name: Host
+              value: {{ template "common.fullname" . }}
+        volumeMounts:
+        - name: data
+          mountPath: /var/app/storage
+        ports:
+        - name: http
+          containerPort: 3000
+        resources: {{ toYaml .Values.app.resources | nindent 12 }}
+      - name: {{ .Chart.Name }}-sidekiq
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ['sidekiq-entrypoint.sh']
+        args: ['bundle', 'exec', 'sidekiq']
+        env:
+        - name: TIME_ZONE
+          value: {{ .Values.timezone }}
+        - name: SELF_HOSTED
+          value: 'true'
+        - name: APPLICATION_PROTOCOL
+          value: http
+        - name: RAILS_ENV
+          value: 'production'
+        - name: APPLICATION_HOSTS
+          value: '{{ template "common.fullname" . }},{{ .Values.route.hostnames | join "," }},{{ .Values.ingress.domain }}'
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: host
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: dbname
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}
+              key: password
+        - name: REDIS_URL
+          value: redis://{{ .Release.Name }}-redis-master
+        startupProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        livenessProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        readinessProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        volumeMounts:
+        - name: data
+          mountPath: /var/app/storage
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+        labels:
+          {{- include "common.selectorLabels" . | nindent 10 }}
+          {{ if .Values.app.persistence.labels }}
+          {{ toYaml .Values.app.persistence.labels | nindent 10 }}
+          {{ end }}
+      spec:
+        accessModes: [ 'ReadWriteOnce' ]
+        resources:
+          requests:
+            storage: {{ .Values.app.persistence.size }}
