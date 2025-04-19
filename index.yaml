@@ -366,6 +366,22 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.0/cyberchef-1.0.0.tgz
     version: 1.0.0
+  dawarich:
+  - apiVersion: v2
+    created: "2025-04-19T20:26:05.291705456Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.12.1
+    digest: 2e41ba33f78faeda81bf29f87b685fe57db97c5d01add6a628a73445f93adc39
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-0.0.1/dawarich-0.0.1.tgz
+    version: 0.0.1
   gatus:
   - apiVersion: v2
     created: "2025-03-28T12:15:35.05816355Z"
@@ -2204,4 +2220,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-04-19T17:42:23.142441353Z"
+generated: "2025-04-19T20:26:05.292047966Z"
