@@ -32,6 +32,9 @@ spec:
         startupProbe:
           httpGet:
             port: http
+          # 20 * 360 seconds = 2 hours This is needed to allow photon to download the database
+          failureThreshold: 20
+          periodSeconds: 360
         livenessProbe:
           httpGet:
             port: http
