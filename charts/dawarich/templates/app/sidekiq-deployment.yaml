@@ -1,0 +1,97 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ template "common.fullname" . }}-sidekiq
+  labels:
+    app.kubernetes.io/component: "sidekiq"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: "sidekiq"
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "sidekiq"
+        {{- include "common.selectorLabels" . | nindent 8 }}
+    spec:
+      securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ .Chart.Name }}-sidekiq
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ['sidekiq-entrypoint.sh']
+        args: ['bundle', 'exec', 'sidekiq']
+        env:
+        - name: TIME_ZONE
+          value: {{ .Values.timezone }}
+        - name: SELF_HOSTED
+          value: 'true'
+        {{- if not .Values.photon.deploy }}
+        - name: PHOTON_API_HOST
+          value: photon.komoot.io
+        - name: PHOTON_API_USE_HTTPS
+          value: 'true'
+        {{- else }}
+        - name: PHOTON_API_HOST
+          value: {{ template "common.fullname" . }}-photon:2322
+        - name: PHOTON_API_USE_HTTPS
+          value: 'false'
+        {{- end }}
+        - name: APPLICATION_PROTOCOL
+          value: http
+        - name: RAILS_ENV
+          value: 'production'
+        - name: SECRET_KEY_BASE
+          value: a0dcc170b06ab6ebf1d5cde343646367ec12ad9baf25652a26fa0df6cb531cee309e531c332bf0e31586c2655acebf88801e5955f2e558eb35cd442c7875acf3
+        - name: APPLICATION_HOSTS
+          value: '{{ template "common.fullname" . }},{{ .Values.route.hostnames | join "," }},{{ .Values.ingress.domain }}'
+        - name: DATABASE_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}-app
+              key: host
+        - name: DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}-app
+              key: dbname
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}-app
+              key: username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.database.clusterName }}-app
+              key: password
+        - name: REDIS_URL
+          value: redis://{{ .Release.Name }}-redis-master
+        startupProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        livenessProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        readinessProbe:
+          exec:
+            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+        volumeMounts:
+        - name: data
+          mountPath: /var/app/storage
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "common.selectorLabels" . | nindent 18 }}
+              topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: data
+        emptyDir: {}
