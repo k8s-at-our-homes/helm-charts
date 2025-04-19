@@ -73,7 +73,8 @@ photon:
   podSecurityContext: {}
 
   persistence:
-    size: 100Gi
+    # The geo database is almost 100Gi, so we need to set this to 200Gi to allow updates of the data
+    size: 200Gi
     labels: {}
 
 #  resources:
