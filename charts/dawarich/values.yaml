@@ -56,6 +56,22 @@ app:
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
+#  resources:
+#    requests:
+#      cpu: 10m
+#      memory: 128Mi
+#    limits:
+#      memory: 512Mi
+
+photon:
+  deploy: true
+  image:
+    registry: ghcr.io
+    repository: rtuszik/photon-docker
+    tag: 0.6.2-rev.3
+    pullPolicy: IfNotPresent
+  podSecurityContext: {}
+
   persistence:
     size: 500Mi
     labels: {}

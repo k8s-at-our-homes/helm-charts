@@ -30,10 +30,6 @@ spec:
           value: {{ .Values.timezone }}
         - name: SELF_HOSTED
           value: 'true'
-        - name: PHOTON_API_HOST
-          value: https://photon.komoot.io
-        - name: PHOTON_API_USE_HTTPS
-          value: 'true'
         - name: APPLICATION_PROTOCOL
           value: http
         - name: RAILS_ENV
@@ -95,7 +91,7 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
+          - weight: 1
             podAffinityTerm:
               labelSelector:
                 matchLabels:
