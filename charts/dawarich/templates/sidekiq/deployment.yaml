@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: {{ template "common.fullname" . }}
+  name: {{ template "common.fullname" . }}-sidekiq
   labels:
     app.kubernetes.io/component: "sidekiq"
     {{- include "common.labels" . | nindent 4 }}
