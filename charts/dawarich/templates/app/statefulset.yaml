@@ -27,6 +27,10 @@ spec:
           value: {{ .Values.timezone }}
         - name: SELF_HOSTED
           value: 'true'
+        - name: PHOTON_API_HOST
+          value: https://photon.komoot.io
+        - name: PHOTON_API_USE_HTTPS
+          value: 'true'
         - name: APPLICATION_PROTOCOL
           value: http
         - name: RAILS_ENV
@@ -94,6 +98,10 @@ spec:
         - name: TIME_ZONE
           value: {{ .Values.timezone }}
         - name: SELF_HOSTED
+          value: 'true'
+        - name: PHOTON_API_HOST
+          value: https://photon.komoot.io
+        - name: PHOTON_API_USE_HTTPS
           value: 'true'
         - name: APPLICATION_PROTOCOL
           value: http
