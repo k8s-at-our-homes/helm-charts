@@ -2,7 +2,7 @@
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
-  name: {{ template "common.fullname" . }}
+  name: {{ template "common.fullname" . }}-photon
   labels:
     app.kubernetes.io/component: "photon"
     {{- include "common.labels" . | nindent 4 }}
