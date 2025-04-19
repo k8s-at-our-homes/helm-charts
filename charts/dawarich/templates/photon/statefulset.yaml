@@ -32,15 +32,18 @@ spec:
         startupProbe:
           httpGet:
             port: http
-          # 20 * 360 seconds = 2 hours This is needed to allow photon to download the database
-          failureThreshold: 20
+            path: /api
+          # It can take several hours for photon to be ready, especially on the first run
+          failureThreshold: 50
           periodSeconds: 360
         livenessProbe:
           httpGet:
             port: http
+            path: /api
         readinessProbe:
           httpGet:
             port: http
+            path: /api
         volumeMounts:
         - name: data
           mountPath: /photon/photon_data
