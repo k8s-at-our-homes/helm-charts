@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
+    app.kubernetes.io/component: "app"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   type: ClusterIP
@@ -10,8 +11,6 @@ spec:
   - name: http
     port: 3000
     targetPort: http
-  - name: metrics
-    port: 9394
-    targetPort: metrics
   selector:
+    app.kubernetes.io/component: "app"
     {{- include "common.selectorLabels" . | nindent 4 }}

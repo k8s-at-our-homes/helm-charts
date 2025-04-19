@@ -15,6 +15,8 @@ ingress:
   enabled: true
   domain: timeline.example.com
   annotations:
+    # proxy-body-size should be set higher when importing timeline history
+    # nginx.ingress.kubernetes.io/proxy-body-size: "200m"
   tls:
     enabled: true
     secretName:

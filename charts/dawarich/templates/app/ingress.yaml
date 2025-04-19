@@ -5,6 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.ingress.annotations | nindent 4 }}
   labels:
+    app.kubernetes.io/component: "app"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- if .Values.ingress.class}}
