@@ -1,0 +1,13 @@
+apiVersion: v2
+name: dawarich
+version: 0.0.1
+
+home: https://dawarich.app/
+sources:
+- https://github.com/Freika/dawarich
+
+dependencies:
+  - name: redis
+    version: 20.12.1
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled

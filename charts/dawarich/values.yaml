@@ -1,0 +1,94 @@
+timezone: Europe/Amsterdam
+
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+  - timeline.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+
+ingress:
+  enabled: true
+  domain: timeline.example.com
+  annotations:
+    # proxy-body-size should be set higher when importing timeline history
+    # nginx.ingress.kubernetes.io/proxy-body-size: "200m"
+  tls:
+    enabled: true
+    secretName:
+
+database:
+  image:
+    registry: ghcr.io
+    repository: cloudnative-pg/postgis
+    tag: 17-3.5-103
+
+  clusterName: dawarich
+  logLevel: error
+  replicas: 2
+  size: 5Gi
+  # storageClass: ""
+
+  monitoring:
+    enabled: true
+
+  backups:
+    enabled: false
+    secretName: ''
+    retention: ''
+    path: ''
+    endpoint: ''
+
+  topologySpreadConstraints: 
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+
+app:
+  image:
+    registry: docker.io
+    repository: freikin/dawarich
+    tag: 0.25.4
+    pullPolicy: IfNotPresent
+  podSecurityContext: {}
+
+#  resources:
+#    requests:
+#      cpu: 10m
+#      memory: 128Mi
+#    limits:
+#      memory: 512Mi
+
+photon:
+  deploy: true
+  image:
+    registry: ghcr.io
+    repository: rtuszik/photon-docker
+    tag: 0.6.2-rev.3
+    pullPolicy: IfNotPresent
+  podSecurityContext: {}
+
+  persistence:
+    # The geo database is almost 100Gi, so we need to set this to 200Gi to allow updates of the data
+    size: 200Gi
+    labels: {}
+
+#  resources:
+#    requests:
+#      cpu: 10m
+#      memory: 128Mi
+#    limits:
+#      memory: 512Mi
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+    usePasswordFiles: false
+  master:
+    revisionHistoryLimit: 0
