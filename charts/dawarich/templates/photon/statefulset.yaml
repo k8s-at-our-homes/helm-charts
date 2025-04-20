@@ -21,7 +21,7 @@ spec:
     spec:
       securityContext: {{ toYaml .Values.photon.podSecurityContext | nindent 8 }}
       containers:
-      - name: {{ .Chart.Name }}
+      - name: photon
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
         env:
@@ -30,20 +30,17 @@ spec:
         - name: UPDATE_INTERVAL
           value: 24h
         startupProbe:
-          httpGet:
+          tcpSocket:
             port: http
-            path: /api
           # It can take several hours for photon to be ready, especially on the first run
-          failureThreshold: 50
-          periodSeconds: 360
+          failureThreshold: 6000
+          periodSeconds: 30
         livenessProbe:
-          httpGet:
+          tcpSocket:
             port: http
-            path: /api
         readinessProbe:
-          httpGet:
+          tcpSocket:
             port: http
-            path: /api
         volumeMounts:
         - name: data
           mountPath: /photon/photon_data
