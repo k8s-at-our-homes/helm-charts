@@ -368,6 +368,21 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-04-22T17:42:42.266230297Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.0
+    digest: 8da561f8f9d1238ce8d4537004d9378fbeae644425e977ff1aad65bdb07c58ce
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-0.1.0/dawarich-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
     created: "2025-04-21T14:47:44.919307061Z"
     dependencies:
     - condition: redis.enabled
@@ -949,6 +964,21 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2025-04-22T17:42:42.5253281Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.0
+    digest: b9ccce030b3d2cb21d72509546f8808eecff104544695a89a2b39fce2153ed31
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-3.13.0/immich-3.13.0.tgz
+    version: 3.13.0
   - apiVersion: v2
     created: "2025-04-21T10:12:44.753611429Z"
     dependencies:
@@ -2295,4 +2325,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-04-21T14:47:44.919619917Z"
+generated: "2025-04-22T17:42:42.526036499Z"
