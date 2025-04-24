@@ -78,7 +78,7 @@ server:
   image:
     registry: ghcr.io
     repository: immich-app/immich-server
-    tag: v1.132.0
+    tag: v1.132.1
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
