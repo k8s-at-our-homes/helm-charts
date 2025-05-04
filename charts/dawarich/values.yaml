@@ -33,6 +33,9 @@ database:
   size: 5Gi
   # storageClass: ""
 
+  nodeSelector:
+    beta.kubernetes.io/arch: amd64 # postgis is only available for amd64, not arm64
+
   monitoring:
     enabled: true
 
