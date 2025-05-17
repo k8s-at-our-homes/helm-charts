@@ -2,6 +2,13 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2025-05-17T08:21:33.219268794Z"
+    digest: f985e16f2a8a9e2a0348ff84b65958a9d24aa550379b7d7cad42e70ba1d08837
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-3.9.2/adguard-3.9.2.tgz
+    version: 3.9.2
+  - apiVersion: v2
     created: "2025-04-26T11:44:44.84935947Z"
     digest: c654d652b8ffa49afe8fbd81908314c3c40ab60d965fe914c1328feddf9bc95a
     name: adguard
@@ -749,6 +756,13 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-05-17T08:21:33.343217773Z"
+    digest: 3de635cf917c90e85937b52334ec74adcdb0889c029d9a7e263606e615a87299
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.16.2/home-assistant-1.16.2.tgz
+    version: 1.16.2
   - apiVersion: v2
     created: "2025-05-09T19:36:29.91426755Z"
     digest: 7985b4887e97ba412e2944154c25a605e4ede3fdb16cf0e854364b385648b922
@@ -2636,4 +2650,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-05-09T19:36:29.915587206Z"
+generated: "2025-05-17T08:21:33.344043722Z"
