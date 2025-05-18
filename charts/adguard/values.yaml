@@ -48,7 +48,7 @@ primary:
     image:
       registry: ghcr.io
       repository: bakito/adguardhome-sync
-      tag: v0.7.5
+      tag: v0.7.6
 
 
 secondary:
