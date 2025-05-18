@@ -410,6 +410,21 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-05-18T20:09:32.744423021Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.4
+    digest: 520d988b8183a039c0f791f72526f731eae86280bd789a91d0893d043383c6b2
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-0.3.1/dawarich-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
     created: "2025-05-08T18:38:08.910405619Z"
     dependencies:
     - condition: redis.enabled
@@ -2650,4 +2665,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-05-17T08:21:33.344043722Z"
+generated: "2025-05-18T20:09:32.744809501Z"
