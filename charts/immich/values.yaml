@@ -49,10 +49,7 @@ database:
     path: ''
     endpoint: ''
 
-  topologySpreadConstraints: 
-  - maxSkew: 1
-    topologyKey: kubernetes.io/hostname
-    whenUnsatisfiable: ScheduleAnyway
+  topologySpreadConstraints:
 
 machineLearning:
   replicas: 1
