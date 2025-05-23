@@ -63,7 +63,7 @@ secondary:
   service:
     annotations: {}
 
-  topologySpreadConstraints: []
+  topologySpreadConstraints:
   tolerations: []
 
 secretInit:
