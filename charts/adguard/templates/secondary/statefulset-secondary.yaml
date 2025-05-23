@@ -25,7 +25,9 @@ spec:
         {{- include "common.labels" . | nindent 8 }}
     spec:
       priorityClassName: {{ .Values.secondary.priorityClassName }}
-      topologySpreadConstraints: {{ toYaml .Values.secondary.topologySpreadConstraints | nindent 8 }}
+      {{- with .Values.secondary.topologySpreadConstraints }}
+      topologySpreadConstraints: {{ . |toYaml | nindent 8 }}
+      {{- end }}
       tolerations: {{ toYaml .Values.secondary.tolerations | nindent 8 }}
       containers:
         - name: adguard
