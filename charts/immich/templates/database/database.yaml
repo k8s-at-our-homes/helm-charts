@@ -13,7 +13,10 @@ spec:
   extensions:
   - name: vectors
     ensure: absent
+  - name: vector
+    ensure: present
   - name: vchord
     ensure: present
+    version: 0.3.0
   - name: earthdistance
     ensure: present
