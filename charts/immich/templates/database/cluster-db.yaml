@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: app
+  labels:
+    app.kubernetes.io/component: "db"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  name: app
+  owner: app
+  cluster:
+    name: {{ .Values.database.clusterName }}
+  extensions:
+  - name: vectors
+    ensure: absent
+  - name: vector
+    ensure: present
+  - name: vchord
+    ensure: present
+    version: 0.3.0
+  - name: earthdistance
+    ensure: present

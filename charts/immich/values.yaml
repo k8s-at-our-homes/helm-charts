@@ -30,8 +30,8 @@ ingress:
 database:
   image:
     registry: ghcr.io
-    repository: tensorchord/cloudnative-pgvecto.rs
-    tag: 16.3-v0.2.1
+    repository: ghcr.io/tensorchord/cloudnative-vectorchord
+    tag: 16-0.3.0 # 0.3.0 is the vectorchord version that is compatible with immich
 
   clusterName: immich-postgresql
   logLevel: error
