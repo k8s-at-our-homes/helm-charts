@@ -1,0 +1,49 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.database.clusterName }}
+  labels:
+    app.kubernetes.io/component: "db"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  instances: {{ .Values.database.replicas }}
+  imageName: {{ .Values.database.image.registry }}/{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}
+
+  postgresql:
+    shared_preload_libraries:
+      - 'vchord.so'
+
+  logLevel: {{ .Values.database.logLevel }}
+
+  storage:
+    size: {{ .Values.database.size }}
+    {{- if hasKey .Values.database "storageClass" }}
+    storageClass: {{ .Values.database.storageClass | quote }}
+    {{- end }}
+  {{ if .Values.database.backups.enabled }}
+  backup:
+    retentionPolicy: {{ .Values.database.backups.retention }}
+    barmanObjectStore:
+      destinationPath: {{ .Values.database.backups.path | quote }}
+      endpointURL: {{ .Values.database.backups.endpoint }}
+      s3Credentials:
+        accessKeyId:
+          name: {{ .Values.database.backups.secretName }}
+          key: ACCESS_KEY
+        secretAccessKey:
+          name: {{ .Values.database.backups.secretName }}
+          key: SECRET_KEY
+  {{ end }}
+
+  {{- if .Values.database.topologySpreadConstraints }}
+  topologySpreadConstraints:
+  {{- range .Values.database.topologySpreadConstraints }}
+  - maxSkew: 1
+    topologyKey: {{ .topologyKey }}
+    whenUnsatisfiable: {{ .whenUnsatisfiable }}
+    labelSelector:
+      matchLabels:
+        "cnpg.io/cluster": {{ $.Values.database.clusterName }}
+        "cnpg.io/podRole": instance
+  {{- end }}
+  {{- end }}
