@@ -69,8 +69,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.database.clusterName }}-app
               key: password
-        - name: REDIS_URL
-          value: redis://{{ .Release.Name }}-redis-master
         startupProbe:
           httpGet:
             port: http
@@ -95,6 +93,8 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: queues
+          mountPath: /dawarich_db_data
         ports:
         - name: http
           containerPort: 3000
@@ -110,4 +110,6 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       volumes:
       - name: data
+        emptyDir: {}
+      - name: queues
         emptyDir: {}
