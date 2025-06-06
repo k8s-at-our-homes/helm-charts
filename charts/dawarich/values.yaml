@@ -83,12 +83,3 @@ photon:
 #      memory: 128Mi
 #    limits:
 #      memory: 512Mi
-
-redis:
-  enabled: true
-  architecture: standalone
-  auth:
-    enabled: false
-    usePasswordFiles: false
-  master:
-    revisionHistoryLimit: 0
