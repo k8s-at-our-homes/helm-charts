@@ -47,6 +47,12 @@ spec:
           value: 'production'
         - name: SECRET_KEY_BASE
           value: a0dcc170b06ab6ebf1d5cde343646367ec12ad9baf25652a26fa0df6cb531cee309e531c332bf0e31586c2655acebf88801e5955f2e558eb35cd442c7875acf3
+        - name: QUEUE_DATABASE_PATH
+          value: /var/app/storage/dawarich_db_data/dawarich_development_queue.sqlite3
+        - name: CACHE_DATABASE_PATH
+          value: /var/app/storage/dawarich_db_data/dawarich_development_cache.sqlite3
+        - name: CABLE_DATABASE_PATH
+          value: /var/app/storage/dawarich_db_data/dawarich_development_cable.sqlite3
         - name: APPLICATION_HOSTS
           value: '{{ template "common.fullname" . }},{{ .Values.route.hostnames | join "," }},{{ .Values.ingress.domain }}'
         - name: DATABASE_HOST
@@ -93,8 +99,6 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
-        - name: queues
-          mountPath: /dawarich_db_data
         ports:
         - name: http
           containerPort: 3000
@@ -110,6 +114,4 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       volumes:
       - name: data
-        emptyDir: {}
-      - name: queues
         emptyDir: {}
