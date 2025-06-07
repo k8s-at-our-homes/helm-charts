@@ -76,7 +76,7 @@ photon:
     # The geo database is over 100Gi, so we need to set this to 400Gi to allow updates of the data
     size: 400Gi
     labels: {}
-#   storageClassName:
+#   storageClass:
 
 #  resources:
 #    requests:
