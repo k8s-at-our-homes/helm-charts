@@ -70,7 +70,7 @@ spec:
     spec:
       accessModes: ["ReadWriteOnce"]
       {{- if hasKey .Values.photon.persistence "storageClass" }}
-      storageClassName: {{ .Values.photon. persistence.storageClass | quote }}
+      storageClassName: {{ .Values.photon.persistence.storageClass | quote }}
       {{- end }}
       resources:
         requests:
