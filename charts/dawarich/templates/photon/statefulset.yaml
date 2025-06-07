@@ -25,14 +25,24 @@ spec:
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
         env:
+        {{- with .Values.photon.config.country }}
+        - name: COUNTRY_CODE
+          value: {{ . }}
+        {{- end }}
+        - name: LOG_LEVEL
+          value: {{ .Values.photon.config.logLevel }}
         - name: UPDATE_STRATEGY
-          value: PARALLEL
+          value: {{ .Values.photon.config.updateStrategy }}
         - name: UPDATE_INTERVAL
-          value: 24h
+          value: {{ .Values.photon.config.updateInterval | quote }}
+        - name: FORCE_UPDATE
+          value: {{ .Values.photon.config.forceUpdate | quote }}
+        - name: SKIP_MD5_CHECK
+          value: {{ not .Values.photon.config.md5Check | quote }}
         startupProbe:
           tcpSocket:
             port: http
-          # It can take several hours for photon to be ready, especially on the first run
+          # It can take several hours for photon to be ready, especially on the first run. With current rate limits, it can take up to 24 hours.
           failureThreshold: 6000
           periodSeconds: 30
         livenessProbe:
