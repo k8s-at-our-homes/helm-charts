@@ -68,7 +68,10 @@ spec:
         {{ toYaml .Values.photon.persistence.labels | nindent 8 }}
         {{ end }}
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
+      {{- if hasKey .Values.photon.persistence "storageClass" }}
+      storageClassName: {{ .Values.photon.persistence.storageClass | quote }}
+      {{- end }}
       resources:
         requests:
           storage: {{ .Values.photon.persistence.size }}
