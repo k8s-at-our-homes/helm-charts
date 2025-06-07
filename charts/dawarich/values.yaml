@@ -65,6 +65,13 @@ app:
 
 photon:
   deploy: true
+  config:
+    country: # NL, BE, DE, FR, UK, US
+    logLevel: INFO # DEBUG, INFO, ERROR
+    updateStrategy: PARALLEL # PARALLEL, SEQUENTIAL, DISABLED
+    updateInterval: '1w' # '24h', '1w', '1y'
+    md5Check: true
+    forceUpdate: false
   image:
     registry: ghcr.io
     repository: rtuszik/photon-docker
