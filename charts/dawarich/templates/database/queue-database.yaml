@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: queue
+  labels:
+    app.kubernetes.io/component: "db"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  name: queue
+  owner: app
+  cluster:
+    name: {{ .Values.database.clusterName }}
