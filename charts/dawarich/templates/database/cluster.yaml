@@ -9,11 +9,6 @@ spec:
   instances: {{ .Values.database.replicas }}
   imageName: {{ .Values.database.image.registry }}/{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}
 
-  bootstrap:
-    initdb:
-      postInitTemplateSQL:
-        - CREATE EXTENSION IF NOT EXISTS postgis;
-
   affinity:
     nodeSelector: {{- toYaml .Values.database.nodeSelector | nindent 6 }}
 
