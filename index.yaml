@@ -438,6 +438,16 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-06-09T11:41:50.755974717Z"
+    digest: afcae741c5aecd68336c58ff90d7c8985baf0adcd90ea695389d58ff80f0b8c4
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-2.4.1/dawarich-2.4.1.tgz
+    version: 2.4.1
+  - apiVersion: v2
     created: "2025-06-09T11:39:21.032534531Z"
     digest: a16535bfa1ff9ed87e9ca2ba783fabe1cc54688cad98429dfa259705f59e6208
     home: https://dawarich.app/
@@ -2921,4 +2931,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-09T11:41:13.595836313Z"
+generated: "2025-06-09T11:41:50.756736603Z"
