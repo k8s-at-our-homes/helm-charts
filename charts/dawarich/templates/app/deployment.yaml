@@ -78,22 +78,19 @@ spec:
         - name: QUEUE_DATABASE_HOST
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
+              name: {{ .Values.database.clusterName }}-app
               key: host
         - name: QUEUE_DATABASE_NAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
-              key: dbname
+          value: queue
         - name: QUEUE_DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
+              name: {{ .Values.database.clusterName }}-app
               key: username
         - name: QUEUE_DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
+              name: {{ .Values.database.clusterName }}-app
               key: password
         startupProbe:
           httpGet:
