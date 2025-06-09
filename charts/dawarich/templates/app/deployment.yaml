@@ -65,15 +65,15 @@ spec:
             secretKeyRef:
               name: {{ .Values.database.clusterName }}-app
               key: dbname
-        - name: QUEUE_DATABASE_USERNAME
+        - name: DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
+              name: {{ .Values.database.clusterName }}-app
               key: username
-        - name: QUEUE_DATABASE_PASSWORD
+        - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.database.clusterName }}-queue
+              name: {{ .Values.database.clusterName }}-app
               key: password
         - name: QUEUE_DATABASE_HOST
           valueFrom:
