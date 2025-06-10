@@ -8,5 +8,6 @@ metadata:
 spec:
   name: queue
   owner: app
+  databaseReclaimPolicy: delete
   cluster:
     name: {{ .Values.database.clusterName }}
