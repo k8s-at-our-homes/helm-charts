@@ -15,7 +15,7 @@ route:
   matches: []
 
 ingress:
-  enabled: true
+  enabled: false
   domain: timeline.example.com
   annotations:
     # proxy-body-size should be set higher when importing timeline history

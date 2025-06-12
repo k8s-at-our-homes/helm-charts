@@ -32,12 +32,16 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 
 {{- define "dawarich.hosts" -}}
 {{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc" (include "common.fullname" .) .Release.Namespace) -}}
-{{- $route, $ingress := "" -}}
+{{- $ingress := list -}}
+{{- $routes := list -}}
 {{- if .Values.route.enabled -}}
-{{- $route = .Values.route.hostnames }}
-{{- := (if .Values.ingress.enabled) .Values.ingress.domain else "" end -}}
-{{- $all := concat $internal $route (list $ingress) -}}
-{{- $hosts := $all | uniq | without "" | join "," -}}
+{{- $routes = .Values.route.hostnames -}}
+{{- end -}}
+{{- if .Values.ingress.enabled -}}
+{{- $ingress = list .Values.ingress.domain -}}
+{{- end -}}
+{{- $all := concat $internal $routes $ingress -}}
+{{- $hosts := $all | uniq | join "," -}}
 {{- $hosts -}}
 {{- end -}}
 
