@@ -103,8 +103,3 @@ redis:
     usePasswordFiles: false
   master:
     revisionHistoryLimit: 0
-
-metrics:
-  enabled: true
-  serviceMonitor:
-    enabled: true
