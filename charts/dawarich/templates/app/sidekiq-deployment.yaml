@@ -29,13 +29,13 @@ spec:
           {{- include "dawarich.env" . | nindent 8 }}
         startupProbe:
           exec:
-            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
         livenessProbe:
           exec:
-            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
         readinessProbe:
           exec:
-            command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
