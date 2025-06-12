@@ -77,22 +77,22 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 # Database
 - name: DATABASE_HOST
   valueFrom:
-  secretKeyRef:
+    secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: host
 - name: DATABASE_NAME
   valueFrom:
-  secretKeyRef:
+    secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: dbname
 - name: DATABASE_USERNAME
   valueFrom:
-  secretKeyRef:
+    secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: username
 - name: DATABASE_PASSWORD
   valueFrom:
-  secretKeyRef:
+    secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: password
 # Redis
