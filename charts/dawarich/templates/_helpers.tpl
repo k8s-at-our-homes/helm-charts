@@ -46,7 +46,6 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 
 {{- define "dawarich.env" -}}
-env:
 # config
 - name: MIN_MINUTES_SPENT_IN_CITY
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}

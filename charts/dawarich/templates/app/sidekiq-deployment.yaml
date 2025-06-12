@@ -26,7 +26,7 @@ spec:
         command: ['sidekiq-entrypoint.sh']
         args: ['bundle', 'exec', 'sidekiq']
         env:
-          {{- include "dawarich.env" . | nindent 10 }}
+          {{- include "dawarich.env" . | nindent 8 }}
         startupProbe:
           exec:
             command: [ "sh", "-c", "bundle exec sidekiqmon processes | grep ${HOSTNAME}" ]
