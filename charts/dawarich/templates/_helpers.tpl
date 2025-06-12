@@ -31,7 +31,7 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 
 {{- define "dawarich.hosts" -}}
-{{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc" (include "common.fullname" .) .Release.Namespace) -}}
+{{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc.cluster.local" (include "common.fullname" .) .Release.Namespace) -}}
 {{- $ingress := list -}}
 {{- $routes := list -}}
 {{- if .Values.route.enabled -}}
