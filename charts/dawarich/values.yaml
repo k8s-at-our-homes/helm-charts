@@ -72,7 +72,7 @@ photon:
     country: # NL, BE, DE, FR, UK, US
     logLevel: INFO # DEBUG, INFO, ERROR
     updateStrategy: PARALLEL # PARALLEL, SEQUENTIAL, DISABLED
-    updateInterval: '1w' # '24h', '1w', '1y'
+    updateInterval: '168h' # Has to be a time string (60s, 60h)
     md5Check: true
     forceUpdate: false
   image:
