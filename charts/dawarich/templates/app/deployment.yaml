@@ -26,7 +26,7 @@ spec:
         command: ['web-entrypoint.sh']
         args: ['bin/rails', 'server', '-p', '3000', '-b', '::']
         env:
-          {{- include "dawarich.env" . | nindent 10 }}
+          {{- include "dawarich.env" . | nindent 8 }}
         startupProbe:
           httpGet:
             port: http
