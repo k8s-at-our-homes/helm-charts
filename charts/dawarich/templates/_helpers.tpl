@@ -29,3 +29,74 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.app.image.tag | quote }}
 app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
+
+{{- define "dawarich.hosts" -}}
+{{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc" (include "common.fullname" .) .Release.Namespace) -}}
+{{- $ingress := list -}}
+{{- $routes := list -}}
+{{- if .Values.route.enabled -}}
+{{- $routes = .Values.route.hostnames -}}
+{{- end -}}
+{{- if .Values.ingress.enabled -}}
+{{- $ingress = list .Values.ingress.domain -}}
+{{- end -}}
+{{- $all := concat $internal $routes $ingress -}}
+{{- $hosts := $all | uniq | join "," -}}
+{{- $hosts -}}
+{{- end -}}
+
+{{- define "dawarich.env" -}}
+env:
+# config
+- name: MIN_MINUTES_SPENT_IN_CITY
+  value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
+- name: TIME_ZONE
+  value: {{ .Values.config.timezone }}
+# defaults
+- name: SELF_HOSTED
+  value: 'true'
+- name: APPLICATION_PROTOCOL
+  value: http
+- name: RAILS_ENV
+  value: 'development'
+- name: APPLICATION_HOSTS
+  value: {{ include "dawarich.hosts" . | quote }}
+# photon
+- name: 'STORE_GEODATA'
+  value: {{ if .Values.photon.deploy }}'false'{{ else }}'true'{{ end }}
+{{- if not .Values.photon.deploy }}
+- name: PHOTON_API_HOST
+  value: photon.komoot.io
+- name: PHOTON_API_USE_HTTPS
+  value: 'true'
+{{- else }}
+- name: PHOTON_API_HOST
+  value: {{ template "common.fullname" . }}-photon:2322
+- name: PHOTON_API_USE_HTTPS
+  value: 'false'
+{{- end }}
+# Database
+- name: DATABASE_HOST
+  valueFrom:
+  secretKeyRef:
+      name: {{ .Values.database.clusterName }}-app
+      key: host
+- name: DATABASE_NAME
+  valueFrom:
+  secretKeyRef:
+      name: {{ .Values.database.clusterName }}-app
+      key: dbname
+- name: DATABASE_USERNAME
+  valueFrom:
+  secretKeyRef:
+      name: {{ .Values.database.clusterName }}-app
+      key: username
+- name: DATABASE_PASSWORD
+  valueFrom:
+  secretKeyRef:
+      name: {{ .Values.database.clusterName }}-app
+      key: password
+# Redis
+- name: REDIS_URL
+  value: redis://{{ .Release.Name }}-redis-master
+{{- end }}

@@ -1,4 +1,7 @@
-timezone: Europe/Amsterdam
+config:
+  timezone: Europe/Amsterdam
+  minimumMinutesSpentInCity: 60
+  jobConcurrency: 10
 
 route:
   enabled: false
@@ -12,7 +15,7 @@ route:
   matches: []
 
 ingress:
-  enabled: true
+  enabled: false
   domain: timeline.example.com
   annotations:
     # proxy-body-size should be set higher when importing timeline history
@@ -52,7 +55,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 0.27.4
+    tag: 0.28.0
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -91,3 +94,12 @@ photon:
 #      memory: 128Mi
 #    limits:
 #      memory: 512Mi
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+    usePasswordFiles: false
+  master:
+    revisionHistoryLimit: 0
