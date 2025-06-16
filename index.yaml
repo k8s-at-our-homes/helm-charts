@@ -3070,4 +3070,30 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
-generated: "2025-06-14T05:44:10.172556486Z"
+  plugin-barman-cloud:
+  - apiVersion: v2
+    appVersion: 0.5.0
+    created: "2025-06-16T17:18:31.176775826Z"
+    description: CloudNativePG plugin for barman cloud Helm Chart
+    digest: 9ee1e7c143bb500ee641dd6bac2d6e1386d81f58821c35214d3a593dbd3c729c
+    home: https://cloudnative-pg.io
+    icon: https://raw.githubusercontent.com/cloudnative-pg/artwork/main/cloudnativepg-logo.svg
+    keywords:
+    - barman
+    - backup
+    - postgresql
+    - postgres
+    - database
+    maintainers:
+    - email: thibaud.vaisseau@gmail.com
+      name: quantumenigmaa
+    - email: quentin.bisson@gmail.com
+      name: quentinbisson
+    name: plugin-barman-cloud
+    sources:
+    - https://github.com/cloudnative-pg/plugin-barman-cloud
+    type: application
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-06-16T17:18:31.177257243Z"
