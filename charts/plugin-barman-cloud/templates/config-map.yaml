@@ -22,4 +22,3 @@ kind: ConfigMap
 metadata:
   name: plugin-barman-cloud-config
   namespace: {{ include "plugin-barman-cloud.namespace" . }}
-type: Opaque
