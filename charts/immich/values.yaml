@@ -44,7 +44,10 @@ database:
 
   backups:
     enabled: false
+    useBarmanCloudPlugin: false
     secretName: ''
+    accessKeyName: 'ACCESS_KEY'
+    secretKeyName: 'SECRET_KEY'
     retention: ''
     path: ''
     endpoint: ''

@@ -20,7 +20,14 @@ spec:
     {{- if hasKey .Values.database "storageClass" }}
     storageClass: {{ .Values.database.storageClass | quote }}
     {{- end }}
-  {{ if .Values.database.backups.enabled }}
+  {{- if and .Values.database.backups.enabled .Values.database.backups.useBarmanCloudPlugin }}
+  plugins:
+  - name: barman-cloud.cloudnative-pg.io
+    isWALArchiver: true
+    parameters:
+      barmanObjectName: {{ .Values.database.clusterName }}-backup-provider
+  {{- end }}
+  {{- if and .Values.database.backups.enabled (not .Values.database.backups.useBarmanCloudPlugin) }}
   backup:
     retentionPolicy: {{ .Values.database.backups.retention }}
     barmanObjectStore:
@@ -29,11 +36,11 @@ spec:
       s3Credentials:
         accessKeyId:
           name: {{ .Values.database.backups.secretName }}
-          key: ACCESS_KEY
+          key: {{ .Values.database.backups.accessKeyName }}
         secretAccessKey:
           name: {{ .Values.database.backups.secretName }}
-          key: SECRET_KEY
-  {{ end }}
+          key: {{ .Values.database.backups.secretKeyName }}
+  {{- end }}
 
   {{- if .Values.database.topologySpreadConstraints }}
   topologySpreadConstraints:
