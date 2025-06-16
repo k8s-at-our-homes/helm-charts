@@ -57,9 +57,9 @@ spec:
         env:
         - name: SIDECAR_IMAGE
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               key: SIDECAR_IMAGE
-              name: plugin-barman-cloud-m76km67hd7
+              name: plugin-barman-cloud-config
         {{- if .Values.additionalEnv }}
         {{- tpl (.Values.additionalEnv | toYaml) . | nindent 8 }}
         {{- end }}
