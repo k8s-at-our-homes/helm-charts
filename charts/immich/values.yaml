@@ -44,10 +44,14 @@ database:
 
   backups:
     enabled: false
-    secretName: ''
-    retention: ''
-    path: ''
+    useBarmanCloudPlugin: false
     endpoint: ''
+    path: ''
+    retention: ''
+    compression: bzip2
+    secretName: ''
+    accessKeyName: 'ACCESS_KEY'
+    secretKeyName: 'SECRET_KEY'
 
   topologySpreadConstraints:
 

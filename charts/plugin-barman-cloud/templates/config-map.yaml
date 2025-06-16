@@ -16,8 +16,7 @@
 ---
 apiVersion: v1
 data:
-  SIDECAR_IMAGE: |
-    "{{ .Values.sidecarImage.registry }}/{{ .Values.sidecarImage.repository }}:{{ .Values.sidecarImage.tag | default .Chart.AppVersion }}"
+  SIDECAR_IMAGE: "{{ .Values.sidecarImage.registry }}/{{ .Values.sidecarImage.repository }}:{{ .Values.sidecarImage.tag | default .Chart.AppVersion }}"
 kind: ConfigMap
 metadata:
   name: plugin-barman-cloud-config

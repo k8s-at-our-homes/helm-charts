@@ -1,0 +1,22 @@
+{{- if and .Values.database.backups.enabled .Values.database.backups.useBarmanCloudPlugin }}
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: {{ .Values.database.clusterName }}-backup-provider
+spec:
+  retentionPolicy: {{ .Values.database.backups.retention }}
+  configuration:
+    destinationPath: {{ .Values.database.backups.path | quote }}
+    endpointURL: {{ .Values.database.backups.endpoint }}
+    s3Credentials:
+      accessKeyId:
+        name: {{ .Values.database.backups.secretName }}
+        key: {{ .Values.database.backups.accessKeyName }}
+      secretAccessKey:
+        name: {{ .Values.database.backups.secretName }}
+        key: {{ .Values.database.backups.secretKeyName }}
+    data:
+      compression: {{ .Values.database.backups.compression }}
+    wal:
+      compression: {{ .Values.database.backups.compression }}
+{{- end }}
