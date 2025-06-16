@@ -3073,6 +3073,31 @@ entries:
   plugin-barman-cloud:
   - apiVersion: v2
     appVersion: 0.5.0
+    created: "2025-06-16T18:37:10.217443879Z"
+    description: CloudNativePG plugin for barman cloud Helm Chart
+    digest: 1a6c8f27afc801ff84ce9de253e81c9627d74df14754f1420d94e38f6b4ea75e
+    home: https://cloudnative-pg.io
+    icon: https://raw.githubusercontent.com/cloudnative-pg/artwork/main/cloudnativepg-logo.svg
+    keywords:
+    - barman
+    - backup
+    - postgresql
+    - postgres
+    - database
+    maintainers:
+    - email: thibaud.vaisseau@gmail.com
+      name: quantumenigmaa
+    - email: quentin.bisson@gmail.com
+      name: quentinbisson
+    name: plugin-barman-cloud
+    sources:
+    - https://github.com/cloudnative-pg/plugin-barman-cloud
+    type: application
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.5/plugin-barman-cloud-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.5.0
     created: "2025-06-16T18:34:04.521847578Z"
     description: CloudNativePG plugin for barman cloud Helm Chart
     digest: 74019cce80edd514c8e159fe6d7d64572e61d4db8c68ed83a7bff744cca9048f
@@ -3196,4 +3221,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-16T18:34:04.522342719Z"
+generated: "2025-06-16T18:37:10.217976039Z"
