@@ -31,7 +31,7 @@ database:
   image:
     registry: ghcr.io
     repository: ghcr.io/tensorchord/cloudnative-vectorchord
-    tag: 16-0.3.0 # 0.3.0 is the vectorchord version that is compatible with immich
+    tag: 16-0.4.2 # 0.4.2 is the vectorchord version that is compatible with immich
 
   clusterName: immich-postgresql
   logLevel: error
@@ -60,7 +60,7 @@ machineLearning:
   image:
     registry: ghcr.io
     repository: immich-app/immich-machine-learning
-    tag: v1.134.0
+    tag: v1.135.1
     pullPolicy: IfNotPresent
   
   modelPreload:
@@ -79,7 +79,7 @@ server:
   image:
     registry: ghcr.io
     repository: immich-app/immich-server
-    tag: v1.134.0
+    tag: v1.135.1
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 

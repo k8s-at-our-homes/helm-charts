@@ -17,6 +17,6 @@ spec:
     ensure: present
   - name: vchord
     ensure: present
-    version: 0.3.0
+    version: 0.4.2
   - name: earthdistance
     ensure: present
