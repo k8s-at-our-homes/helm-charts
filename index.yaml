@@ -1545,6 +1545,21 @@ entries:
     version: 1.0.0
   immich:
   - apiVersion: v2
+    created: "2025-06-21T06:01:25.600620003Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.13.4
+    digest: f6c9477583e7ce8d0b43e24882cb497af9ee9f734283d1f9c28d7d86b8e7e5d5
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-5.3.2/immich-5.3.2.tgz
+    version: 5.3.2
+  - apiVersion: v2
     created: "2025-06-20T18:11:28.183931324Z"
     dependencies:
     - condition: redis.enabled
@@ -3316,4 +3331,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-20T18:11:28.184423513Z"
+generated: "2025-06-21T06:01:25.601212419Z"
