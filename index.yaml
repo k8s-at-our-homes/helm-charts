@@ -1154,6 +1154,13 @@ entries:
     version: 1.0.0
   home-assistant:
   - apiVersion: v2
+    created: "2025-07-16T04:24:07.744903501Z"
+    digest: 6d9c7b830c92b14594ac667736c7fe2be0bb2532f4c4fe301575aacca5ef172f
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.18.2/home-assistant-1.18.2.tgz
+    version: 1.18.2
+  - apiVersion: v2
     created: "2025-07-10T03:48:56.05312626Z"
     digest: 0f7329f36bb2f56f4fe903ae2640e502e8e5abb7df482517739e7adc0ab8ec9c
     name: home-assistant
@@ -3424,4 +3431,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-16T04:23:16.310186505Z"
+generated: "2025-07-16T04:24:07.745867645Z"
