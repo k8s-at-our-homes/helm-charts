@@ -16,6 +16,7 @@ route:
   parentRefs: []
   filters: []
   matches: []
+  timeouts: {}
 
 ingress:
   enabled: true

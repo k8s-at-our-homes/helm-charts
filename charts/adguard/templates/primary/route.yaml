@@ -30,4 +30,8 @@ spec:
       matches:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.primary.route.timeouts }}
+      timeouts:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
   {{- end }}
