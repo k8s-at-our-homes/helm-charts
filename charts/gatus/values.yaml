@@ -12,6 +12,7 @@ route:
   parentRefs: []
   filters: []
   matches: []
+  timeouts: {}
 
 gatus:
   deployment:
