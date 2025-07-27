@@ -5,6 +5,7 @@ persistence:
   storageClass: ''
   # existingVolume:
   accessMode: ReadWriteMany
+  labels: {}
 
 route:
   enabled: false
