@@ -42,6 +42,10 @@ spec:
             - --work-dir
             - /opt/adguardhome/work
             - --no-check-update
+          readinessProbe:
+            httpGet:
+              port: web
+              path: /
           ports:
             - name: web
               containerPort: 3000
