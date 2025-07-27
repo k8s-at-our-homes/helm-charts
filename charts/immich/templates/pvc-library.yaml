@@ -5,6 +5,9 @@ metadata:
   labels:
     app.kubernetes.io/component: "library"
     {{- include "common.labels" . | nindent 4 }}
+    {{- if .Values.persistence.labels }}
+    {{ toYaml .Values.persistence.labels | nindent 4 }}
+    {{- end}}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode }}
