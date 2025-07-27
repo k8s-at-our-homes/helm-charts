@@ -30,6 +30,14 @@ spec:
           image: "{{ .Values.primary.sync.image.registry }}/{{ .Values.primary.sync.image.repository }}:{{ .Values.primary.sync.image.tag }}"
           imagePullPolicy: IfNotPresent
           restartPolicy: Always
+          readinessProbe:
+            httpGet:
+              port: sync
+              path: /healthz
+          livenessProbe:
+            httpGet:
+              port: sync
+              path: /healthz
           args:
             - run
           env:
@@ -66,6 +74,10 @@ spec:
             - --work-dir
             - /opt/adguardhome/work
             - --no-check-update
+          readinessProbe:
+            httpGet:
+              port: web
+              path: /
           ports:
             - name: web
               containerPort: 3000
