@@ -56,4 +56,3 @@ config:
       add:
 
 additionalInitContainers: []
-additionalVolumes: []
