@@ -62,7 +62,7 @@ machineLearning:
   image:
     registry: ghcr.io
     repository: immich-app/immich-machine-learning
-    tag: v1.136.0
+    tag: v1.137.3
     pullPolicy: IfNotPresent
   
   modelPreload:
@@ -81,7 +81,7 @@ server:
   image:
     registry: ghcr.io
     repository: immich-app/immich-server
-    tag: v1.136.0
+    tag: v1.137.3
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
