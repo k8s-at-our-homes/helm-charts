@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dawarich
-version: 4.0.3
+version: 5.0.0
 
 home: https://dawarich.app/
 sources:
