@@ -1178,6 +1178,17 @@ entries:
     version: 0.0.1
   gatus:
   - apiVersion: v2
+    created: "2025-08-13T10:24:40.839709453Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.3.1
+    digest: a7bfb563dd24fe2d1bcf39f3ed78711f83283c85d255b61266405ff48ca680eb
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-1.3.2/gatus-1.3.2.tgz
+    version: 1.3.2
+  - apiVersion: v2
     created: "2025-08-02T21:32:03.338513769Z"
     dependencies:
     - name: gatus
@@ -1345,6 +1356,13 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-08-13T10:24:40.969258829Z"
+    digest: 1ee8779e9cdbe8f2115e2aceff743081d0864135f41dab04c57bb10fd4cb0bbf
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.23.2/home-assistant-1.23.2.tgz
+    version: 1.23.2
   - apiVersion: v2
     created: "2025-08-11T21:52:47.836249291Z"
     digest: 12924dfe02bd5acdf140416ebc9cb84b07b28902869d484ddec31fad336553d7
@@ -3807,4 +3825,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-11T21:52:47.836852303Z"
+generated: "2025-08-13T10:24:40.970106686Z"
