@@ -45,10 +45,10 @@ database:
 
   backups:
     enabled: false
-    secretName: ''
+    walgArchiver: true
+    compression: true
+    destination: ''
     retention: ''
-    path: ''
-    endpoint: ''
 
   topologySpreadConstraints:
 

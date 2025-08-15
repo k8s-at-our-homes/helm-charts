@@ -1,0 +1,22 @@
+{{- if .Values.database.backups.enabled }}
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: {{ .Values.database.clusterName }}
+spec:
+  retentionPolicy: {{ .Values.database.backups.retention | quote }}
+  configuration:
+    destinationPath: {{ .Values.database.backups.destination | quote }}
+    {{- if .Values.database.backups.azure }}
+    azureCredentials:
+      connectionString:
+        name: {{ .Values.database.clusterName }}-db-store
+        key: AZURE_CONNECTION_STRING
+    {{- end }}
+    {{- if .Values.database.backups.compression }}
+    wal:
+      compression: gzip
+    data:
+      compression: gzip
+    {{- end }}
+{{- end }}
