@@ -47,8 +47,12 @@ database:
     enabled: false
     walgArchiver: true
     compression: true
+    secretName: ''
     destination: ''
+    provider: azure # azure, s3g
+    endpoint: '' # only for s3
     retention: ''
+    schedule: '0 0 * * * *'
 
   topologySpreadConstraints:
 

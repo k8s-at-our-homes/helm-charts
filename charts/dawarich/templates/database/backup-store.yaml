@@ -7,10 +7,19 @@ spec:
   retentionPolicy: {{ .Values.database.backups.retention | quote }}
   configuration:
     destinationPath: {{ .Values.database.backups.destination | quote }}
-    {{- if .Values.database.backups.azure }}
+    {{- if eq .Values.database.backups.provider "s3" }}
+    endpointURL: {{ .Values.database.backups.endpoint | quote }}
+    s3Credentials:
+      accessKeyId:
+        name: {{ .Values.database.backups.secretName }}
+        key: ACCESS_KEY
+      secretAccessKey:
+        name: {{ .Values.database.backups.secretName }}
+        key: SECRET_KEY
+    {{- else if eq .Values.database.backups.provider "azure" }}
     azureCredentials:
       connectionString:
-        name: {{ .Values.database.clusterName }}-db-store
+        name: {{ .Values.database.backups.secretName }}
         key: AZURE_CONNECTION_STRING
     {{- end }}
     {{- if .Values.database.backups.compression }}
