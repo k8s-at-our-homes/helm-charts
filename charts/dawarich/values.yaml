@@ -45,7 +45,7 @@ database:
 
   backups:
     enabled: false
-    walgArchiver: true
+    walArchiver: true
     compression: true
     secretName: ''
     destination: ''
