@@ -46,14 +46,18 @@ database:
 
   backups:
     enabled: false
-    useBarmanCloudPlugin: false
-    endpoint: ''
-    path: ''
-    retention: ''
     compression: bzip2
+    destination: ''
+    retention: ''
+    schedule: '0 0 * * * *'
     secretName: ''
-    accessKeyName: 'ACCESS_KEY'
-    secretKeyName: 'SECRET_KEY'
+    provider: azure # azure, s3
+    s3:
+      endpoint: ''
+      accessKeyName: 'ACCESS_KEY'
+      secretKeyName: 'SECRET_KEY'
+    azure:
+      connectionStringKeyName: 'CONNECTION_STRING'
 
   topologySpreadConstraints:
 

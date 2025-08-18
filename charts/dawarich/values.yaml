@@ -46,13 +46,18 @@ database:
   backups:
     enabled: false
     walArchiver: true
-    compression: true
-    secretName: ''
+    compression: bzip2
     destination: ''
-    provider: azure # azure, s3g
-    endpoint: '' # only for s3
     retention: ''
     schedule: '0 0 * * * *'
+    secretName: ''
+    provider: azure # azure, s3
+    s3:
+      endpoint: ''
+      accessKeyName: 'ACCESS_KEY'
+      secretKeyName: 'SECRET_KEY'
+    azure:
+      connectionStringKeyName: 'CONNECTION_STRING'
 
   topologySpreadConstraints:
 

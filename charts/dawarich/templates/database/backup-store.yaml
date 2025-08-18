@@ -2,30 +2,28 @@
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: {{ .Values.database.clusterName }}
+  name: {{ .Values.database.clusterName }}-backup-store
 spec:
-  retentionPolicy: {{ .Values.database.backups.retention | quote }}
+  retentionPolicy: {{ .Values.database.backups.retention }}
   configuration:
     destinationPath: {{ .Values.database.backups.destination | quote }}
     {{- if eq .Values.database.backups.provider "s3" }}
-    endpointURL: {{ .Values.database.backups.endpoint | quote }}
+    endpointURL: {{ .Values.database.backups.s3.endpoint | quote }}
     s3Credentials:
       accessKeyId:
         name: {{ .Values.database.backups.secretName }}
-        key: ACCESS_KEY
+        key: {{ .Values.database.backups.s3.accessKeyName }}
       secretAccessKey:
         name: {{ .Values.database.backups.secretName }}
-        key: SECRET_KEY
+        key: {{ .Values.database.backups.s3.secretKeyName }}
     {{- else if eq .Values.database.backups.provider "azure" }}
     azureCredentials:
       connectionString:
         name: {{ .Values.database.backups.secretName }}
-        key: AZURE_CONNECTION_STRING
+        key: {{ .Values.database.backups.azure.connectionStringKeyName }}
     {{- end }}
-    {{- if .Values.database.backups.compression }}
-    wal:
-      compression: gzip
     data:
-      compression: gzip
-    {{- end }}
+      compression: {{ .Values.database.backups.compression }}
+    wal:
+      compression: {{ .Values.database.backups.compression }}
 {{- end }}
