@@ -17,7 +17,7 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName:  {{ .Values.database.clusterName }}
+        barmanObjectName:  {{ .Values.database.clusterName }}-backup-store
   {{- end }}
 
   storage:
