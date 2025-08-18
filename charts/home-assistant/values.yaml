@@ -1,7 +1,7 @@
 image:
   registry: ghcr.io
   repository: home-assistant/home-assistant
-  tag: 2025.7.4
+  tag: 2025.8.2
 
 nodeName:
 tolerations:
@@ -45,7 +45,7 @@ config:
   image:
     registry: ghcr.io
     repository: kiwigrid/k8s-sidecar
-    tag: 1.30.7
+    tag: 1.30.9
 
   resources: {}
 
@@ -55,3 +55,5 @@ config:
       drop: [ "ALL" ]
       add:
 
+additionalInitContainers: []
+additionalVolumes: []
