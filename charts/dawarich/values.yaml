@@ -45,7 +45,6 @@ database:
 
   backups:
     enabled: false
-    walArchiver: true
     compression: bzip2
     destination: ''
     retention: ''
