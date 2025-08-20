@@ -8,6 +8,6 @@ sources:
 
 dependencies:
 - name: redis
-  version: 21.2.14
+  version: 22.0.3
   repository: https://charts.bitnami.com/bitnami
   condition: redis.enabled
