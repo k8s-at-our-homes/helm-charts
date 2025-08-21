@@ -12,25 +12,19 @@ spec:
   affinity:
     nodeSelector: {{- toYaml .Values.database.nodeSelector | nindent 6 }}
 
+  {{- if .Values.database.backups.enabled }}
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName:  {{ .Values.database.clusterName }}-backup-store
+  {{- end }}
+
   storage:
     size: {{ .Values.database.size }}
     {{- if hasKey .Values.database "storageClass" }}
     storageClass: {{ .Values.database.storageClass | quote }}
     {{- end }}
-  {{ if .Values.database.backups.enabled }}
-  backup:
-    retentionPolicy: {{ .Values.database.backups.retention }}
-    barmanObjectStore:
-      destinationPath: {{ .Values.database.backups.path | quote }}
-      endpointURL: {{ .Values.database.backups.endpoint }}
-      s3Credentials:
-        accessKeyId:
-          name: {{ .Values.database.backups.secretName }}
-          key: ACCESS_KEY
-        secretAccessKey:
-          name: {{ .Values.database.backups.secretName }}
-          key: SECRET_KEY
-  {{ end }}
 
   {{- if .Values.database.topologySpreadConstraints }}
   topologySpreadConstraints:
