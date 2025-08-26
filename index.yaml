@@ -501,6 +501,21 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-08-26T16:47:57.120446904Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.6
+    digest: 746c56b68035866893fd407eafef6df17d9acb8d695a0cb5805bd643bf0b5e3b
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-6.0.3/dawarich-6.0.3.tgz
+    version: 6.0.3
+  - apiVersion: v2
     created: "2025-08-26T06:51:31.12950169Z"
     dependencies:
     - condition: redis.enabled
@@ -2039,6 +2054,21 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2025-08-26T16:47:57.41330687Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.6
+    digest: 4a8f2f68bfd577e872cfa13353df12acb8d7787ab5b3710e38de09760c589871
+    home: https://immich.app
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-8.0.2/immich-8.0.2.tgz
+    version: 8.0.2
   - apiVersion: v2
     created: "2025-08-23T10:01:26.333646573Z"
     dependencies:
@@ -4051,4 +4081,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-26T06:51:31.129988324Z"
+generated: "2025-08-26T16:47:57.414779045Z"
