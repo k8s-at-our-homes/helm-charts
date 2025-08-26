@@ -501,6 +501,21 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-08-26T20:11:18.239653033Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.6
+    digest: aa7f1d0851b70518aa2b8edc371fa42bcbaf06d6536ec2f5114ef442c5f359b4
+    home: https://dawarich.app/
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-6.0.4/dawarich-6.0.4.tgz
+    version: 6.0.4
+  - apiVersion: v2
     created: "2025-08-26T16:47:57.120446904Z"
     dependencies:
     - condition: redis.enabled
@@ -4081,4 +4096,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-26T16:47:57.414779045Z"
+generated: "2025-08-26T20:11:18.240238008Z"
