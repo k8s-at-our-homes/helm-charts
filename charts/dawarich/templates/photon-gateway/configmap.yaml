@@ -60,62 +60,40 @@ data:
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
                   inline_code: |
-                    function envoy_on_request(request_handle)
-                      -- Store the original path and query for fallback requests
-                      local path = request_handle:headers():get(":path")
-                      request_handle:headers():add("x-original-path", path)
-                      
-                      -- Track attempt number
-                      local attempt = request_handle:headers():get("x-retry-attempt")
-                      if not attempt then
-                        attempt = "1"
-                        request_handle:headers():add("x-retry-attempt", attempt)
-                      end
-                      
-                      -- Determine which upstream to try based on attempt number
-                      local attempt_num = tonumber(attempt)
-                      request_handle:headers():add("x-target-cluster", "photon_host_" .. attempt_num)
-                    end
+                    local cjson = require "cjson"
                     
                     function envoy_on_response(response_handle)
                       local status = response_handle:headers():get(":status")
+                      
+                      -- Only check 200 responses for content validity
+                      if status ~= "200" then
+                        return
+                      end
+                      
+                      -- Check if we got a valid response with geocoding results
                       local body = response_handle:body()
                       
-                      -- Check if we got a successful response with valid data
-                      local has_results = false
-                      if status == "200" and body then
-                        local body_str = tostring(body:getBytes(0, body:length()))
-                        -- Check if response contains geocoding results
-                        -- Photon returns JSON with "features" array when no information is found: {"type":"FeatureCollection","features":[]}
-                        if string.find(body_str, '"type"%s*:%s*"FeatureCollection"') then
-                          -- Check if features array is not empty
-                          if not string.find(body_str, '"features"%s*:%s*%[%s*%]') then
-                            has_results = true
-                          end
-                        end
-                      end
-                      
-                      -- If no results and we haven't exhausted all options, retry with next upstream
-                      if not has_results then
-                        local attempt = response_handle:headers():get("x-retry-attempt")
-                        local attempt_num = tonumber(attempt or "1")
-                        local max_attempts = {{ len $allHosts }}
+                      if body and body:length() > 0 then
+                        local success, parsed = pcall(function()
+                          local body_str = tostring(body:getBytes(0, body:length()))
+                          return cjson.decode(body_str)
+                        end)
                         
-                        if attempt_num < max_attempts then
-                          -- Retry with next upstream
-                          local new_attempt = tostring(attempt_num + 1)
-                          response_handle:headers():add("x-retry-attempt", new_attempt)
-                          
-                          -- Trigger internal retry
-                          response_handle:respond(
-                            {[":status"] = "503", ["x-retry"] = "true"},
-                            "Retrying with next upstream"
-                          )
+                        -- If parsing failed or no features, mark as retriable
+                        if not success or not parsed or parsed.type ~= "FeatureCollection" then
+                          response_handle:headers():add("x-photon-retry", "parse-error")
                           return
                         end
+                        
+                        -- If features array is empty, mark as retriable
+                        if not parsed.features or type(parsed.features) ~= "table" or #parsed.features == 0 then
+                          response_handle:headers():add("x-photon-retry", "no-results")
+                          return
+                        end
+                      else
+                        -- Empty body, mark as retriable
+                        response_handle:headers():add("x-photon-retry", "empty-body")
                       end
-                      
-                      -- Return the response as-is
                     end
               - name: envoy.filters.http.router
                 typed_config:
@@ -126,35 +104,68 @@ data:
                 - name: local_service
                   domains: ["*"]
                   routes:
-                  {{- range $index, $host := $allHosts }}
                   - match:
                       prefix: "/"
-                      headers:
-                      - name: "x-target-cluster"
-                        exact_match: "photon_host_{{ add $index 1 }}"
                     route:
-                      cluster: photon_host_{{ add $index 1 }}
+                      weighted_clusters:
+                        clusters:
+                        {{- range $index, $host := $allHosts }}
+                        - name: photon_host_{{ add $index 1 }}
+                          weight: {{ if $host.preferred }}100{{ else }}10{{ end }}
+                        {{- end }}
+                      timeout: 30s
                       retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream
-                        num_retries: 0  # We handle retries in Lua
-                  {{- end }}
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: photon_host_1  # Default to first host
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers
+                        retriable_headers:
+                        - name: "x-photon-retry"
+                        num_retries: {{ len $allHosts }}
+                        per_try_timeout: 10s
+                        retry_back_off:
+                          base_interval: 0.1s
+                          max_interval: 1s
       clusters:
       {{- range $index, $host := $allHosts }}
       - name: photon_host_{{ add $index 1 }}
-        connect_timeout: 30s
+        connect_timeout: 10s
+        per_connection_buffer_limit_bytes: 32768
         type: STRICT_DNS
-        dns_lookup_family: V4_ONLY
+        dns_lookup_family: V4_PREFERRED
         lb_policy: ROUND_ROBIN
+        max_requests_per_connection: 100
+        upstream_connection_options:
+          tcp_keepalive:
+            keepalive_probes: 3
+            keepalive_time: 30
+            keepalive_interval: 5
+        circuit_breakers:
+          thresholds:
+          - priority: DEFAULT
+            max_connections: {{ if $host.preferred }}50{{ else }}20{{ end }}
+            max_pending_requests: {{ if $host.preferred }}50{{ else }}20{{ end }}
+            max_requests: {{ if $host.preferred }}100{{ else }}50{{ end }}
+            max_retries: 3
+        outlier_detection:
+          consecutive_5xx: 3
+          consecutive_gateway_failure: 3
+          interval: 30s
+          base_ejection_time: 30s
+          max_ejection_percent: 50
+          split_external_local_origin_errors: true
         {{- if and (not $host.internal) (eq $host.scheme "https") }}
         transport_socket:
           name: envoy.transport_sockets.tls
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
             sni: {{ $host.host }}
+            auto_sni: true
+            common_tls_context:
+              validation_context:
+                match_typed_subject_alt_names:
+                - san_type: DNS
+                  matcher:
+                    exact: {{ $host.host }}
+                trusted_ca:
+                  filename: /etc/ssl/certs/ca-certificates.crt
         {{- end }}
         load_assignment:
           cluster_name: photon_host_{{ add $index 1 }}
@@ -166,24 +177,35 @@ data:
                     address: {{ $host.host }}
                     port_value: {{ $host.port }}
         health_checks:
-        - timeout: {{ if $host.internal }}5s{{ else }}10s{{ end }}
-          interval: {{ if $host.internal }}30s{{ else }}60s{{ end }}
+        {{- if $host.internal }}
+        - timeout: {{ if $host.preferred }}3s{{ else }}5s{{ end }}
+          interval: {{ if $host.preferred }}15s{{ else }}30s{{ end }}
           unhealthy_threshold: 3
           healthy_threshold: 2
-          {{- if $host.internal }}
           tcp_health_check: {}
-          {{- else }}
+        - timeout: {{ if $host.preferred }}5s{{ else }}10s{{ end }}
+          interval: {{ if $host.preferred }}30s{{ else }}60s{{ end }}
+          unhealthy_threshold: 3
+          healthy_threshold: 2
           http_health_check:
             path: /api
             expected_statuses:
             - start: 200
               end: 299
-          {{- end }}
-        {{- if $host.rateLimit }}
-        {{- if gt (int $host.rateLimit) 0 }}
-        # Rate limiting would be implemented here if needed
-        # Currently handled by upstream servers
-        {{- end }}
+            - start: 400
+              end: 499
+        {{- else }}
+        - timeout: {{ if $host.preferred }}3s{{ else }}10s{{ end }}
+          interval: {{ if $host.preferred }}15s{{ else }}60s{{ end }}
+          unhealthy_threshold: 3
+          healthy_threshold: 2
+          http_health_check:
+            path: /api
+            expected_statuses:
+            - start: 200
+              end: 299
+            - start: 400
+              end: 499
         {{- end }}
       {{- end }}
 {{- end }}

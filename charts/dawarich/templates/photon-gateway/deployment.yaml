@@ -26,6 +26,7 @@ spec:
       - name: envoy
         image: '{{ .Values.photon.gateway.image.registry }}/{{ .Values.photon.gateway.image.repository }}:{{ .Values.photon.gateway.image.tag }}'
         imagePullPolicy: {{ .Values.photon.gateway.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.photon.gateway.securityContext | nindent 10 }}
         command:
         - /usr/local/bin/envoy
         args:
@@ -45,6 +46,10 @@ spec:
         - name: envoy-config
           mountPath: /etc/envoy
           readOnly: true
+        - name: tmp
+          mountPath: /tmp
+        - name: envoy-cache
+          mountPath: /var/cache/envoy
         livenessProbe:
           httpGet:
             path: /
@@ -62,4 +67,8 @@ spec:
       - name: envoy-config
         configMap:
           name: {{ template "common.fullname" . }}-photon-gateway-config
+      - name: tmp
+        emptyDir: {}
+      - name: envoy-cache
+        emptyDir: {}
 {{- end }}
