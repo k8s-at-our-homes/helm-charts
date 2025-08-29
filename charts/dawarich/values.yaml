@@ -105,51 +105,30 @@ photon:
 #    limits:
 #      memory: 512Mi
 
-  loadbalancerProxy:
+  gateway:
+    replicas: 1
     image:
       registry: docker.io
       repository: envoyproxy/envoy
       tag: v1.31-latest
       pullPolicy: IfNotPresent
     podSecurityContext: {}
-    photonHosts:
+    hosts:
       - host: photon.komoot.io
-        scheme: https
-        port: 443
-        rateLimit: 0  # no known limit
-        preferred: false
       - host: photon.koalasec.org
-        scheme: https
-        port: 443
-        rateLimit: 0  # no known limit
-        preferred: false
       - host: photon.donsomhong.net
-        scheme: https  
-        port: 443
-        rateLimit: 10  # 10 requests per second per IP
-        preferred: false
+        rateLimit: 10
       - host: photon.marsmathis.com
-        scheme: https
-        port: 443
-        rateLimit: 0  # no known limit
-        preferred: false
       - host: photon.vanoosterhout.cloud
-        scheme: https
-        port: 443
-        rateLimit: 10  # 10 requests per second per IP
-        preferred: false
+        rateLimit: 10
       - host: photon.kllswitch.com
-        scheme: https
-        port: 443
-        rateLimit: 0  # no known limit
-        preferred: false
 
 #    resources:
 #      requests:
-#        cpu: 10m
-#        memory: 64Mi
-#      limits:
+#        cpu: 100m
 #        memory: 128Mi
+#      limits:
+#        memory: 256Mi
 
 redis:
   enabled: true

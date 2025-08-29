@@ -65,11 +65,9 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ if .Values.photon.enabled }}'false'{{ else }}'true'{{ end }}
 {{- if .Values.photon.enabled }}
 - name: PHOTON_API_HOST
-  value: {{ template "common.fullname" . }}-photon-loadbalancer:8080
+  value: {{ template "common.fullname" . }}-photon-gateway:8080
 - name: PHOTON_API_USE_HTTPS
   value: 'false'
-{{- else }}
-# Photon is disabled, app will use built-in geodata storage
 {{- end }}
 # Database
 - name: DATABASE_HOST
