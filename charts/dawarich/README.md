@@ -1,48 +1,58 @@
-# Dawarich
 
-## How to use
+# Dawarich Helm Chart
 
-Add repository by running:
+## Usage
+
+Add the Helm repository and install Dawarich:
 
 ```bash
 helm repo add k8s-at-our-home https://k8s-at-our-homes.github.io/helm-charts/
 helm install dawarich k8s-at-our-home/dawarich
 ```
 
-Or get the chart from ghcr.io:
+Or install directly from ghcr.io:
 
 ```bash
 helm install dawarich oci://ghcr.io/k8s-at-our-homes/helm-charts
 ```
 
+---
+
 ## Photon Reverse Geocoding
 
-This chart includes support for Photon reverse geocoding with three configuration options:
+Photon Reverse Geocoding translates coordinates (latitude/longitude) into real-world locations (country, city, street, etc). This process sends your coordinates to a Photon host, which may have privacy implications. To protect your data, you can deploy a local Photon instance using this chart.
 
-### 1. External Photon API (default)
-When `photon.deploy=false` (default), Dawarich uses the public Photon API at `photon.komoot.io`.
+### 1. Smart Load Balancer (Default: Enabled)
 
-### 2. Self-hosted Photon Instance
-When `photon.deploy=true`, the chart deploys a local Photon instance with configurable country data.
+When `photon.enabled=true`, reverse geocoding is enabled and a proxy intelligently load-balances requests between multiple Photon hosts.
 
-### 3. Smart Reverse Proxy (recommended for limited datasets)
-When `envoyProxy.enabled=true`, an Envoy reverse proxy provides intelligent load balancing:
+**Public Photon Instances (queried in round-robin):**
 
-1. **Primary**: Uses internal Photon instance first (if deployed)
-2. **Fallback**: If no results, tries public instances in round-robin:
-   - https://photon.koalasec.org
-   - https://photon.donsomhong.net (rate limited)
-   - https://photon.marsmathis.com
-   - https://photon.vanoosterhout.cloud (rate limited)
-   - https://photon.kllswitch.com
+- https://photon.donsomhong.net (rate limited)
+- https://photon.vanoosterhout.cloud (rate limited)
+- https://photon.koalasec.org
+- https://photon.marsmathis.com
+- https://photon.kllswitch.com
+- https://photon.komoot.io
 
-This approach provides privacy for areas covered by your local dataset while ensuring global coverage through public instances.
+If a self-hosted Photon instance is enabled, it is always queried first. If it cannot resolve the location, a public instance is used as fallback.
+
+### 2. Self-hosted Photon Instance (Default: Enabled)
+
+When `photon.deploy=true`, a local Photon instance is deployed for maximum privacy.
+
+- **Privacy:** Your location data stays private.
+- **Resource Usage:** Photon uses OpenSearch, which is memory-intensive (recommended: 64GiB RAM for the full worldwide dataset).
+- **Dataset Limiting:** You can restrict the dataset to your home country to reduce resource usage. Note: The local instance will not resolve locations outside the selected dataset.
+
+**Combining Local and Public Instances:**
+Deploying a smaller local Photon instance with public load balancing provides privacy for your home location, while still allowing geocoding for coordinates outside your country.
+
+#### Example Configuration
 
 ```yaml
-# Example configuration for smart reverse proxy
-envoyProxy:
-  enabled: true
 photon:
+  enabled: true
   deploy: true
   config:
     country: "NL"  # Limit local data to Netherlands
