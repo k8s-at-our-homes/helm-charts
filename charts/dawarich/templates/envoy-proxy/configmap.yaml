@@ -1,4 +1,4 @@
-{{- if .Values.envoyProxy.enabled }}
+{{- if .Values.photon.loadbalancerProxy.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -54,7 +54,7 @@ data:
                         {{- end }}
                       else
                         -- Subsequent attempts: round-robin through public instances
-                        local public_index = ((attempt_num - 2) % {{ len .Values.envoyProxy.publicPhotonHosts }}) + 1
+                        local public_index = ((attempt_num - 2) % {{ len .Values.photon.loadbalancerProxy.publicPhotonHosts }}) + 1
                         request_handle:headers():add("x-target-cluster", "public_photon_" .. public_index)
                       end
                     end
@@ -68,8 +68,8 @@ data:
                       if status == "200" and body then
                         local body_str = tostring(body:getBytes(0, body:length()))
                         -- Check if response contains geocoding results
-                        -- Photon returns JSON with "features" array
-                        if string.find(body_str, '"features"%s*:%s*%[') then
+                        -- Photon returns JSON with "features" array when no information is found: {"type":"FeatureCollection","features":[]}
+                        if string.find(body_str, '"type"%s*:%s*"FeatureCollection"') then
                           -- Check if features array is not empty
                           if not string.find(body_str, '"features"%s*:%s*%[%s*%]') then
                             has_results = true
@@ -81,7 +81,7 @@ data:
                       if not has_results then
                         local attempt = response_handle:headers():get("x-retry-attempt")
                         local attempt_num = tonumber(attempt or "1")
-                        local max_attempts = {{ if .Values.photon.deploy }}{{ add 1 (len .Values.envoyProxy.publicPhotonHosts) }}{{ else }}{{ len .Values.envoyProxy.publicPhotonHosts }}{{ end }}
+                        local max_attempts = {{ if .Values.photon.deploy }}{{ add 1 (len .Values.photon.loadbalancerProxy.publicPhotonHosts) }}{{ else }}{{ len .Values.photon.loadbalancerProxy.publicPhotonHosts }}{{ end }}
                         
                         if attempt_num < max_attempts then
                           -- Retry with next upstream
@@ -120,7 +120,7 @@ data:
                         retry_on: 5xx,gateway-error,connect-failure,refused-stream
                         num_retries: 0  # We handle retries in Lua
                   {{- end }}
-                  {{- range $index, $host := .Values.envoyProxy.publicPhotonHosts }}
+                  {{- range $index, $host := .Values.photon.loadbalancerProxy.publicPhotonHosts }}
                   - match:
                       prefix: "/"
                       headers:
@@ -163,7 +163,7 @@ data:
           healthy_threshold: 2
           tcp_health_check: {}
       {{- end }}
-      {{- range $index, $host := .Values.envoyProxy.publicPhotonHosts }}
+      {{- range $index, $host := .Values.photon.loadbalancerProxy.publicPhotonHosts }}
       - name: public_photon_{{ add $index 1 }}
         connect_timeout: 30s
         type: STRICT_DNS

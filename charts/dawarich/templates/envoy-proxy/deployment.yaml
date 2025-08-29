@@ -1,4 +1,4 @@
-{{- if .Values.envoyProxy.enabled }}
+{{- if .Values.photon.loadbalancerProxy.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,11 +21,11 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/envoy-proxy/configmap.yaml") . | sha256sum }}
     spec:
-      securityContext: {{ toYaml .Values.envoyProxy.podSecurityContext | nindent 8 }}
+      securityContext: {{ toYaml .Values.photon.loadbalancerProxy.podSecurityContext | nindent 8 }}
       containers:
       - name: envoy
-        image: '{{ .Values.envoyProxy.image.registry }}/{{ .Values.envoyProxy.image.repository }}:{{ .Values.envoyProxy.image.tag }}'
-        imagePullPolicy: {{ .Values.envoyProxy.image.pullPolicy }}
+        image: '{{ .Values.photon.loadbalancerProxy.image.registry }}/{{ .Values.photon.loadbalancerProxy.image.repository }}:{{ .Values.photon.loadbalancerProxy.image.tag }}'
+        imagePullPolicy: {{ .Values.photon.loadbalancerProxy.image.pullPolicy }}
         command:
         - /usr/local/bin/envoy
         args:
@@ -60,7 +60,7 @@ spec:
             port: admin
           initialDelaySeconds: 5
           periodSeconds: 5
-        resources: {{ toYaml .Values.envoyProxy.resources | nindent 10 }}
+        resources: {{ toYaml .Values.photon.loadbalancerProxy.resources | nindent 10 }}
       volumes:
       - name: envoy-config
         configMap:

@@ -1,4 +1,4 @@
-{{- if .Values.envoyProxy.enabled }}
+{{- if .Values.photon.loadbalancerProxy.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

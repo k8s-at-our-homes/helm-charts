@@ -62,8 +62,8 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ include "dawarich.hosts" . | quote }}
 # photon
 - name: 'STORE_GEODATA'
-  value: {{ if or .Values.photon.deploy .Values.envoyProxy.enabled }}'false'{{ else }}'true'{{ end }}
-{{- if .Values.envoyProxy.enabled }}
+  value: {{ if or .Values.photon.deploy .Values.photon.loadbalancerProxy.enabled }}'false'{{ else }}'true'{{ end }}
+{{- if .Values.photon.loadbalancerProxy.enabled }}
 - name: PHOTON_API_HOST
   value: {{ template "common.fullname" . }}-envoy-proxy:8080
 - name: PHOTON_API_USE_HTTPS
