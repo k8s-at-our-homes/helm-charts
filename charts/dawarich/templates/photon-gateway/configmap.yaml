@@ -104,8 +104,49 @@ data:
                 - name: local_service
                   domains: ["*"]
                   routes:
+                  # Route A: Initial requests - only preferred hosts
                   - match:
                       prefix: "/"
+                      headers:
+                      - name: "x-photon-retry"
+                        present_match: false
+                    route:
+                      {{- if gt (len $preferredHosts) 0 }}
+                      weighted_clusters:
+                        clusters:
+                        {{- range $index, $host := $preferredHosts }}
+                        - name: photon_host_{{ add $index 1 }}
+                          weight: 100
+                        {{- end }}
+                      {{- else }}
+                      # Fallback if no preferred hosts available
+                      weighted_clusters:
+                        clusters:
+                        {{- range $index, $host := $regularHosts }}
+                        - name: photon_host_{{ add (len $preferredHosts) (add $index 1) }}
+                          weight: 100
+                        {{- end }}
+                      {{- end }}
+                      timeout: 30s
+                      retry_policy:
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
+                        retriable_status_codes: [429]
+                        retriable_headers:
+                        - name: "x-photon-retry"
+                        num_retries: {{ len $preferredHosts }}
+                        per_try_timeout: 10s
+                        retry_back_off:
+                          base_interval: 0.1s
+                          max_interval: 1s
+                        retry_host_predicate:
+                        - name: envoy.retry_host_predicates.previous_hosts
+                        host_selection_retry_max_attempts: {{ len $preferredHosts }}
+                  # Route B: Retry requests - all hosts (preferred + non-preferred)
+                  - match:
+                      prefix: "/"
+                      headers:
+                      - name: "x-photon-retry"
+                        present_match: true
                     route:
                       weighted_clusters:
                         clusters:
@@ -115,7 +156,8 @@ data:
                         {{- end }}
                       timeout: 30s
                       retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
+                        retriable_status_codes: [429]
                         retriable_headers:
                         - name: "x-photon-retry"
                         num_retries: {{ len $allHosts }}
@@ -123,6 +165,9 @@ data:
                         retry_back_off:
                           base_interval: 0.1s
                           max_interval: 1s
+                        retry_host_predicate:
+                        - name: envoy.retry_host_predicates.previous_hosts
+                        host_selection_retry_max_attempts: {{ len $allHosts }}
       clusters:
       {{- range $index, $host := $allHosts }}
       - name: photon_host_{{ add $index 1 }}

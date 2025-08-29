@@ -134,10 +134,10 @@ photon:
       - host: photon.komoot.io
       - host: photon.koalasec.org
       - host: photon.donsomhong.net
-        rateLimit: 10
+        rateLimit: 10  # req/sec - informational only, handled via 429 responses
       - host: photon.marsmathis.com
       - host: photon.vanoosterhout.cloud
-        rateLimit: 10
+        rateLimit: 10  # req/sec - informational only, handled via 429 responses
       - host: photon.kllswitch.com
 
     resources:
