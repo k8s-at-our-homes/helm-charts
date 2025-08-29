@@ -1,0 +1,77 @@
+{{- if .Values.envoyProxy.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.fullname" . }}-envoy-proxy
+  labels:
+    app.kubernetes.io/component: "envoy-proxy"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: "envoy-proxy"
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "envoy-proxy"
+        {{- include "common.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/envoy-proxy/configmap.yaml") . | sha256sum }}
+    spec:
+      securityContext: {{ toYaml .Values.envoyProxy.podSecurityContext | nindent 8 }}
+      containers:
+      - name: envoy
+        image: '{{ .Values.envoyProxy.image.registry }}/{{ .Values.envoyProxy.image.repository }}:{{ .Values.envoyProxy.image.tag }}'
+        imagePullPolicy: {{ .Values.envoyProxy.image.pullPolicy }}
+        command:
+        - /usr/local/bin/envoy
+        args:
+        - --config-path
+        - /etc/envoy/envoy.yaml
+        - --service-cluster
+        - photon-proxy
+        - --service-node
+        - photon-proxy
+        - --log-level
+        - info
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: admin
+          containerPort: 9901
+          protocol: TCP
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /ready
+            port: admin
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: admin
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources: {{ toYaml .Values.envoyProxy.resources | nindent 10 }}
+      volumes:
+      - name: envoy-config
+        configMap:
+          name: {{ template "common.fullname" . }}-envoy-config
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- include "common.selectorLabels" . | nindent 18 }}
+              topologyKey: "kubernetes.io/hostname"
+{{- end }}

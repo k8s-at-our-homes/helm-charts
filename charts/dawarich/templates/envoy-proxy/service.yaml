@@ -1,0 +1,21 @@
+{{- if .Values.envoyProxy.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "common.fullname" . }}-envoy-proxy
+  labels:
+    app.kubernetes.io/component: "envoy-proxy"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  - name: admin
+    port: 9901
+    targetPort: admin
+  selector:
+    app.kubernetes.io/component: "envoy-proxy"
+    {{- include "common.selectorLabels" . | nindent 4 }}
+{{- end }}
