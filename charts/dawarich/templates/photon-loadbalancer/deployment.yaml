@@ -1,25 +1,25 @@
-{{- if .Values.photon.loadbalancerProxy.enabled }}
+{{- if .Values.photon.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "common.fullname" . }}-envoy-proxy
+  name: {{ template "common.fullname" . }}-photon-loadbalancer
   labels:
-    app.kubernetes.io/component: "envoy-proxy"
+    app.kubernetes.io/component: "photon-loadbalancer"
     {{- include "common.labels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/component: "envoy-proxy"
+      app.kubernetes.io/component: "photon-loadbalancer"
       {{- include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: "envoy-proxy"
+        app.kubernetes.io/component: "photon-loadbalancer"
         {{- include "common.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/envoy-proxy/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/photon-loadbalancer/configmap.yaml") . | sha256sum }}
     spec:
       securityContext: {{ toYaml .Values.photon.loadbalancerProxy.podSecurityContext | nindent 8 }}
       containers:
@@ -64,7 +64,7 @@ spec:
       volumes:
       - name: envoy-config
         configMap:
-          name: {{ template "common.fullname" . }}-envoy-config
+          name: {{ template "common.fullname" . }}-photon-loadbalancer-config
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

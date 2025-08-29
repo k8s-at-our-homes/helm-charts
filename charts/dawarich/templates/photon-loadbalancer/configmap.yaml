@@ -1,10 +1,32 @@
-{{- if .Values.photon.loadbalancerProxy.enabled }}
+{{- if .Values.photon.enabled }}
+{{- $allHosts := list }}
+{{- $preferredHosts := list }}
+{{- $regularHosts := list }}
+
+{{- /* Add internal photon host if deployed */ -}}
+{{- if .Values.photon.deploy }}
+{{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "rateLimit" 0 "preferred" true "internal" true }}
+{{- $preferredHosts = append $preferredHosts $internalHost }}
+{{- end }}
+
+{{- /* Separate hosts by preference */ -}}
+{{- range $host := .Values.photon.loadbalancerProxy.photonHosts }}
+{{- if $host.preferred }}
+{{- $preferredHosts = append $preferredHosts $host }}
+{{- else }}
+{{- $regularHosts = append $regularHosts $host }}
+{{- end }}
+{{- end }}
+
+{{- /* Combine all hosts with preferred ones first */ -}}
+{{- $allHosts = concat $preferredHosts $regularHosts }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "common.fullname" . }}-envoy-config
+  name: {{ template "common.fullname" . }}-photon-loadbalancer-config
   labels:
-    app.kubernetes.io/component: "envoy-proxy"
+    app.kubernetes.io/component: "photon-loadbalancer"
     {{- include "common.labels" . | nindent 4 }}
 data:
   envoy.yaml: |
@@ -45,18 +67,7 @@ data:
                       
                       -- Determine which upstream to try based on attempt number
                       local attempt_num = tonumber(attempt)
-                      if attempt_num == 1 then
-                        -- First attempt: try internal photon if enabled
-                        {{- if .Values.photon.deploy }}
-                        request_handle:headers():add("x-target-cluster", "internal_photon")
-                        {{- else }}
-                        request_handle:headers():add("x-target-cluster", "public_photon_1")
-                        {{- end }}
-                      else
-                        -- Subsequent attempts: round-robin through public instances
-                        local public_index = ((attempt_num - 2) % {{ len .Values.photon.loadbalancerProxy.publicPhotonHosts }}) + 1
-                        request_handle:headers():add("x-target-cluster", "public_photon_" .. public_index)
-                      end
+                      request_handle:headers():add("x-target-cluster", "photon_host_" .. attempt_num)
                     end
                     
                     function envoy_on_response(response_handle)
@@ -81,7 +92,7 @@ data:
                       if not has_results then
                         local attempt = response_handle:headers():get("x-retry-attempt")
                         local attempt_num = tonumber(attempt or "1")
-                        local max_attempts = {{ if .Values.photon.deploy }}{{ add 1 (len .Values.photon.loadbalancerProxy.publicPhotonHosts) }}{{ else }}{{ len .Values.photon.loadbalancerProxy.publicPhotonHosts }}{{ end }}
+                        local max_attempts = {{ len $allHosts }}
                         
                         if attempt_num < max_attempts then
                           -- Retry with next upstream
@@ -108,26 +119,14 @@ data:
                 - name: local_service
                   domains: ["*"]
                   routes:
-                  {{- if .Values.photon.deploy }}
+                  {{- range $index, $host := $allHosts }}
                   - match:
                       prefix: "/"
                       headers:
                       - name: "x-target-cluster"
-                        exact_match: "internal_photon"
+                        exact_match: "photon_host_{{ add $index 1 }}"
                     route:
-                      cluster: internal_photon
-                      retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream
-                        num_retries: 0  # We handle retries in Lua
-                  {{- end }}
-                  {{- range $index, $host := .Values.photon.loadbalancerProxy.publicPhotonHosts }}
-                  - match:
-                      prefix: "/"
-                      headers:
-                      - name: "x-target-cluster"
-                        exact_match: "public_photon_{{ add $index 1 }}"
-                    route:
-                      cluster: public_photon_{{ add $index 1 }}
+                      cluster: photon_host_{{ add $index 1 }}
                       retry_policy:
                         retry_on: 5xx,gateway-error,connect-failure,refused-stream
                         num_retries: 0  # We handle retries in Lua
@@ -135,47 +134,23 @@ data:
                   - match:
                       prefix: "/"
                     route:
-                      {{- if .Values.photon.deploy }}
-                      cluster: internal_photon
-                      {{- else }}
-                      cluster: public_photon_1
-                      {{- end }}
+                      cluster: photon_host_1  # Default to first host
       clusters:
-      {{- if .Values.photon.deploy }}
-      - name: internal_photon
+      {{- range $index, $host := $allHosts }}
+      - name: photon_host_{{ add $index 1 }}
         connect_timeout: 30s
         type: STRICT_DNS
         dns_lookup_family: V4_ONLY
         lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: internal_photon
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: {{ template "common.fullname" . }}-photon
-                    port_value: 2322
-        health_checks:
-        - timeout: 5s
-          interval: 30s
-          unhealthy_threshold: 3
-          healthy_threshold: 2
-          tcp_health_check: {}
-      {{- end }}
-      {{- range $index, $host := .Values.photon.loadbalancerProxy.publicPhotonHosts }}
-      - name: public_photon_{{ add $index 1 }}
-        connect_timeout: 30s
-        type: STRICT_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
+        {{- if and (not $host.internal) (eq $host.scheme "https") }}
         transport_socket:
           name: envoy.transport_sockets.tls
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
             sni: {{ $host.host }}
+        {{- end }}
         load_assignment:
-          cluster_name: public_photon_{{ add $index 1 }}
+          cluster_name: photon_host_{{ add $index 1 }}
           endpoints:
           - lb_endpoints:
             - endpoint:
@@ -184,15 +159,19 @@ data:
                     address: {{ $host.host }}
                     port_value: {{ $host.port }}
         health_checks:
-        - timeout: 10s
-          interval: 60s
+        - timeout: {{ if $host.internal }}5s{{ else }}10s{{ end }}
+          interval: {{ if $host.internal }}30s{{ else }}60s{{ end }}
           unhealthy_threshold: 3
           healthy_threshold: 2
+          {{- if $host.internal }}
+          tcp_health_check: {}
+          {{- else }}
           http_health_check:
             path: /api
             expected_statuses:
             - start: 200
               end: 299
+          {{- end }}
         {{- if $host.rateLimit }}
         {{- if gt (int $host.rateLimit) 0 }}
         # Rate limiting would be implemented here if needed

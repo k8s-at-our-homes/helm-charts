@@ -62,22 +62,14 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ include "dawarich.hosts" . | quote }}
 # photon
 - name: 'STORE_GEODATA'
-  value: {{ if or .Values.photon.deploy .Values.photon.loadbalancerProxy.enabled }}'false'{{ else }}'true'{{ end }}
-{{- if .Values.photon.loadbalancerProxy.enabled }}
+  value: {{ if .Values.photon.enabled }}'false'{{ else }}'true'{{ end }}
+{{- if .Values.photon.enabled }}
 - name: PHOTON_API_HOST
-  value: {{ template "common.fullname" . }}-envoy-proxy:8080
+  value: {{ template "common.fullname" . }}-photon-loadbalancer:8080
 - name: PHOTON_API_USE_HTTPS
   value: 'false'
-{{- else if not .Values.photon.deploy }}
-- name: PHOTON_API_HOST
-  value: photon.komoot.io
-- name: PHOTON_API_USE_HTTPS
-  value: 'true'
 {{- else }}
-- name: PHOTON_API_HOST
-  value: {{ template "common.fullname" . }}-photon:2322
-- name: PHOTON_API_USE_HTTPS
-  value: 'false'
+# Photon is disabled, app will use built-in geodata storage
 {{- end }}
 # Database
 - name: DATABASE_HOST

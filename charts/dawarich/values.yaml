@@ -76,7 +76,8 @@ app:
 #      memory: 512Mi
 
 photon:
-  deploy: true
+  enabled: true  # Controls whether to use photon at all
+  deploy: true   # Controls whether to deploy internal photon instance
   config:
     country: # NL, BE, DE, FR, UK, US
     logLevel: INFO # DEBUG, INFO, ERROR
@@ -105,34 +106,43 @@ photon:
 #      memory: 512Mi
 
   loadbalancerProxy:
-    enabled: false
     image:
       registry: docker.io
       repository: envoyproxy/envoy
       tag: v1.31-latest
       pullPolicy: IfNotPresent
     podSecurityContext: {}
-    publicPhotonHosts:
+    photonHosts:
+      - host: photon.komoot.io
+        scheme: https
+        port: 443
+        rateLimit: 0  # no known limit
+        preferred: false
       - host: photon.koalasec.org
         scheme: https
         port: 443
         rateLimit: 0  # no known limit
+        preferred: false
       - host: photon.donsomhong.net
         scheme: https  
         port: 443
         rateLimit: 10  # 10 requests per second per IP
+        preferred: false
       - host: photon.marsmathis.com
         scheme: https
         port: 443
         rateLimit: 0  # no known limit
+        preferred: false
       - host: photon.vanoosterhout.cloud
         scheme: https
         port: 443
         rateLimit: 10  # 10 requests per second per IP
+        preferred: false
       - host: photon.kllswitch.com
         scheme: https
         port: 443
         rateLimit: 0  # no known limit
+        preferred: false
 
 #    resources:
 #      requests:
