@@ -8,19 +8,23 @@
 {{- $preferredHosts = append $preferredHosts $internalHost }}
 {{- end }}
 
-{{- /* Separate hosts by preference, applying defaults */ -}}
+{{- /* Separate hosts by preference */ -}}
 {{- range $host := .Values.photon.gateway.hosts }}
 {{- $processedHost := dict "host" $host.host }}
-{{- $processedHost = set $processedHost "scheme" (default "https" $host.scheme) }}
-{{- $processedHost = set $processedHost "port" (default 443 $host.port) }}
+{{- $processedHost = set $processedHost "preferred" (default false $host.preferred) }}
 {{- if $host.rateLimit }}
 {{- $processedHost = set $processedHost "rateLimit" $host.rateLimit }}
 {{- end }}
-{{- $processedHost = set $processedHost "preferred" (default false $host.preferred) }}
 {{- if $processedHost.preferred }}
-{{- $preferredHosts = append $preferredHosts $processedHost }}
+  {{- /* Internal host: http/2322 */ -}}
+  {{- $processedHost = set $processedHost "scheme" "http" }}
+  {{- $processedHost = set $processedHost "port" 2322 }}
+  {{- $preferredHosts = append $preferredHosts $processedHost }}
 {{- else }}
-{{- $regularHosts = append $regularHosts $processedHost }}
+  {{- /* External hosts: always https/443 */ -}}
+  {{- $processedHost = set $processedHost "scheme" "https" }}
+  {{- $processedHost = set $processedHost "port" 443 }}
+  {{- $regularHosts = append $regularHosts $processedHost }}
 {{- end }}
 {{- end }}
 
@@ -166,7 +170,7 @@ data:
           base_ejection_time: 30s
           max_ejection_percent: 50
           split_external_local_origin_errors: true
-        {{- if and (not $host.internal) (eq $host.scheme "https") }}
+        {{- if not $host.internal }}
         transport_socket:
           name: envoy.transport_sockets.tls
           typed_config:
