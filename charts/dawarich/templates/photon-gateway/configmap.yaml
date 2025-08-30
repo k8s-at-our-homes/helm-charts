@@ -59,8 +59,7 @@ data:
               - name: envoy.filters.http.lua
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
-                  inline_code: |
-{{ .Files.Get "lua/photon-response-validator.lua" | indent 20 }}
+                  inline_code: | {{ .Files.Get "lua/photon-response-validator.lua" | nindent 20 }}
               - name: envoy.filters.http.router
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
@@ -89,7 +88,7 @@ data:
                         clusters:
                         {{- range $index, $host := $allHosts }}
                         - name: photon_host_{{ add $index 1 }}
-                          weight: {{ if $host.preferred }}100{{ else }}{{ if $host.rateLimit }}{{ max 1 (min 100 $host.rateLimit) }}{{ else }}100{{ end }}{{ end }}
+                          weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       timeout: 30s
                       retry_policy:
@@ -120,7 +119,7 @@ data:
                         clusters:
                         {{- range $index, $host := $regularHosts }}
                         - name: photon_host_{{ add (len $preferredHosts) (add $index 1) }}
-                          weight: {{ if $host.rateLimit }}{{ max 1 (min 100 $host.rateLimit) }}{{ else }}100{{ end }}
+                          weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       {{- end }}
                       timeout: 30s
@@ -145,7 +144,7 @@ data:
       clusters:
       {{- range $index, $host := $allHosts }}
       - name: photon_host_{{ add $index 1 }}
-        connect_timeout: 10s
+        connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
         type: STRICT_DNS
         dns_lookup_family: V4_PREFERRED
@@ -197,25 +196,23 @@ data:
                     port_value: {{ $host.port }}
         health_checks:
         {{- if $host.internal }}
-        - timeout: {{ if $host.preferred }}3s{{ else }}5s{{ end }}
-          interval: {{ if $host.preferred }}15s{{ else }}30s{{ end }}
+        - timeout: 1s
+          interval: 10s
           unhealthy_threshold: 3
-          healthy_threshold: 2
+          healthy_threshold: 1
           tcp_health_check: {}
-        - timeout: {{ if $host.preferred }}5s{{ else }}10s{{ end }}
-          interval: {{ if $host.preferred }}30s{{ else }}60s{{ end }}
+        - timeout: 1s
+          interval: 10s
           unhealthy_threshold: 3
-          healthy_threshold: 2
+          healthy_threshold: 1
           http_health_check:
             path: /api
             expected_statuses:
             - start: 200
               end: 299
-            - start: 400
-              end: 499
         {{- else }}
-        - timeout: {{ if $host.preferred }}3s{{ else }}10s{{ end }}
-          interval: {{ if $host.preferred }}15s{{ else }}60s{{ end }}
+        - timeout: 5s
+          interval: 60s
           unhealthy_threshold: 3
           healthy_threshold: 2
           http_health_check:
@@ -223,8 +220,6 @@ data:
             expected_statuses:
             - start: 200
               end: 299
-            - start: 400
-              end: 499
         {{- end }}
       {{- end }}
 {{- end }}
