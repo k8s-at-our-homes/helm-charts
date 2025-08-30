@@ -46,14 +46,14 @@ spec:
       port: 53
     - protocol: TCP
       port: 53
-  # Allow access to configured Photon hosts
-  {{- range $host := $photonHosts }}
+  # Note: Kubernetes NetworkPolicy cannot enforce FQDN-based egress restrictions
+  # The following ports are allowed to any destination due to NetworkPolicy limitations
   - to: []
     ports:
     - protocol: TCP
-      port: {{ $host.port }}
-    {{- if $host.host }}
-    # Host: {{ $host.host }}
-    {{- end }}
-  {{- end }}
+      port: 80
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 2322  # Internal Photon instance
 {{- end }}

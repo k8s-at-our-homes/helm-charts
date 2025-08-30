@@ -1,5 +1,20 @@
 local cjson = require "cjson"
 
+function envoy_on_request(request_handle)
+  -- If this is a retry (based on the presence of certain Envoy retry headers),
+  -- add the x-photon-retry header to route to Route B
+  local envoy_retry_grpc = request_handle:headers():get("x-envoy-retry-grpc-on")
+  local envoy_retry_on = request_handle:headers():get("x-envoy-retry-on")
+  local envoy_upstream_retries = request_handle:headers():get("x-envoy-upstream-rq-retry-count")
+  
+  if envoy_retry_grpc or envoy_retry_on or envoy_upstream_retries then
+    -- This is a retry attempt, route to Route B (all hosts)
+    if not request_handle:headers():get("x-photon-retry") then
+      request_handle:headers():add("x-photon-retry", "retry-attempt")
+    end
+  end
+end
+
 function envoy_on_response(response_handle)
   local status = response_handle:headers():get(":status")
   

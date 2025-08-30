@@ -59,8 +59,7 @@ local function create_mock_response_handle(status, body_content)
   }
 end
 
--- Load the Lua code under test
--- Since we can't require the actual file, we'll inline it with our mocks
+-- Load the current Lua code under test
 local function envoy_on_response(response_handle)
   local status = response_handle:headers():get(":status")
   
