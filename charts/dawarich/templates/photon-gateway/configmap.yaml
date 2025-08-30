@@ -1,5 +1,4 @@
 {{- if .Values.photon.enabled }}
-{{- $allHosts := list }}
 {{- $preferredHosts := list }}
 {{- $regularHosts := list }}
 
@@ -25,8 +24,6 @@
 {{- end }}
 {{- end }}
 
-{{- /* Combine all hosts with preferred ones first */ -}}
-{{- $allHosts = concat $preferredHosts $regularHosts }}
 
 apiVersion: v1
 kind: ConfigMap
@@ -86,8 +83,8 @@ data:
                     route:
                       weighted_clusters:
                         clusters:
-                        {{- range $index, $host := $allHosts }}
-                        - name: photon_host_{{ add $index 1 }}
+                        {{- range $index, $host := $regularHosts }}
+                        - name: photon_host_{{ add (len $preferredHosts) (add $index 1) }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       timeout: 30s
