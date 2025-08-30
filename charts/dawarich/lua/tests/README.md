@@ -4,9 +4,9 @@ This directory contains unit tests for the Photon Gateway Lua response validatio
 
 ## Structure
 
-- `lua/photon-response-validator.lua` - The main Lua script that validates Photon geocoding responses
-- `tests/lua/test-photon-response-validator.lua` - Unit tests for the Lua validation logic
-- `tests/run-lua-tests.sh` - Shell script to run the Lua tests
+- `..//photon-response-validator.lua` - The main Lua script that validates Photon geocoding responses
+- `test-photon-response-validator.lua` - Unit tests for the Lua validation logic
+- `run-lua-tests.sh` - Shell script to run the Lua tests
 
 ## Running Tests
 
@@ -29,7 +29,7 @@ From the chart directory:
 lua5.3 tests/lua/test-photon-response-validator.lua
 
 # Or use the test runner script
-./tests/run-lua-tests.sh
+./run-lua-tests.sh
 ```
 
 ## Test Coverage

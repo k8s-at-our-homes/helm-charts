@@ -6,7 +6,6 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CHART_DIR="$SCRIPT_DIR/.."
 
 echo "Running Lua unit tests for Photon Response Validator..."
 echo "======================================================="
@@ -20,8 +19,7 @@ if ! command -v lua &> /dev/null; then
 fi
 
 # Run the tests
-cd "$CHART_DIR"
-lua tests/lua/test-photon-response-validator.lua
+lua test-photon-response-validator.lua
 
 echo ""
 echo "Tests completed successfully!"
