@@ -12,8 +12,8 @@
 {{- end }}
 {{- $processedHost = set $processedHost "scheme" "https" }}
 {{- $processedHost = set $processedHost "port" 443 }}
-{{- $allClusters = append $regularHosts $processedHost }}
-{{- $regularHosts = append $allClusters $processedHost }}
+{{- $regularHosts = append $regularHosts $processedHost }}
+{{- $allClusters = append $allClusters $processedHost }}
 {{- end }}
 
 
