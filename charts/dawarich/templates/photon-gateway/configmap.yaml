@@ -116,8 +116,6 @@ data:
                         retriable_headers:
                         - name: "x-photon-retry"
                         {{- if .Values.photon.deploy }}
-                        num_retries: 1
-                        host_selection_retry_max_attempts: 1
                         {{- else }}
                         num_retries: {{ len $regularHosts }}
                         host_selection_retry_max_attempts: {{ len $regularHosts }}
@@ -161,7 +159,6 @@ data:
           name: envoy.transport_sockets.tls
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
-            sni: {{ $host.host }}
             auto_sni: true
             common_tls_context:
               validation_context:
