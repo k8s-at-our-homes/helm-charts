@@ -40,7 +40,7 @@ data:
   envoy.yaml: |
     static_resources:
       listeners:
-      - name: listener_0
+      - name: listener_http
         address:
           socket_address:
             protocol: TCP
@@ -201,13 +201,8 @@ data:
           interval: 10s
           unhealthy_threshold: 3
           healthy_threshold: 1
-          tcp_health_check: {}
-        - timeout: 1s
-          interval: 10s
-          unhealthy_threshold: 3
-          healthy_threshold: 1
           http_health_check:
-            path: /api
+            path: /api?q=thisisahealthcheck
             expected_statuses:
             - start: 200
               end: 299
@@ -216,8 +211,10 @@ data:
           interval: 60s
           unhealthy_threshold: 3
           healthy_threshold: 2
+          no_traffic_interval: 24h
+          no_traffic_healthy_interval: 168h
           http_health_check:
-            path: /api
+            path: /api?q=thisisahealthcheck
             expected_statuses:
             - start: 200
               end: 299
