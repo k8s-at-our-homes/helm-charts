@@ -1,31 +1,18 @@
 {{- if .Values.photon.enabled }}
-{{- $preferredHosts := list }}
+{{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "internal" true }}
 {{- $regularHosts := list }}
-
-{{- /* Add internal photon host if deployed */ -}}
 {{- if .Values.photon.deploy }}
-{{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "preferred" true "internal" true }}
-{{- $preferredHosts = append $preferredHosts $internalHost }}
+{{- $useInternal := true }}
 {{- end }}
-
-{{- /* Separate hosts by preference */ -}}
+{{- /* Only external hosts go into $regularHosts */ -}}
 {{- range $host := .Values.photon.gateway.hosts }}
 {{- $processedHost := dict "host" $host.host }}
-{{- $processedHost = set $processedHost "preferred" (default false $host.preferred) }}
 {{- if $host.rateLimit }}
 {{- $processedHost = set $processedHost "rateLimit" $host.rateLimit }}
 {{- end }}
-{{- if $processedHost.preferred }}
-  {{- /* Internal host: http/2322 */ -}}
-  {{- $processedHost = set $processedHost "scheme" "http" }}
-  {{- $processedHost = set $processedHost "port" 2322 }}
-  {{- $preferredHosts = append $preferredHosts $processedHost }}
-{{- else }}
-  {{- /* External hosts: always https/443 */ -}}
-  {{- $processedHost = set $processedHost "scheme" "https" }}
-  {{- $processedHost = set $processedHost "port" 443 }}
-  {{- $regularHosts = append $regularHosts $processedHost }}
-{{- end }}
+{{- $processedHost = set $processedHost "scheme" "https" }}
+{{- $processedHost = set $processedHost "port" 443 }}
+{{- $regularHosts = append $regularHosts $processedHost }}
 {{- end }}
 
 
@@ -79,6 +66,7 @@ data:
                         inline_string: "OK"
                   # Route B: Retry requests - all hosts (preferred + non-preferred)
                   # This route is checked first when the retry header is present
+                  # Specifying Route B before Route A makes sure that Route B can be reached. Otherwise Route A would always match before B.
                   - match:
                       prefix: "/"
                       headers:
@@ -88,7 +76,7 @@ data:
                       weighted_clusters:
                         clusters:
                         {{- range $index, $host := $regularHosts }}
-                        - name: photon_host_{{ add (len $preferredHosts) (add $index 1) }}
+                        - name: photon_host_{{ $host.host }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       timeout: 30s
@@ -103,23 +91,20 @@ data:
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
                         host_selection_retry_max_attempts: {{ len $regularHosts }}
-                  # Route A: Initial requests - only preferred hosts
+                  # Route A: Initial requests - only internal host if deployed, else regular hosts
                   - match:
                       prefix: "/"
                     route:
-                      {{- if gt (len $preferredHosts) 0 }}
+                      {{- if .Values.photon.deploy }}
                       weighted_clusters:
                         clusters:
-                        {{- range $index, $host := $preferredHosts }}
-                        - name: photon_host_{{ add $index 1 }}
+                        - name: photon_host_{{ $internalHost.host }}
                           weight: 100
-                        {{- end }}
                       {{- else }}
-                      # Fallback if no preferred hosts available
                       weighted_clusters:
                         clusters:
                         {{- range $index, $host := $regularHosts }}
-                        - name: photon_host_{{ add (len $preferredHosts) (add $index 1) }}
+                        - name: photon_host_{{ $host.host }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       {{- end }}
@@ -129,9 +114,9 @@ data:
                         retriable_status_codes: [429]
                         retriable_headers:
                         - name: "x-photon-retry"
-                        {{- if gt (len $preferredHosts) 0 }}
-                        num_retries: {{ len $preferredHosts }}
-                        host_selection_retry_max_attempts: {{ len $preferredHosts }}
+                        {{- if .Values.photon.deploy }}
+                        num_retries: 1
+                        host_selection_retry_max_attempts: 1
                         {{- else }}
                         num_retries: {{ len $regularHosts }}
                         host_selection_retry_max_attempts: {{ len $regularHosts }}
@@ -143,8 +128,8 @@ data:
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
       clusters:
-      {{- range $index, $host := $regularHosts }}
-      - name: photon_host_{{ add $index 1 }}
+      {{- range $host := $regularHosts }}
+      - name: photon_host_{{ $host.host }}
         connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
         type: STRICT_DNS
@@ -159,9 +144,9 @@ data:
         circuit_breakers:
           thresholds:
           - priority: DEFAULT
-            max_connections: {{ if $host.preferred }}50{{ else }}20{{ end }}
-            max_pending_requests: {{ if $host.preferred }}50{{ else }}20{{ end }}
-            max_requests: {{ if $host.preferred }}100{{ else }}50{{ end }}
+            max_connections: {{ if $host.internal }}50{{ else }}20{{ end }}
+            max_pending_requests: {{ if $host.internal }}50{{ else }}20{{ end }}
+            max_requests: {{ if $host.internal }}100{{ else }}50{{ end }}
             max_retries: 3
         outlier_detection:
           consecutive_5xx: 3
@@ -187,7 +172,7 @@ data:
                   filename: /etc/ssl/certs/ca-certificates.crt
         {{- end }}
         load_assignment:
-          cluster_name: photon_host_{{ add $index 1 }}
+          cluster_name: photon_host_{{ $host.host }}
           endpoints:
           - lb_endpoints:
             - endpoint:
