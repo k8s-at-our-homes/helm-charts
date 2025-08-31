@@ -1,10 +1,9 @@
 {{- if .Values.photon.enabled }}
 {{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "internal" true }}
-{{- $regularHosts := list }}
+{{- $allClusters := list }}
 {{- if .Values.photon.deploy }}
-{{- $useInternal := true }}
+{{- $allClusters = append $allClusters $internalHost }}
 {{- end }}
-{{- /* Only external hosts go into $regularHosts */ -}}
 {{- range $host := .Values.photon.gateway.hosts }}
 {{- $processedHost := dict "host" $host.host }}
 {{- if $host.rateLimit }}
@@ -12,7 +11,7 @@
 {{- end }}
 {{- $processedHost = set $processedHost "scheme" "https" }}
 {{- $processedHost = set $processedHost "port" 443 }}
-{{- $regularHosts = append $regularHosts $processedHost }}
+{{- $allClusters = append $allClusters $processedHost }}
 {{- end }}
 
 
@@ -128,7 +127,7 @@ data:
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
       clusters:
-      {{- range $host := $regularHosts }}
+      {{- range $host := $allClusters }}
       - name: photon_host_{{ $host.host }}
         connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
