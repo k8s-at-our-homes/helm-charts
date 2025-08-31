@@ -95,14 +95,14 @@ data:
                       retry_policy:
                         retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-status-codes
                         retriable_status_codes: [429]
-                        num_retries: {{ len $allHosts }}
+                        num_retries: {{ len $regularHosts }}
                         per_try_timeout: 10s
                         retry_back_off:
                           base_interval: 0.1s
                           max_interval: 1s
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
-                        host_selection_retry_max_attempts: {{ len $allHosts }}
+                        host_selection_retry_max_attempts: {{ len $regularHosts }}
                   # Route A: Initial requests - only preferred hosts
                   - match:
                       prefix: "/"
@@ -143,7 +143,7 @@ data:
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
       clusters:
-      {{- range $index, $host := $allHosts }}
+      {{- range $index, $host := $regularHosts }}
       - name: photon_host_{{ add $index 1 }}
         connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
