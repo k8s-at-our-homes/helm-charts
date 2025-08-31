@@ -194,8 +194,8 @@ data:
           interval: 60s
           unhealthy_threshold: 3
           healthy_threshold: 2
-          no_traffic_interval: 24h
-          no_traffic_healthy_interval: 168h
+          no_traffic_interval: 86400s
+          no_traffic_healthy_interval: 604800s
           http_health_check:
             path: /api?q=thisisahealthcheck
             expected_statuses:
