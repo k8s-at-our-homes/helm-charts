@@ -1,6 +1,7 @@
 {{- if .Values.photon.enabled }}
 {{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "internal" true }}
 {{- $allClusters := list }}
+{{- $regularHosts := list }}
 {{- if .Values.photon.deploy }}
 {{- $allClusters = append $allClusters $internalHost }}
 {{- end }}
@@ -11,7 +12,8 @@
 {{- end }}
 {{- $processedHost = set $processedHost "scheme" "https" }}
 {{- $processedHost = set $processedHost "port" 443 }}
-{{- $allClusters = append $allClusters $processedHost }}
+{{- $allClusters = append $regularHosts $processedHost }}
+{{- $regularHosts = append $allClusters $processedHost }}
 {{- end }}
 
 
@@ -74,7 +76,7 @@ data:
                     route:
                       weighted_clusters:
                         clusters:
-                        {{- range $index, $host := $regularHosts }}
+                        {{- range $host := $regularHosts }}
                         - name: photon_host_{{ $host.host }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
@@ -102,7 +104,7 @@ data:
                       {{- else }}
                       weighted_clusters:
                         clusters:
-                        {{- range $index, $host := $regularHosts }}
+                        {{- range $host := $regularHosts }}
                         - name: photon_host_{{ $host.host }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
