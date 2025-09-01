@@ -41,9 +41,9 @@ data:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
               stat_prefix: ingress_http
               internal_address_config:
-              cidr_ranges:
-              - address_prefix: 10.244.0.0
-                prefix_len: 16
+                cidr_ranges:
+                - address_prefix: 10.244.0.0
+                  prefix_len: 16
               access_log:
               - name: envoy.access_loggers.stdout
                 typed_config:
