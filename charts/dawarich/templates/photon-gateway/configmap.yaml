@@ -53,7 +53,7 @@ data:
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
                   default_source_code:
-                    inline_string: | {{ .Files.Get "lua/photon-response-validator.lua" | nindent 20 }}
+                    inline_string: | {{ .Files.Get "lua/photon-response-validator.lua" | nindent 22 }}
               - name: envoy.filters.http.router
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
