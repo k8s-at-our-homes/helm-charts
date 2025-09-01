@@ -40,6 +40,10 @@ data:
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
               stat_prefix: ingress_http
+              internal_address_config:
+              cidr_ranges:
+              - address_prefix: 10.244.0.0
+                prefix_len: 16
               access_log:
               - name: envoy.access_loggers.stdout
                 typed_config:
@@ -48,15 +52,17 @@ data:
               - name: envoy.filters.http.lua
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
-                  inline_code: | {{ .Files.Get "lua/photon-response-validator.lua" | nindent 20 }}
+                  default_source_code:
+                    inline_string: | {{ .Files.Get "lua/photon-response-validator.lua" | nindent 20 }}
               - name: envoy.filters.http.router
                 typed_config:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
               route_config:
-                name: local_route
+                name: photon
                 virtual_hosts:
-                - name: local_service
+                - name: photon
                   domains: ["*"]
+                  response_headers_to_remove: ["x-photon-retry"]
                   routes:
                   # Health check endpoint - direct response
                   - match:
@@ -138,7 +144,6 @@ data:
         type: STRICT_DNS
         dns_lookup_family: V4_PREFERRED
         lb_policy: ROUND_ROBIN
-        max_requests_per_connection: 100
         upstream_connection_options:
           tcp_keepalive:
             keepalive_probes: 3

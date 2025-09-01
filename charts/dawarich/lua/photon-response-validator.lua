@@ -9,18 +9,23 @@
 
 -- Read the full response body as a Lua string with a size guard.
 local function read_response_body(response_handle)
-  local body_buffer = response_handle:body()
-  if not body_buffer or body_buffer:length() == 0 then
-    return nil
+  local body = response_handle:body()
+  if not body then 
+    return nil 
+  end
+
+  local body_length = body:length()
+  if not body_length or body_length == 0 then 
+    return nil 
   end
 
   -- Safety cap to avoid large allocations on unexpected payloads.
   local MAX_BYTES_TO_READ = 524288 -- 512 KiB
-  if body_buffer:length() > MAX_BYTES_TO_READ then
+  if body_length > MAX_BYTES_TO_READ then
     return nil
   end
 
-  return tostring(body_buffer:getBytes(0, body_buffer:length()))
+  return tostring(body:getBytes(0, body_length))
 end
 
 -- Heuristic validation for GeoJSON FeatureCollection with at least one feature.
