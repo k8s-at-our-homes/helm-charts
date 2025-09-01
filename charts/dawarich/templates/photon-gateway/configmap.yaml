@@ -91,6 +91,8 @@ data:
                           max_interval: 1s
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
+                          typed_config: 
+                            "@type": type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
                         host_selection_retry_max_attempts: {{ len $regularHosts }}
                   # Route A: Initial requests - only internal host if deployed, else regular hosts
                   - match:
@@ -126,6 +128,8 @@ data:
                           max_interval: 1s
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
+                          typed_config: 
+                            "@type": type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
       clusters:
       {{- range $host := $allClusters }}
       - name: photon_host_{{ $host.host }}
