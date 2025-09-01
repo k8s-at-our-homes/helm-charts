@@ -7,27 +7,6 @@
 -- Helpers: response body handling and simple FeatureCollection checks
 ----------------------------------------------------------------------
 
--- Read the full response body as a Lua string with a size guard.
-local function read_response_body(response_handle)
-  local body = response_handle:body()
-  if not body then 
-    return nil 
-  end
-
-  local body_length = body:length()
-  if not body_length or body_length == 0 then 
-    return nil 
-  end
-
-  -- Safety cap to avoid large allocations on unexpected payloads.
-  local MAX_BYTES_TO_READ = 524288 -- 512 KiB
-  if body_length > MAX_BYTES_TO_READ then
-    return nil
-  end
-
-  return tostring(body:getBytes(0, body_length))
-end
-
 -- Heuristic validation for GeoJSON FeatureCollection with at least one feature.
 local function is_valid_feature_collection(body_string)
   if not body_string or #body_string == 0 then
@@ -94,8 +73,16 @@ function envoy_on_response(response_handle)
     return
   end
 
-  local response_body_string = read_response_body(response_handle)
-  local is_valid, invalid_reason = is_valid_feature_collection(response_body_string)
+  local body = response_handle:body()
+  local body_size = body:length()
+  local body_string = tostring(body:getBytes(0, body_size))
+
+  local MAX_BYTES_TO_READ = 524288 -- 512 KiB
+  if body_size > MAX_BYTES_TO_READ then
+    return nil
+  end
+
+  local is_valid, invalid_reason = is_valid_feature_collection(body_string)
 
   if not is_valid then
     -- Signal to routing/retry policy that this response should be retried
