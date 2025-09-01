@@ -41,6 +41,7 @@ end
 -- - If caller already provided x-photon-retry, we do not overwrite it.
 
 function envoy_on_request(request_handle)
+
   local request_headers = request_handle:headers()
 
   -- Internal Envoy retry signals we look for:
@@ -56,7 +57,7 @@ function envoy_on_request(request_handle)
 
   -- Add our routing hint only when Envoy is retrying and caller didn’t set one.
   if envoy_is_retrying and not downstream_retry_hint then
-    request_headers:add("x-photon-retry", "retry-attempt")
+    request_handle:headers():add("x-photon-retry", "retry-attempt")
   end
 end
 
@@ -65,27 +66,35 @@ end
 ----------------------------------------------------------------------
 
 function envoy_on_response(response_handle)
-  local response_headers = response_handle:headers()
-  local http_status      = response_headers:get(":status")
 
   -- Only validate successful HTTP responses
-  if http_status ~= "200" then
+  if response_handle:headers():get(":status") ~= "200" then
     return
   end
 
   local body = response_handle:body()
+
+  if not body then
+    return
+  end
+
   local body_size = body:length()
-  local body_string = tostring(body:getBytes(0, body_size))
+
+  if body_size == 0 then
+    return
+  end
 
   local MAX_BYTES_TO_READ = 524288 -- 512 KiB
   if body_size > MAX_BYTES_TO_READ then
-    return nil
+    return
   end
+
+  local body_string = tostring(body:getBytes(0, body_size))
 
   local is_valid, invalid_reason = is_valid_feature_collection(body_string)
 
   if not is_valid then
     -- Signal to routing/retry policy that this response should be retried
-    response_headers:add("x-photon-retry", invalid_reason)
+    response_handle:headers():add("x-photon-retry", invalid_reason)
   end
 end
