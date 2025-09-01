@@ -39,7 +39,7 @@ data:
           - name: envoy.filters.network.http_connection_manager
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http
+              stat_prefix: photon
               internal_address_config:
                 cidr_ranges:
                 - address_prefix: 10.244.0.0
