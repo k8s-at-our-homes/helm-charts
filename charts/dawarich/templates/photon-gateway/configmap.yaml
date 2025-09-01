@@ -159,7 +159,7 @@ data:
           name: envoy.transport_sockets.tls
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
-            auto_host_sni: true
+            sni: {{ $host.host }}
             common_tls_context:
               validation_context:
                 match_typed_subject_alt_names:
