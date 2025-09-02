@@ -1,5 +1,4 @@
 -- Envoy Lua filter for Photon request/response handling
--- - No external modules (works with stock Envoy image)
 -- - Request hook: mark retry attempts so routing can switch to Route B
 -- - Response hook: validate body heuristically; if invalid-but-200, mark retriable
 
@@ -36,25 +35,29 @@ end
 ----------------------------------------------------------------------
 
 -- Interpretation rules:
--- - Envoy sets internal retry headers on subsequent attempts.
--- - We detect those and add "x-photon-external: retry-attempt" to steer routing.
+-- - We check that the request is a retry attempt, if so we set the x-photon-external header
+-- - Otherwise we remove any existing x-photon-external header
+-- - We check the internal host, if it has a record we continue to the internal route
+-- - Otherwise we set the x-photon-external header in order to route to the external route
+
 
 function envoy_on_request(request_handle)
 
-  if tonumber(request_handle:headers():get("x-envoy-attempt-count")) > 1 then
-    request_handle:headers():add("x-photon-external", "retry-attempt")
+  local headers = request_handle:headers()
+  if tonumber(headers:get("x-envoy-attempt-count") or '1') > 1 then
+    headers:add("x-photon-external", "use-external-hosts")
     return
   end
 
-  request_handle:headers():remove("x-photon-external")
+  headers:remove("x-photon-external")
 
-  local headers = {
-    [":method"] = request_handle:headers():get(":method"),
-    [":path"]   = request_handle:headers():get(":path"),
+  local internal_request_headers = {
+    [":method"] = headers:get(":method"),
+    [":path"]   = headers:get(":path"),
     [":authority"] = "photon-gateway-precheck"
   }
 
-  local ok, resp_headers, response_body = request_handle:httpCall("photon_internal", headers, nil, 5000, false)
+  local ok, resp_headers, response_body = request_handle:httpCall("photon_internal", internal_request_headers, nil, 5000, false)
 
   if ok then
     local body_string = tostring(response_body)
@@ -64,5 +67,5 @@ function envoy_on_request(request_handle)
     end
   end
 
-  request_handle:headers():add("x-photon-external", "use-external-hosts")
+  headers:add("x-photon-external", "use-external-hosts")
 end
