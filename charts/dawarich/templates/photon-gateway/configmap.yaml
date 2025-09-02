@@ -79,6 +79,7 @@ data:
                       - name: "x-photon-external"
                         present_match: true
                     route:
+                      auto_host_rewrite: true
                       weighted_clusters:
                         clusters:
                         {{- range $host := $regularHosts }}
@@ -215,6 +216,7 @@ data:
                     port_value: {{ $host.port }}
         health_checks:
         - http_health_check:
+            host: {{ $host.host }}
             path: /api?q=thisisahealthcheck
             expected_statuses:
             - start: 200
