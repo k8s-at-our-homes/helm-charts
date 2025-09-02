@@ -1,10 +1,6 @@
 {{- if .Values.photon.enabled }}
 {{- $internalHost := dict "host" (printf "%s-photon" (include "common.fullname" .)) "scheme" "http" "port" 2322 "internal" true }}
-{{- $allClusters := list }}
 {{- $regularHosts := list }}
-{{- if .Values.photon.deploy }}
-{{- $allClusters = append $allClusters $internalHost }}
-{{- end }}
 {{- range $host := .Values.photon.gateway.hosts }}
 {{- $processedHost := dict "host" $host.host }}
 {{- if $host.rateLimit }}
@@ -13,9 +9,7 @@
 {{- $processedHost = set $processedHost "scheme" "https" }}
 {{- $processedHost = set $processedHost "port" 443 }}
 {{- $regularHosts = append $regularHosts $processedHost }}
-{{- $allClusters = append $allClusters $processedHost }}
 {{- end }}
-
 
 apiVersion: v1
 kind: ConfigMap
@@ -67,8 +61,8 @@ data:
                 virtual_hosts:
                 - name: photon
                   domains: ["*"]
-                  request_headers_to_remove: ["x-photon-retry"]
-                  response_headers_to_remove: ["x-photon-retry"]
+                  request_headers_to_remove: ["x-photon-external"]
+                  response_headers_to_remove: ["x-photon-external"]
                   include_request_attempt_count: true
                   routes:
                   # Health check endpoint - direct response
@@ -81,30 +75,25 @@ data:
                   # If photon internal host is enabled this route is used on retry
                   - match:
                       prefix: "/"
-                      {{- if .Values.photon.deploy }}
                       headers:
-                      - name: "x-photon-retry"
+                      - name: "x-photon-external"
                         present_match: true
-                      {{- end }}
                     route:
                       weighted_clusters:
                         clusters:
                         {{- range $host := $regularHosts }}
-                        - name: photon_host_{{ $host.host }}
+                        - name: photon_external_{{ $host.host }}
                           weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
                         {{- end }}
                       timeout: 30s
                       retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-status-codes
                         retriable_status_codes: [429]
-                        retriable_headers:
-                        - name: "x-photon-retry"
-                          present_match: true
                         num_retries: {{ len $regularHosts }}
                         per_try_timeout: 10s
                         retry_back_off:
-                          base_interval: 0.1s
-                          max_interval: 1s
+                          base_interval: 1s
+                          max_interval: 10s
                         retry_host_predicate:
                         - name: envoy.retry_host_predicates.previous_hosts
                           typed_config: 
@@ -117,28 +106,21 @@ data:
                     route:
                       weighted_clusters:
                         clusters:
-                        - name: photon_host_{{ $internalHost.host }}
+                        - name: photon_internal
                           weight: 100
                       timeout: 30s
                       retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-status-codes
                         retriable_status_codes: [429]
-                        retriable_headers:
-                        - name: "x-photon-retry"
-                          present_match: true
-                        num_retries: 1
+                        num_retries: 50
                         per_try_timeout: 10s
                         retry_back_off:
-                          base_interval: 0.1s
-                          max_interval: 1s
-                        retry_host_predicate:
-                        - name: envoy.retry_host_predicates.previous_hosts
-                          typed_config: 
-                            "@type": type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
+                          base_interval: 1s
+                          max_interval: 60s
                   {{- end }}
       clusters:
-      {{- range $host := $allClusters }}
-      - name: photon_host_{{ $host.host }}
+      {{- if .Values.photon.deploy }}
+      - name: photon_internal
         connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
         type: STRICT_DNS
@@ -153,15 +135,9 @@ data:
           thresholds:
           - priority: DEFAULT
             max_retries: 3
-            {{- if $host.internal }}
             max_connections: 50
             max_pending_requests: 50
             max_requests: 100
-            {{- else }}
-            max_connections: 20
-            max_pending_requests: 20
-            max_requests: 50
-            {{- end }}
         outlier_detection:
           consecutive_5xx: 3
           consecutive_gateway_failure: 3
@@ -169,7 +145,52 @@ data:
           base_ejection_time: 30s
           max_ejection_percent: 50
           split_external_local_origin_errors: true
-        {{- if not $host.internal }}
+        load_assignment:
+          cluster_name: photon_internal
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: {{ $internalHost.host }}
+                    port_value: {{ $internalHost.port }}
+        health_checks:
+        - http_health_check:
+            path: /api?q=thisisahealthcheck
+            expected_statuses:
+            - start: 200
+              end: 299
+          unhealthy_threshold: 3
+          healthy_threshold: 2
+          timeout: 1s
+          interval: 10s
+      {{- end }}
+      {{- range $host := $regularHosts }}
+      - name: photon_external_{{ $host.host }}
+        connect_timeout: 2s
+        per_connection_buffer_limit_bytes: 32768
+        type: STRICT_DNS
+        dns_lookup_family: V4_PREFERRED
+        lb_policy: ROUND_ROBIN
+        upstream_connection_options:
+          tcp_keepalive:
+            keepalive_probes: 3
+            keepalive_time: 30
+            keepalive_interval: 5
+        circuit_breakers:
+          thresholds:
+          - priority: DEFAULT
+            max_retries: 3
+            max_connections: 20
+            max_pending_requests: 20
+            max_requests: 50
+        outlier_detection:
+          consecutive_5xx: 3
+          consecutive_gateway_failure: 3
+          interval: 30s
+          base_ejection_time: 30s
+          max_ejection_percent: 50
+          split_external_local_origin_errors: true
         transport_socket:
           name: envoy.transport_sockets.tls
           typed_config:
@@ -183,9 +204,8 @@ data:
                     exact: {{ $host.host }}
                 trusted_ca:
                   filename: /etc/ssl/certs/ca-certificates.crt
-        {{- end }}
         load_assignment:
-          cluster_name: photon_host_{{ $host.host }}
+          cluster_name: photon_external_{{ $host.host }}
           endpoints:
           - lb_endpoints:
             - endpoint:
@@ -201,14 +221,9 @@ data:
               end: 299
           unhealthy_threshold: 3
           healthy_threshold: 2
-        {{- if $host.internal }}
-          timeout: 1s
-          interval: 10s
-        {{- else }}
           timeout: 5s
           interval: 60s
           no_traffic_interval: 86400s
           no_traffic_healthy_interval: 604800s
-        {{- end }}
       {{- end }}
 {{- end }}
