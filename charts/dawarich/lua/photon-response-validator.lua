@@ -45,19 +45,16 @@ function envoy_on_request(request_handle)
   local request_headers = request_handle:headers()
 
   -- Internal Envoy retry signals we look for:
-  -- x-envoy-retry-on           -> HTTP retry conditions active
-  -- x-envoy-upstream-rq-retry-count -> present on retry attempts, value is attempt count (0-based)
+  -- x-envoy-retry-on       -> HTTP retry conditions active
+  -- x-envoy-attempt-count  -> present on retry attempts, value is attempt count (0-based)
   local retry_signal_http         = request_headers:get("x-envoy-retry-on")
-  local retry_attempt_count_value = request_headers:get("x-envoy-upstream-rq-retry-count")
-
-  -- Also consider downstream-provided explicit hint (rare, but be permissive)
-  local downstream_retry_hint     = request_headers:get("x-photon-retry")
+  local retry_attempt_count_value = request_headers:get("x-envoy-attempt-count")
 
   local envoy_is_retrying = (retry_signal_http ~= nil) or (retry_attempt_count_value ~= nil)
 
   -- Add our routing hint only when Envoy is retrying and caller didn’t set one.
-  if envoy_is_retrying and not downstream_retry_hint then
-    request_handle:headers():add("x-photon-retry", "retry-attempt")
+  if envoy_is_retrying then
+    request_handle:headers():add("x-photon-retry")
   end
 end
 

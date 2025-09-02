@@ -63,6 +63,7 @@ data:
                 - name: photon
                   domains: ["*"]
                   response_headers_to_remove: ["x-photon-retry"]
+                  include_request_attempt_count: true
                   routes:
                   # Health check endpoint - direct response
                   - match:
@@ -71,14 +72,14 @@ data:
                       status: 200
                       body:
                         inline_string: "OK"
-                  # Route B: Retry requests - all hosts (preferred + non-preferred)
-                  # This route is checked first when the retry header is present
-                  # Specifying Route B before Route A makes sure that Route B can be reached. Otherwise Route A would always match before B.
+                  # If photon internal host is enabled this route is used on retry
                   - match:
                       prefix: "/"
+                      {{- if .Values.photon.deploy }}
                       headers:
                       - name: "x-photon-retry"
                         present_match: true
+                      {{- end }}
                     route:
                       weighted_clusters:
                         clusters:
@@ -90,6 +91,9 @@ data:
                       retry_policy:
                         retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-status-codes
                         retriable_status_codes: [429]
+                        retriable_headers:
+                        - name: x-photon-retry
+                          present_match: true
                         num_retries: {{ len $regularHosts }}
                         per_try_timeout: 10s
                         retry_back_off:
@@ -100,34 +104,22 @@ data:
                           typed_config: 
                             "@type": type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
                         host_selection_retry_max_attempts: {{ len $regularHosts }}
-                  # Route A: Initial requests - only internal host if deployed, else regular hosts
+                  {{- if .Values.photon.deploy }}
+                  # If photon internal host is enabled this route is used on first try
                   - match:
                       prefix: "/"
                     route:
-                      {{- if .Values.photon.deploy }}
                       weighted_clusters:
                         clusters:
                         - name: photon_host_{{ $internalHost.host }}
                           weight: 100
-                      {{- else }}
-                      weighted_clusters:
-                        clusters:
-                        {{- range $host := $regularHosts }}
-                        - name: photon_host_{{ $host.host }}
-                          weight: {{ max 1 (min 100 ($host.rateLimit | default 100)) }}
-                        {{- end }}
-                      {{- end }}
                       timeout: 30s
                       retry_policy:
                         retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
                         retriable_status_codes: [429]
                         retriable_headers:
                         - name: "x-photon-retry"
-                        {{- if .Values.photon.deploy }}
-                        {{- else }}
-                        num_retries: {{ len $regularHosts }}
-                        host_selection_retry_max_attempts: {{ len $regularHosts }}
-                        {{- end }}
+                          present_match: true
                         per_try_timeout: 10s
                         retry_back_off:
                           base_interval: 0.1s
@@ -136,6 +128,7 @@ data:
                         - name: envoy.retry_host_predicates.previous_hosts
                           typed_config: 
                             "@type": type.googleapis.com/envoy.extensions.retry.host.previous_hosts.v3.PreviousHostsPredicate
+                  {{- end }}
       clusters:
       {{- range $host := $allClusters }}
       - name: photon_host_{{ $host.host }}
@@ -152,10 +145,16 @@ data:
         circuit_breakers:
           thresholds:
           - priority: DEFAULT
-            max_connections: {{ if $host.internal }}50{{ else }}20{{ end }}
-            max_pending_requests: {{ if $host.internal }}50{{ else }}20{{ end }}
-            max_requests: {{ if $host.internal }}100{{ else }}50{{ end }}
             max_retries: 3
+            {{- if $host.internal }}
+            max_connections: 50
+            max_pending_requests: 50
+            max_requests: 100
+            {{- else }}
+            max_connections: 20
+            max_pending_requests: 20
+            max_requests: 50
+            {{- end }}
         outlier_detection:
           consecutive_5xx: 3
           consecutive_gateway_failure: 3
@@ -188,28 +187,21 @@ data:
                     address: {{ $host.host }}
                     port_value: {{ $host.port }}
         health_checks:
-        {{- if $host.internal }}
-        - timeout: 1s
-          interval: 10s
-          unhealthy_threshold: 3
-          healthy_threshold: 1
-          http_health_check:
+        - http_health_check:
             path: /api?q=thisisahealthcheck
             expected_statuses:
             - start: 200
               end: 299
-        {{- else }}
-        - timeout: 5s
-          interval: 60s
           unhealthy_threshold: 3
           healthy_threshold: 2
+        {{- if $host.internal }}
+          timeout: 1s
+          interval: 10s
+        {{- else }}
+          timeout: 5s
+          interval: 60s
           no_traffic_interval: 86400s
           no_traffic_healthy_interval: 604800s
-          http_health_check:
-            path: /api?q=thisisahealthcheck
-            expected_statuses:
-            - start: 200
-              end: 299
         {{- end }}
       {{- end }}
 {{- end }}
