@@ -44,6 +44,7 @@ end
 function envoy_on_request(request_handle)
 
   local headers = request_handle:headers()
+  if headers:get(":path") == "/healthz" then return end
   if tonumber(headers:get("x-envoy-attempt-count") or '1') > 1 then
     headers:add("x-photon-external", "use-external-hosts")
     return
