@@ -41,6 +41,13 @@ end
 
 function envoy_on_request(request_handle)
 
+  if tonumber(request_handle:headers():get("x-envoy-attempt-count")) > 1 then
+    request_handle:headers():add("x-photon-external", "retry-attempt")
+    return
+  end
+
+  request_handle:headers():remove("x-photon-external")
+
   local headers = {
     [":method"] = request_handle:headers():get(":method"),
     [":path"]   = request_handle:headers():get(":path"),
