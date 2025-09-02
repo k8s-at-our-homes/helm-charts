@@ -49,11 +49,11 @@ function envoy_on_request(request_handle)
     return
   end
 
-  headers:remove("x-photon-external")
+  request_handle:headers():remove("x-photon-external")
 
   local internal_request_headers = {
-    [":method"] = headers:get(":method"),
-    [":path"]   = headers:get(":path"),
+    [":method"] = request_handle:headers():get(":method"),
+    [":path"]   = request_handle:headers():get(":path"),
     [":authority"] = "photon-gateway-precheck"
   }
 
@@ -67,5 +67,5 @@ function envoy_on_request(request_handle)
     end
   end
 
-  headers:add("x-photon-external", "use-external-hosts")
+  request_handle:headers():add("x-photon-external", "use-external-hosts")
 end
