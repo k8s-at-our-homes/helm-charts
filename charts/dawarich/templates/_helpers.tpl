@@ -51,6 +51,8 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
 - name: TIME_ZONE
   value: {{ .Values.config.timezone }}
+- name: BACKGROUND_PROCESSING_CONCURRENCY
+  value: {{ .Values.config.jobConcurrency | quote }}
 # defaults
 - name: SELF_HOSTED
   value: 'true'
