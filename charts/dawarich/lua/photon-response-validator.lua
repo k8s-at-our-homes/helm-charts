@@ -47,7 +47,7 @@ function envoy_on_request(request_handle)
     [":authority"] = "photon-gateway-precheck"
   }
 
-  local ok, resp_headers, response_body = request_handle:httpCall("photon_local_cluster", headers, nil, 5000, false)
+  local ok, resp_headers, response_body = request_handle:httpCall("photon_internal", headers, nil, 5000, false)
 
   if ok then
     local body_string = tostring(response_body)
