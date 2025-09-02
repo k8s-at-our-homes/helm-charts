@@ -171,7 +171,7 @@ data:
         connect_timeout: 2s
         per_connection_buffer_limit_bytes: 32768
         type: STRICT_DNS
-        dns_lookup_family: V4_PREFERRED
+        dns_lookup_family: V4_ONLY
         lb_policy: ROUND_ROBIN
         upstream_connection_options:
           tcp_keepalive:
@@ -181,10 +181,10 @@ data:
         circuit_breakers:
           thresholds:
           - priority: DEFAULT
-            max_retries: 3
-            max_connections: 20
-            max_pending_requests: 20
-            max_requests: 50
+            max_connections: 10
+            max_requests: 10
+            max_pending_requests: 10
+            max_retries: 2
         outlier_detection:
           consecutive_5xx: 3
           consecutive_gateway_failure: 3
