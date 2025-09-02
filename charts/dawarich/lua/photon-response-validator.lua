@@ -40,9 +40,9 @@ end
 -- - We detect those and add "x-photon-retry: retry-attempt" to steer routing.
 
 function envoy_on_request(request_handle)
-  request_headers:remove("x-photon-retry")
-
+  
   local request_headers = request_handle:headers()
+  request_headers:remove("x-photon-retry")
 
   local retry_attempt_count_value = request_headers:get("x-envoy-attempt-count") 
 
