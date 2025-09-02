@@ -42,8 +42,8 @@ data:
               stat_prefix: photon
               internal_address_config:
                 cidr_ranges:
-                - address_prefix: 10.244.0.0
-                  prefix_len: 16
+                - address_prefix: {{ .Values.photon.gateway.allowedPodCidr | splitList "/" | first }}
+                  prefix_len: {{ .Values.photon.gateway.allowedPodCidr | splitList "/" | last }}
               access_log:
               - name: envoy.access_loggers.stdout
                 typed_config:
@@ -62,6 +62,7 @@ data:
                 virtual_hosts:
                 - name: photon
                   domains: ["*"]
+                  request_headers_to_remove: ["x-photon-retry"]
                   response_headers_to_remove: ["x-photon-retry"]
                   include_request_attempt_count: true
                   routes:
@@ -89,10 +90,10 @@ data:
                         {{- end }}
                       timeout: 30s
                       retry_policy:
-                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-status-codes
+                        retry_on: 5xx,gateway-error,connect-failure,refused-stream,retriable-headers,retriable-status-codes
                         retriable_status_codes: [429]
                         retriable_headers:
-                        - name: x-photon-retry
+                        - name: "x-photon-retry"
                           present_match: true
                         num_retries: {{ len $regularHosts }}
                         per_try_timeout: 10s
@@ -120,6 +121,7 @@ data:
                         retriable_headers:
                         - name: "x-photon-retry"
                           present_match: true
+                        num_retries: 1
                         per_try_timeout: 10s
                         retry_back_off:
                           base_interval: 0.1s

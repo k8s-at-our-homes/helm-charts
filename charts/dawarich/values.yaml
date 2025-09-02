@@ -130,6 +130,7 @@ photon:
       runAsGroup: 65534
       seccompProfile:
         type: RuntimeDefault
+    allowedPodCidr: 10.244.0.0/16
     hosts:
       - host: photon.kllswitch.com
         rateLimit: 10
