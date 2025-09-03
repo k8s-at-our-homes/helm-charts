@@ -1501,6 +1501,13 @@ entries:
     version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
+    created: "2025-09-03T19:52:19.816222296Z"
+    digest: 8918df58e5843f3851c6133c04046c617a16251c86f86c800811e94062214775
+    name: generic-device-plugin
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.2.0/generic-device-plugin-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     created: "2025-07-27T15:58:19.326145956Z"
     digest: d3cfd8707e14d26b79d9ea82af7ea720476fd01536c086ceaebcb6e24d77f105
     name: generic-device-plugin
@@ -4196,4 +4203,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-03T19:45:37.108370258Z"
+generated: "2025-09-03T19:52:19.817025832Z"
