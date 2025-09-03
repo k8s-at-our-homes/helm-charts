@@ -91,9 +91,9 @@ jobs:
         run: |
           version=$(yq eval ".version" charts/${{ matrix.chart }}/Chart.yaml)
           branchName=$(echo "${{ github.head_ref }}" | tr '/' '-' | tr '.' '-')
-          echo "Pushing chart ${{ matrix.chart }} with version $version-$branchName.${GITHUB_SHA::7}"
-          helm package charts/${{ matrix.chart }} --version "$version-$branchName.${GITHUB_SHA::7}"
-          helm push "${{ matrix.chart }}-$version-$branchName.${GITHUB_SHA::7}.tgz" "oci://ghcr.io/${{ github.repository }}"
+          echo "Pushing chart ${{ matrix.chart }} with version $version-$branchName"
+          helm package charts/${{ matrix.chart }} --version "$version-$branchName"
+          helm push "${{ matrix.chart }}-$version-$branchName.tgz" "oci://ghcr.io/${{ github.repository }}"
 
   check-chart-results:
     runs-on: ubuntu-latest
