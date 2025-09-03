@@ -75,12 +75,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get short SHA
-        id: sha
+      - name: Get branchName
+        id: branchName
         run: |
-          sha=$(echo "${GITHUB_SHA::7}")
-          echo "SHA=$sha"
-          echo "SHA=$sha" >> "$GITHUB_OUTPUT"
+          branchName=$(echo "${{ github.head_ref }}" | tr '/' '-' | tr '.' '-')
+          echo "BRANCHNAME=$branchName"
+          echo "BRANCHNAME=$branchName" >> "$GITHUB_OUTPUT"
 
       - name: Get version from Dockerfile
         id: version
@@ -107,7 +107,7 @@ jobs:
           context: 'images/${{ matrix.imageName }}'
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ steps.sha.outputs.SHA }}
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.imageName }}:${{ steps.version.outputs.VERSION }}-${{ steps.branchName.outputs.BRANCHNAME }}
           push: true
 
   check-image-results:
