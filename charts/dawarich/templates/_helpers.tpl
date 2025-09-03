@@ -59,12 +59,12 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 - name: APPLICATION_PROTOCOL
   value: http
 - name: RAILS_ENV
-  value: 'development'
+  value: development
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
 # photon
-- name: 'STORE_GEODATA'
-  value: {{ if .Values.photon.enabled }}'false'{{ else }}'true'{{ end }}
+- name: STORE_GEODATA
+  value: 'true'
 {{- if .Values.photon.enabled }}
 - name: PHOTON_API_HOST
   value: {{ template "common.fullname" . }}-photon-gateway:8080
