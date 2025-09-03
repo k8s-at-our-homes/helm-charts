@@ -55,15 +55,25 @@ spec:
         - name: http
           containerPort: 3000
         resources: {{ toYaml .Values.app.resources | nindent 12 }}
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  {{- include "common.selectorLabels" . | nindent 18 }}
-              topologyKey: "kubernetes.io/hostname"
+      - name: {{ .Chart.Name }}-sidekiq
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ['sidekiq-entrypoint.sh']
+        args: ['bundle', 'exec', 'sidekiq']
+        env:
+          {{- include "dawarich.env" . | nindent 8 }}
+        startupProbe:
+          exec:
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
+        livenessProbe:
+          exec:
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
+        readinessProbe:
+          exec:
+            command: [ "sh", "-c", "pgrep -f sidekiq" ]
+        volumeMounts:
+        - name: data
+          mountPath: /var/app/storage
       volumes:
       - name: data
         emptyDir: {}

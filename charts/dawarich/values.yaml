@@ -76,7 +76,8 @@ app:
 #      memory: 512Mi
 
 photon:
-  deploy: true
+  enabled: true  # Controls whether to use photon at all
+  deploy: true   # Controls whether to deploy internal photon instance
   config:
     country: # NL, BE, DE, FR, UK, US
     logLevel: INFO # DEBUG, INFO, ERROR
@@ -103,6 +104,47 @@ photon:
 #      memory: 128Mi
 #    limits:
 #      memory: 512Mi
+
+  gateway:
+    replicas: 1
+    image:
+      registry: docker.io
+      repository: envoyproxy/envoy
+      tag: v1.31.10
+      pullPolicy: IfNotPresent
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
+      fsGroup: 65534
+      seccompProfile:
+        type: RuntimeDefault
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 65534
+      runAsGroup: 65534
+      seccompProfile:
+        type: RuntimeDefault
+    allowedPodCidr: 10.244.0.0/16
+    hosts:
+      - host: photon.vanoosterhout.cloud
+        rateLimit: 10
+      - host: photon.komoot.io
+      - host: photon.koalasec.org
+      - host: photon.marsmathis.com
+      - host: photon.donsomhong.net
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
 
 redis:
   enabled: true

@@ -51,6 +51,8 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
 - name: TIME_ZONE
   value: {{ .Values.config.timezone }}
+- name: BACKGROUND_PROCESSING_CONCURRENCY
+  value: {{ .Values.config.jobConcurrency | quote }}
 # defaults
 - name: SELF_HOSTED
   value: 'true'
@@ -62,15 +64,10 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: {{ include "dawarich.hosts" . | quote }}
 # photon
 - name: 'STORE_GEODATA'
-  value: {{ if .Values.photon.deploy }}'false'{{ else }}'true'{{ end }}
-{{- if not .Values.photon.deploy }}
+  value: {{ if .Values.photon.enabled }}'false'{{ else }}'true'{{ end }}
+{{- if .Values.photon.enabled }}
 - name: PHOTON_API_HOST
-  value: photon.komoot.io
-- name: PHOTON_API_USE_HTTPS
-  value: 'true'
-{{- else }}
-- name: PHOTON_API_HOST
-  value: {{ template "common.fullname" . }}-photon:2322
+  value: {{ template "common.fullname" . }}-photon-gateway:8080
 - name: PHOTON_API_USE_HTTPS
   value: 'false'
 {{- end }}

@@ -1,0 +1,74 @@
+{{- if .Values.photon.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "common.fullname" . }}-photon-gateway
+  labels:
+    app.kubernetes.io/component: "photon-gateway"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: {{ .Values.photon.gateway.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: "photon-gateway"
+      {{- include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "photon-gateway"
+        {{- include "common.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/photon-gateway/configmap.yaml") . | sha256sum }}
+    spec:
+      securityContext: {{ toYaml .Values.photon.gateway.podSecurityContext | nindent 8 }}
+      containers:
+      - name: envoy
+        image: '{{ .Values.photon.gateway.image.registry }}/{{ .Values.photon.gateway.image.repository }}:{{ .Values.photon.gateway.image.tag }}'
+        imagePullPolicy: {{ .Values.photon.gateway.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.photon.gateway.securityContext | nindent 10 }}
+        command:
+        - /usr/local/bin/envoy
+        args:
+        - --config-path
+        - /etc/envoy/envoy.yaml
+        - --service-cluster
+        - photon-gateway
+        - --service-node
+        - photon-gateway
+        - --log-level
+        - info
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+          readOnly: true
+        - name: tmp
+          mountPath: /tmp
+        - name: envoy-cache
+          mountPath: /var/cache/envoy
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources: {{ toYaml .Values.photon.gateway.resources | nindent 10 }}
+      volumes:
+      - name: envoy-config
+        configMap:
+          name: {{ template "common.fullname" . }}-photon-gateway-config
+      - name: tmp
+        emptyDir: {}
+      - name: envoy-cache
+        emptyDir: {}
+{{- end }}
