@@ -28,14 +28,7 @@ When `photon.enabled=true`, reverse geocoding is enabled and a proxy intelligent
 
 **Public Photon Instances (queried in round-robin):**
 
-- https://photon.donsomhong.net (rate limited)
-- https://photon.vanoosterhout.cloud (rate limited)
-- https://photon.koalasec.org
-- https://photon.marsmathis.com
-- https://photon.kllswitch.com
-- https://photon.komoot.io
-
-If a self-hosted Photon instance is enabled, it is always queried first. If it cannot resolve the location, a public instance is used as fallback.
+If a self-hosted Photon instance is enabled, it is always queried first. If it cannot resolve the location, a public instance is used as fallback. A default set of public hosts is provided and can be overwritten by setting `photon.gateway.hosts`.
 
 ### 2. Self-hosted Photon Instance (Default: Enabled)
 
