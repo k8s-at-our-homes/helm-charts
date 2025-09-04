@@ -14,8 +14,16 @@
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "labels" -}}
-app.kubernetes.io/version: {{ .Chart.Version | quote }}
+{{- define "common.selectorLabels" -}}
+app.kubernetes.io/name: {{ template "common.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "common.labels" -}}
+app.kubernetes.io/name: {{ template "common.name" . }}
 helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Chart.Version | quote }}
 {{- end -}}

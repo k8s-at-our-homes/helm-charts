@@ -1,6 +1,7 @@
 apiVersion: v2
 name: dawarich
 version: 7.1.0
+kubeVersion: ">=1.19.0-0"
 
 home: https://dawarich.app/
 sources:

@@ -1,6 +1,7 @@
 apiVersion: v2
 name: immich
 version: 8.1.1
+kubeVersion: ">=1.19.0-0"
 
 home: https://immich.app
 sources:

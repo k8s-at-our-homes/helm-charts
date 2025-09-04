@@ -13,16 +13,13 @@ spec:
   serviceName: {{ template "common.fullname" . }}-secondary
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "common.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
       app.kubernetes.io/component: "adguard-secondary"
+      {{- include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ template "common.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
         app.kubernetes.io/component: "adguard-secondary"
-        {{- include "common.labels" . | nindent 8 }}
+        {{- include "common.selectorLabels" . | nindent 8 }}
     spec:
       priorityClassName: {{ .Values.secondary.priorityClassName }}
       {{- with .Values.secondary.topologySpreadConstraints }}
