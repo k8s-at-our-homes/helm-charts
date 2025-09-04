@@ -1,10 +1,10 @@
 # CyberChef Container Image
 
-This directory contains a custom CyberChef container image that applies patches to upstream CyberChef for better self-hosted environments.
+This directory contains a custom CyberChef container image that applies patches to upstream CyberChef for better privacy.
 
 ## Changes from Upstream
 
-- **updateUrl disabled**: The `updateUrl` option is set to `false` to prevent the application from attempting to check for updates from external sources, which is more appropriate for self-hosted environments.
+- **updateUrl disabled**: The `updateUrl` option is set to `false` to prevent the application from placing input in query parameters and thus the browser history.
 
 ## Build Process
 
@@ -19,7 +19,7 @@ The Dockerfile uses a multi-stage build:
 The patch script (`patch-config.sh`) modifies the minified `main.js` file to change:
 - `updateUrl:!0` → `updateUrl:!1` (true → false in minified JavaScript)
 
-This ensures that CyberChef will not attempt to connect to external update servers when running in a self-hosted environment.
+This ensures that CyberChef will not place input in the address bar and browser history.
 
 ## Multi-Platform Support
 
