@@ -4,6 +4,13 @@ This repository provides Helm charts for Kubernetes applications. Charts are org
 
 **ALWAYS follow these instructions first and fallback to search or additional context only when the information here is incomplete or found to be in error.**
 
+## Pull Request Titles
+All PR titles must start with [product-name], e.g. [home-assistant] Add MQTT support.
+
+## Commit Messages
+- Use imperative mood ("Add X", not "Added X").
+- Prefix with [product-name] when relevant.
+
 ## Core Development Commands
 
 ### Chart Validation
