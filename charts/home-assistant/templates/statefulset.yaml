@@ -5,6 +5,7 @@ metadata:
   labels:
     {{- include "common.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ template "common.fullname" . }}
   revisionHistoryLimit: 0
   replicas: 1
   selector:
