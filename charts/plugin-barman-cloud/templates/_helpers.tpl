@@ -35,29 +35,6 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
-Standard common helpers for consistency with other charts
-*/}}
-{{- define "common.name" -}}
-{{- include "plugin-barman-cloud.name" . }}
-{{- end }}
-
-{{- define "common.fullname" -}}
-{{- include "plugin-barman-cloud.fullname" . }}
-{{- end }}
-
-{{- define "chartName" -}}
-{{- include "plugin-barman-cloud.chart" . }}
-{{- end }}
-
-{{- define "common.selectorLabels" -}}
-{{- include "plugin-barman-cloud.selectorLabels" . }}
-{{- end }}
-
-{{- define "common.labels" -}}
-{{- include "plugin-barman-cloud.labels" . }}
-{{- end }}
-
-{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "plugin-barman-cloud.chart" -}}
