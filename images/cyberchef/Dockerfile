@@ -1,7 +1,7 @@
 FROM ghcr.io/gchq/cyberchef:10.19.4 AS upstream
 
 # Apply patches to override default options
-FROM alpine:3.19 AS patcher
+FROM alpine:3.22 AS patcher
 
 # Copy files from upstream
 COPY --from=upstream /usr/share/nginx/html /tmp/html
