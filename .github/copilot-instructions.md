@@ -30,6 +30,26 @@ helm lint charts/<chart-name>
 helm package charts/<chart-name>
 ```
 
+#### Kubeconform Validation
+Use Kubeconform to validate generated manifests against Kubernetes schemas:
+
+```bash
+# Validate manifests using Kubeconform (Docker) with CRD support
+# Note: Use insecure-skip-tls-verify due to TLS certificate verification issues in sandboxed environments
+helm template "<chart-name>" charts/<chart-name> | \
+  docker run --rm -i ghcr.io/yannh/kubeconform:latest \
+  -summary -verbose -insecure-skip-tls-verify \
+  -schema-location default \
+  -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json'
+
+# Alternative: Install Kubeconform locally and run validation
+# Installation: brew install kubeconform (macOS) or go install github.com/yannh/kubeconform/cmd/kubeconform@latest
+helm template "<chart-name>" charts/<chart-name> | \
+  kubeconform -summary -verbose \
+  -schema-location default \
+  -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json'
+```
+
 ### Docker Image Building
 **Only build Docker images that have been modified in your changes:**
 

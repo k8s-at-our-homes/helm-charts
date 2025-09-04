@@ -16,7 +16,7 @@ spec:
       securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: core
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}@{{ .Values.image.digest }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
