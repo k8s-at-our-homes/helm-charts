@@ -34,15 +34,8 @@ helm package charts/<chart-name>
 Use Kubeconform to validate generated manifests against Kubernetes schemas:
 
 ```bash
-# Validate manifests using Kubeconform (Docker)
-helm template "<chart-name>" charts/<chart-name> | \
-  docker run --rm -i ghcr.io/yannh/kubeconform:latest -summary -verbose
-
-# If external schema access is blocked, use insecure-skip-tls-verify (for sandboxed environments)
-helm template "<chart-name>" charts/<chart-name> | \
-  docker run --rm -i ghcr.io/yannh/kubeconform:latest -summary -verbose -insecure-skip-tls-verify
-
-# Validate with CRD support (for charts that include Custom Resource Definitions)
+# Validate manifests using Kubeconform (Docker) with CRD support
+# Note: Use insecure-skip-tls-verify due to TLS certificate verification issues in sandboxed environments
 helm template "<chart-name>" charts/<chart-name> | \
   docker run --rm -i ghcr.io/yannh/kubeconform:latest \
   -summary -verbose -insecure-skip-tls-verify \
@@ -51,9 +44,6 @@ helm template "<chart-name>" charts/<chart-name> | \
 
 # Alternative: Install Kubeconform locally and run validation
 # Installation: brew install kubeconform (macOS) or go install github.com/yannh/kubeconform/cmd/kubeconform@latest
-helm template "<chart-name>" charts/<chart-name> | kubeconform -summary -verbose
-
-# For charts with CRDs, use local installation with CRD schema location
 helm template "<chart-name>" charts/<chart-name> | \
   kubeconform -summary -verbose \
   -schema-location default \
