@@ -22,6 +22,9 @@ gatus:
   env:
     GATUS_CONFIG_PATH: /configfiles
 
+  service:
+    portName: http
+
   extraVolumeMounts:
     - name: config
       mountPath: /configfiles
