@@ -19,7 +19,7 @@ spec:
         app.kubernetes.io/component: "photon-gateway"
         {{- include "common.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/photon-gateway/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ include "dawarich.photonGateway.configDataChecksum" . }}
     spec:
       securityContext: {{ toYaml .Values.photon.gateway.podSecurityContext | nindent 8 }}
       containers:

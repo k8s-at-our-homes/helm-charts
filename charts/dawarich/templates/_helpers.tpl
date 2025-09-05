@@ -45,6 +45,11 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- $hosts -}}
 {{- end -}}
 
+{{- define "dawarich.photonGateway.configDataChecksum" -}}
+{{- $cm := include (print $.Template.BasePath "/photon-gateway/configmap.yaml") . | fromYaml -}}
+{{- toYaml $cm.data | sha256sum -}}
+{{- end -}}
+
 {{- define "dawarich.env" -}}
 # config
 - name: MIN_MINUTES_SPENT_IN_CITY
