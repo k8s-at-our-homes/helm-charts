@@ -25,4 +25,8 @@ app.kubernetes.io/name: {{ template "common.name" . }}
 helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if contains "@" .Values.image.tag }}
+{{- $parts := splitList "@" .Values.image.tag }}
+app.kubernetes.io/version: {{ index $parts 1 | trunc 63 | quote }}
+{{- end }}
 {{- end -}}
