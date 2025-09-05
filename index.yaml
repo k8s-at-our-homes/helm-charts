@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2025-09-05T11:29:34.582957933Z"
+    digest: 226542a8c2e43c152687a1d3655d9e3af1f45c0794c6f4ac25dc96adb293b687
+    kubeVersion: '>=1.19.0-0'
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-3.14.0/adguard-3.14.0.tgz
+    version: 3.14.0
+  - apiVersion: v2
     created: "2025-08-21T19:32:55.538539072Z"
     digest: bc885334eece3f4a567a2e4c1534c380049a937d78766c6aee8069d40ac02964
     name: adguard
@@ -458,6 +466,14 @@ entries:
     version: 1.0.0
   cyberchef:
   - apiVersion: v2
+    created: "2025-09-05T11:29:34.800166081Z"
+    digest: bd760ae3faa772289c7e86089cd0b488eec1ea38e0fdfe6bc650d37368ddc287
+    kubeVersion: '>=1.19.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.3.0/cyberchef-1.3.0.tgz
+    version: 1.3.0
+  - apiVersion: v2
     created: "2025-09-04T20:29:26.742921241Z"
     digest: 0bdc32e77a7d10abae20aba5b2a65d5f7cd146613f479d983b8cbd80d7b66220
     name: cyberchef
@@ -514,6 +530,22 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.0/cyberchef-1.0.0.tgz
     version: 1.0.0
   dawarich:
+  - apiVersion: v2
+    created: "2025-09-05T11:29:34.968721862Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.7
+    digest: 6fba6b73a7591151f83414a47a7eb40aa4106f242671d825d0e492c693c9a010
+    home: https://dawarich.app/
+    kubeVersion: '>=1.19.0-0'
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-7.2.0/dawarich-7.2.0.tgz
+    version: 7.2.0
   - apiVersion: v2
     created: "2025-09-03T19:24:20.436410593Z"
     dependencies:
@@ -1371,6 +1403,18 @@ entries:
     version: 0.0.1
   gatus:
   - apiVersion: v2
+    created: "2025-09-05T11:29:35.128416788Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.4.0
+    digest: 9bca6bccc23d3c79746de68752532bfbfd0ecd7011043404f5c2268e0d997414
+    kubeVersion: '>=1.19.0-0'
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-1.4.0/gatus-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
     created: "2025-09-04T19:47:39.390930005Z"
     dependencies:
     - name: gatus
@@ -1526,6 +1570,14 @@ entries:
     version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
+    created: "2025-09-05T11:29:35.297471248Z"
+    digest: 64c430b7715646c204ae11b061750c353db315823706490e634f7a4adc311083
+    kubeVersion: '>=1.19.0-0'
+    name: generic-device-plugin
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.3.0/generic-device-plugin-1.3.0.tgz
+    version: 1.3.0
+  - apiVersion: v2
     created: "2025-09-03T19:52:19.816222296Z"
     digest: 8918df58e5843f3851c6133c04046c617a16251c86f86c800811e94062214775
     name: generic-device-plugin
@@ -1589,6 +1641,14 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-09-05T11:29:35.486368723Z"
+    digest: f01beaa145bd210af531c6dc3b9db21be4592af7e0dbc303f539aca9d04a48fa
+    kubeVersion: '>=1.19.0-0'
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.25.0/home-assistant-1.25.0.tgz
+    version: 1.25.0
   - apiVersion: v2
     created: "2025-09-04T15:01:05.648707995Z"
     digest: 361279a4d4561e6a78b2560edfb412b4081bb0e79808033ab030971f5d6483bf
@@ -2178,6 +2238,22 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2025-09-05T11:29:35.62297587Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 22.0.7
+    digest: 32df8f76914be1badb5ff69e896946badeace81cd50f8dd3b561398ee91ed0d1
+    home: https://immich.app
+    kubeVersion: '>=1.19.0-0'
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-8.2.0/immich-8.2.0.tgz
+    version: 8.2.0
   - apiVersion: v2
     created: "2025-08-27T22:27:41.054478757Z"
     dependencies:
@@ -4235,4 +4311,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-04T20:29:26.743588861Z"
+generated: "2025-09-05T11:29:35.624564514Z"
