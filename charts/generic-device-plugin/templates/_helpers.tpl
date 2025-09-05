@@ -27,10 +27,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if contains "@" .Values.image.tag }}
 {{- $parts := splitList "@" .Values.image.tag }}
-{{- $digest := index $parts 1 }}
-{{- if hasPrefix "sha256:" $digest }}
-{{- $digest = trimPrefix "sha256:" $digest }}
-{{- end }}
+{{- $digest := trimPrefix "sha256:" (index $parts 1) }}
 app.kubernetes.io/version: {{ $digest | trunc 63 | quote }}
 {{- end }}
 {{- end -}}
