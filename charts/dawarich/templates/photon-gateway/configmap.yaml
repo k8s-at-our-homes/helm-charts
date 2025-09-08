@@ -16,8 +16,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "common.fullname" . }}-photon-gateway-config
   labels:
-    app.kubernetes.io/component: "photon-gateway"
-    {{- include "component.labels" (dict "componentName" "photon-loadbalancer" "imageTag" .Values.photon.gateway.image.tag "ctx" .) | nindent 4 }}
+    {{- include "dawarich.photonGateway.podLabels" . | nindent 4 }}
 data:
   envoy.yaml: |
     admin:

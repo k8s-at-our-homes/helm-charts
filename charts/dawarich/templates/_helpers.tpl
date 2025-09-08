@@ -14,42 +14,60 @@
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Common selector labels - immutable, used for selectors (no version)
+*/}}
 {{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: dawarich
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+{{/*
+Common pod labels - includes version information  
+*/}}
+{{- define "common.podLabels" -}}
+app.kubernetes.io/name: dawarich
 helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.app.image.tag | quote }}
-app.kubernetes.io/part-of: {{ .Chart.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
 {{/*
-Component-specific label helpers that accept component name and image tag
+Legacy common labels - for compatibility
+*/}}
+{{- define "common.labels" -}}
+{{- include "common.podLabels" . -}}
+{{- end -}}
+
+{{/*
+Component-specific selector labels - immutable, used for selectors (no version)
 */}}
 {{- define "component.selectorLabels" -}}
 {{- $componentName := .componentName -}}
 app.kubernetes.io/name: {{ $componentName }}
+app.kubernetes.io/component: {{ $componentName }}
 app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
 app.kubernetes.io/instance: {{ .ctx.Release.Name }}
-app.kubernetes.io/part-of: {{ .ctx.Chart.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
-{{- define "component.labels" -}}
+{{/*
+Component-specific pod labels - includes version information
+*/}}
+{{- define "component.podLabels" -}}
 {{- $componentName := .componentName -}}
 {{- $imageTag := .imageTag -}}
 app.kubernetes.io/name: {{ $componentName }}
+app.kubernetes.io/component: {{ $componentName }}
 helm.sh/chart: {{ include "chartName" .ctx }}
 app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
 app.kubernetes.io/instance: {{ .ctx.Release.Name }}
 app.kubernetes.io/version: {{ $imageTag | quote }}
-app.kubernetes.io/part-of: {{ .ctx.Chart.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
 {{- define "dawarich.hosts" -}}

@@ -3,8 +3,7 @@ kind: Database
 metadata:
   name: app
   labels:
-    app.kubernetes.io/component: "db"
-    {{- include "component.labels" (dict "componentName" "postgresql" "imageTag" .Values.database.image.tag "ctx" .) | nindent 4 }}
+    {{- include "dawarich.database.podLabels" . | nindent 4 }}
 spec:
   name: app
   owner: app

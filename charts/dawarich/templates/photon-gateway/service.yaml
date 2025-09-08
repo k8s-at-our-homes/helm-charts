@@ -4,8 +4,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-photon-gateway
   labels:
-    app.kubernetes.io/component: "photon-gateway"
-    {{- include "component.labels" (dict "componentName" "photon-loadbalancer" "imageTag" .Values.photon.gateway.image.tag "ctx" .) | nindent 4 }}
+    {{- include "dawarich.photonGateway.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -13,6 +12,5 @@ spec:
     port: 8080
     targetPort: http
   selector:
-    app.kubernetes.io/component: "photon-gateway"
-    {{- include "component.selectorLabels" (dict "componentName" "photon-loadbalancer" "ctx" .) | nindent 4 }}
+    {{- include "dawarich.photonGateway.selectorLabels" . | nindent 4 }}
 {{- end }}

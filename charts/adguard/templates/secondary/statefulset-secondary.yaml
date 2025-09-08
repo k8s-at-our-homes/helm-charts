@@ -3,23 +3,18 @@ kind: StatefulSet
 metadata:
   name: {{ template "common.fullname" . }}-secondary
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-secondary"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "adguard.resolver.podLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.secondary.replicas }}
   serviceName: {{ template "common.fullname" . }}-secondary
   selector:
     matchLabels:
-      app.kubernetes.io/component: "adguard-secondary"
-      {{- include "common.selectorLabels" . | nindent 6 }}
+      {{- include "adguard.resolver.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/component: "adguard-secondary"
-        {{- include "common.selectorLabels" . | nindent 8 }}
+        {{- include "adguard.resolver.selectorLabels" . | nindent 8 }}
     spec:
       priorityClassName: {{ .Values.secondary.priorityClassName }}
       {{- with .Values.secondary.topologySpreadConstraints }}

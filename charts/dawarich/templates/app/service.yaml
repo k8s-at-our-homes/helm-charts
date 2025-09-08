@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    app.kubernetes.io/component: "app"
-    {{- include "component.labels" (dict "componentName" "dawarich" "imageTag" .Values.app.image.tag "ctx" .) | nindent 4 }}
+    {{- include "dawarich.backend.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,5 +11,4 @@ spec:
     port: 3000
     targetPort: http
   selector:
-    app.kubernetes.io/component: "app"
-    {{- include "component.selectorLabels" (dict "componentName" "dawarich" "ctx" .) | nindent 4 }}
+    {{- include "dawarich.backend.selectorLabels" . | nindent 4 }}
