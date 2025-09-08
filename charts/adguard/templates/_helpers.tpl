@@ -15,13 +15,13 @@
 {{- end -}}
 
 {{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: adguard
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: adguard
 helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}

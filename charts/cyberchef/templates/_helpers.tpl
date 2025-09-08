@@ -15,14 +15,14 @@
 {{- end -}}
 
 {{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: cyberchef
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: "cyberchef"
 {{- end -}}
 
 {{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: cyberchef
 helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}

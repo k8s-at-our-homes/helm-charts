@@ -15,14 +15,14 @@
 {{- end -}}
 
 {{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: home-assistant
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: "home-assistant"
 {{- end -}}
 
 {{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: home-assistant
 helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
