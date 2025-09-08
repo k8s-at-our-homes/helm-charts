@@ -5,7 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}-photon
   labels:
     app.kubernetes.io/component: "photon"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "component.labels" (dict "componentName" "photon" "imageTag" .Values.photon.image.tag "ctx" .) | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -14,5 +14,5 @@ spec:
     targetPort: http
   selector:
     app.kubernetes.io/component: "photon"
-    {{- include "common.selectorLabels" . | nindent 4 }}
+    {{- include "component.selectorLabels" (dict "componentName" "photon" "ctx" .) | nindent 4 }}
 {{- end }}

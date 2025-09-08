@@ -6,7 +6,7 @@ metadata:
   annotations: {{ toYaml .Values.ingress.annotations | nindent 4 }}
   labels:
     app.kubernetes.io/component: "app"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "component.labels" (dict "componentName" "dawarich" "imageTag" .Values.app.image.tag "ctx" .) | nindent 4 }}
 spec:
   {{- if .Values.ingress.class}}
   ingressClassName: {{ .Values.ingress.class }}

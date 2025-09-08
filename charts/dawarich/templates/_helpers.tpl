@@ -30,6 +30,28 @@ app.kubernetes.io/version: {{ .Values.app.image.tag | quote }}
 app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 
+{{/*
+Component-specific label helpers that accept component name and image tag
+*/}}
+{{- define "component.selectorLabels" -}}
+{{- $componentName := .componentName -}}
+app.kubernetes.io/name: {{ $componentName }}
+app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
+app.kubernetes.io/instance: {{ .ctx.Release.Name }}
+app.kubernetes.io/part-of: {{ .ctx.Chart.Name }}
+{{- end -}}
+
+{{- define "component.labels" -}}
+{{- $componentName := .componentName -}}
+{{- $imageTag := .imageTag -}}
+app.kubernetes.io/name: {{ $componentName }}
+helm.sh/chart: {{ include "chartName" .ctx }}
+app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
+app.kubernetes.io/instance: {{ .ctx.Release.Name }}
+app.kubernetes.io/version: {{ $imageTag | quote }}
+app.kubernetes.io/part-of: {{ .ctx.Chart.Name }}
+{{- end -}}
+
 {{- define "dawarich.hosts" -}}
 {{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc.cluster.local" (include "common.fullname" .) .Release.Namespace) -}}
 {{- $ingress := list -}}

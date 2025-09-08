@@ -4,19 +4,19 @@ metadata:
   name: {{ template "common.fullname" . }}
   labels:
     app.kubernetes.io/component: "app"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "component.labels" (dict "componentName" "dawarich" "imageTag" .Values.app.image.tag "ctx" .) | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: "app"
-      {{- include "common.selectorLabels" . | nindent 6 }}
+      {{- include "component.selectorLabels" (dict "componentName" "dawarich" "ctx" .) | nindent 6 }}
   template:
     metadata:
       labels:
         app.kubernetes.io/component: "app"
-        {{- include "common.selectorLabels" . | nindent 8 }}
+        {{- include "component.selectorLabels" (dict "componentName" "dawarich" "ctx" .) | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
       containers:
