@@ -29,7 +29,6 @@ Common pod labels - includes version information
 */}}
 {{- define "common.podLabels" -}}
 app.kubernetes.io/name: immich
-helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.server.image.tag | quote }}
@@ -47,9 +46,8 @@ Legacy common labels - for compatibility
 Library component labels - for shared storage
 */}}
 {{- define "immich.library.labels" -}}
-app.kubernetes.io/name: library
+app.kubernetes.io/name: immich
 app.kubernetes.io/component: library
-helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: immich

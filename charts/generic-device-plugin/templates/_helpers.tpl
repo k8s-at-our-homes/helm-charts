@@ -31,7 +31,6 @@ Common pod labels - includes version information
 {{- define "common.podLabels" -}}
 app.kubernetes.io/name: generic-device-plugin
 app.kubernetes.io/component: device-plugin
-helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- $parts := splitList "@" .Values.image.tag }}

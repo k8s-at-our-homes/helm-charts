@@ -29,10 +29,9 @@ Common pod labels - includes version information
 */}}
 {{- define "common.podLabels" -}}
 app.kubernetes.io/name: adguard
-helm.sh/chart: {{ include "chartName" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Values.global.image.tag | quote }}
+app.kubernetes.io/version: {{ .Values.adguard.image.tag | quote }}
 app.kubernetes.io/part-of: adguard
 {{- end -}}
 

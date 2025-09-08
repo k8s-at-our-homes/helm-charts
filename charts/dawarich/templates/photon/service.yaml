@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-photon
   labels:
-    {{- include "dawarich.database.podLabels" . | nindent 4 }}
+    {{- include "dawarich.photon.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,5 +12,5 @@ spec:
     port: 2322
     targetPort: http
   selector:
-    {{- include "dawarich.database.selectorLabels" . | nindent 4 }}
+    {{- include "dawarich.photon.selectorLabels" . | nindent 4 }}
 {{- end }}
