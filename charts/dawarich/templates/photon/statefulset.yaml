@@ -51,7 +51,8 @@ spec:
             path: /status
             port: http
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /status
             port: http
         volumeMounts:
         - name: data
