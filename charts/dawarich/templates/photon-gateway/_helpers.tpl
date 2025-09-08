@@ -2,12 +2,22 @@
 Photon Gateway (load balancer) component labels - selector labels (immutable, no version)
 */}}
 {{- define "dawarich.photonGateway.selectorLabels" -}}
-{{- include "component.selectorLabels" (dict "componentName" "photon-gateway" "ctx" .) -}}
+app.kubernetes.io/name: photon-gateway
+app.kubernetes.io/component: photon-gateway
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
 {{/*
 Photon Gateway (load balancer) component labels - pod labels (with version)
 */}}
 {{- define "dawarich.photonGateway.podLabels" -}}
-{{- include "component.podLabels" (dict "componentName" "photon-gateway" "imageTag" .Values.photon.gateway.image.tag "ctx" .) -}}
+app.kubernetes.io/name: photon-gateway
+app.kubernetes.io/component: photon-gateway
+helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Values.photon.gateway.image.tag | quote }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}

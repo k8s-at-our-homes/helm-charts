@@ -44,28 +44,13 @@ Legacy common labels - for compatibility
 {{- end -}}
 
 {{/*
-Component-specific selector labels - immutable, used for selectors (no version)
+Library component labels - for shared storage
 */}}
-{{- define "component.selectorLabels" -}}
-{{- $componentName := .componentName -}}
-app.kubernetes.io/name: immich
-app.kubernetes.io/component: {{ $componentName }}
-app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
-app.kubernetes.io/instance: {{ .ctx.Release.Name }}
-app.kubernetes.io/part-of: immich
-{{- end -}}
-
-{{/*
-Component-specific pod labels - includes version information
-*/}}
-{{- define "component.podLabels" -}}
-{{- $componentName := .componentName -}}
-{{- $imageTag := .imageTag -}}
-app.kubernetes.io/name: immich
-app.kubernetes.io/component: {{ $componentName }}
-helm.sh/chart: {{ include "chartName" .ctx }}
-app.kubernetes.io/managed-by: {{ .ctx.Release.Service }}
-app.kubernetes.io/instance: {{ .ctx.Release.Name }}
-app.kubernetes.io/version: {{ $imageTag | quote }}
+{{- define "immich.library.labels" -}}
+app.kubernetes.io/name: library
+app.kubernetes.io/component: library
+helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: immich
 {{- end -}}

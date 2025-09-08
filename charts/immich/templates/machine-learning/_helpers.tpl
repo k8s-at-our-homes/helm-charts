@@ -2,12 +2,22 @@
 Worker (machine-learning) component labels - selector labels (immutable, no version)
 */}}
 {{- define "immich.worker.selectorLabels" -}}
-{{- include "component.selectorLabels" (dict "componentName" "worker" "ctx" .) -}}
+app.kubernetes.io/name: worker
+app.kubernetes.io/component: worker
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: immich
 {{- end -}}
 
 {{/*
 Worker (machine-learning) component labels - pod labels (with version)
 */}}
 {{- define "immich.worker.podLabels" -}}
-{{- include "component.podLabels" (dict "componentName" "worker" "imageTag" .Values.machineLearning.image.tag "ctx" .) -}}
+app.kubernetes.io/name: worker
+app.kubernetes.io/component: worker
+helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Values.machineLearning.image.tag | quote }}
+app.kubernetes.io/part-of: immich
 {{- end -}}

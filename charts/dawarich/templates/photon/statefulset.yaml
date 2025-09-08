@@ -4,17 +4,17 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}-photon
   labels:
-    {{- include "dawarich.photon.podLabels" . | nindent 4 }}
+    {{- include "dawarich.database.podLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
-      {{- include "dawarich.photon.selectorLabels" . | nindent 6 }}
+      {{- include "dawarich.database.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "dawarich.photon.selectorLabels" . | nindent 8 }}
+        {{- include "dawarich.database.selectorLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.photon.podSecurityContext | nindent 8 }}
       containers:
@@ -62,7 +62,7 @@ spec:
             podAffinityTerm:
               labelSelector:
                 matchLabels:
-                  {{- include "component.selectorLabels" (dict "componentName" "photon" "ctx" $) | nindent 18 }}
+                  {{- include "dawarich.database.selectorLabels" . | nindent 18 }}
               topologyKey: "kubernetes.io/hostname"
   volumeClaimTemplates:
   - apiVersion: v1
@@ -70,7 +70,7 @@ spec:
     metadata:
       name: data
       labels:
-        {{- include "component.selectorLabels" (dict "componentName" "photon" "ctx" $) | nindent 8 }}
+        {{- include "dawarich.database.selectorLabels" . | nindent 8 }}
         {{ if .Values.photon.persistence.labels }}
         {{ toYaml .Values.photon.persistence.labels | nindent 8 }}
         {{ end }}

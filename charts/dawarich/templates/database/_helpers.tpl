@@ -2,12 +2,22 @@
 Database (PostgreSQL) component labels - selector labels (immutable, no version)
 */}}
 {{- define "dawarich.database.selectorLabels" -}}
-{{- include "component.selectorLabels" (dict "componentName" "database" "ctx" .) -}}
+app.kubernetes.io/name: database
+app.kubernetes.io/component: database
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
 {{/*
 Database (PostgreSQL) component labels - pod labels (with version)
 */}}
 {{- define "dawarich.database.podLabels" -}}
-{{- include "component.podLabels" (dict "componentName" "database" "imageTag" .Values.database.image.tag "ctx" .) -}}
+app.kubernetes.io/name: database
+app.kubernetes.io/component: database
+helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Values.database.image.tag | quote }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}

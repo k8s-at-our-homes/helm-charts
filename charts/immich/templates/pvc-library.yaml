@@ -3,12 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ template "common.fullname" . }}-library
   labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: library
-    helm.sh/chart: {{ include "chartName" . }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/part-of: immich
+    {{- include "immich.library.labels" . | nindent 4 }}
     {{- if .Values.persistence.labels }}
     {{ toYaml .Values.persistence.labels | nindent 4 }}
     {{- end}}

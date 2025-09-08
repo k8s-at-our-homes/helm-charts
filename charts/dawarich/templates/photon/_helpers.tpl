@@ -1,13 +1,23 @@
 {{/*
-Photon search engine component labels - selector labels (immutable, no version)
+Database (Photon) component labels - selector labels (immutable, no version)
 */}}
-{{- define "dawarich.photon.selectorLabels" -}}
-{{- include "component.selectorLabels" (dict "componentName" "photon" "ctx" .) -}}
+{{- define "dawarich.database.selectorLabels" -}}
+app.kubernetes.io/name: database
+app.kubernetes.io/component: database
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
 
 {{/*
-Photon search engine component labels - pod labels (with version)
+Database (Photon) component labels - pod labels (with version)
 */}}
-{{- define "dawarich.photon.podLabels" -}}
-{{- include "component.podLabels" (dict "componentName" "photon" "imageTag" .Values.photon.image.tag "ctx" .) -}}
+{{- define "dawarich.database.podLabels" -}}
+app.kubernetes.io/name: database
+app.kubernetes.io/component: database
+helm.sh/chart: {{ include "chartName" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/version: {{ .Values.photon.image.tag | quote }}
+app.kubernetes.io/part-of: dawarich
 {{- end -}}
