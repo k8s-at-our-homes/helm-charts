@@ -47,7 +47,7 @@ database:
     enabled: false
     compression: bzip2
     destination: ''
-    retention: '8'
+    retention: '8d'
     schedule: '0 0 0 * * *' #daily
     secretName: ''
     provider: azure # azure, s3
