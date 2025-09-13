@@ -1,4 +1,4 @@
-global:
+adguard:
   image:
     registry: docker.io
     repository: adguard/adguardhome

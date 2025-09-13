@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    app.kubernetes.io/component: "server"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "immich.api.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,5 +11,4 @@ spec:
       port: 2283
       targetPort: http
   selector:
-    app.kubernetes.io/component: "server"
-    {{- include "common.selectorLabels" . | nindent 4 }}
+    {{- include "immich.api.selectorLabels" . | nindent 4 }}
