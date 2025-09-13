@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dawarich
-version: 8.0.2
+version: 8.0.3
 kubeVersion: ">=1.19.0-0"
 
 home: https://dawarich.app/
