@@ -22,8 +22,8 @@ spec:
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
         env:
-        {{- with .Values.photon.config.country }}
-        - name: COUNTRY_CODE
+        {{- with (.Values.photon.config.country | default .Values.photon.config.region) }}
+        - name: REGION
           value: {{ . }}
         {{- end }}
         - name: LOG_LEVEL
@@ -37,20 +37,23 @@ spec:
         - name: SKIP_MD5_CHECK
           value: {{ not .Values.photon.config.md5Check | quote }}
         startupProbe:
-          tcpSocket:
+          httpGet:
+            path: /status
             port: http
           # It can take several hours for photon to be ready, especially on the first run. With current rate limits, it can take up to 24 hours.
           failureThreshold: 6000
           periodSeconds: 30
         livenessProbe:
-          tcpSocket:
+          httpGet:
+            path: /status
             port: http
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /status
             port: http
         volumeMounts:
         - name: data
-          mountPath: /photon/photon_data
+          mountPath: /photon/data
         ports:
         - name: http
           containerPort: 2322

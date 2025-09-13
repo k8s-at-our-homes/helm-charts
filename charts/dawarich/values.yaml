@@ -47,7 +47,7 @@ database:
     enabled: false
     compression: bzip2
     destination: ''
-    retention: ''
+    retention: '8d'
     schedule: '0 0 0 * * *' #daily
     secretName: ''
     provider: azure # azure, s3
@@ -88,7 +88,7 @@ photon:
   image:
     registry: ghcr.io
     repository: rtuszik/photon-docker
-    tag: 0.7.2
+    tag: 1.0.0
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -110,7 +110,7 @@ photon:
     image:
       registry: docker.io
       repository: envoyproxy/envoy
-      tag: v1.35.2
+      tag: v1.35.3
       pullPolicy: IfNotPresent
     podSecurityContext:
       runAsNonRoot: true
