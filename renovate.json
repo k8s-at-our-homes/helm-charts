@@ -36,9 +36,9 @@
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
+      "matchFileNames": ["charts/*/values.yaml"],
       "bumpVersions": [
         {
-          "matchFileNames": ["charts/*/values.yaml"],
           "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
           "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
           "bumpType": "minor"
