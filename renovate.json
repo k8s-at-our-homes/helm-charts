@@ -17,30 +17,19 @@
         "ghcr.io/immich-app/immich-machine-learning"
       ],
       "groupName": "immich"
-    }
-  ],
-  "bumpVersion": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}",
-  "bumpVersions": [
-    {
-      "description": "Bump chart version for image updates in values.yaml",
-      "matchFileNames": ["charts/*/values.yaml"],
-      "matchDatasources": ["docker"],
-      "bumpVersionFiles": ["Chart.yaml"],
-      "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
     },
     {
-      "description": "Bump chart version for digest updates in values.yaml", 
       "matchFileNames": ["charts/*/values.yaml"],
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
-      "bumpVersionFiles": ["Chart.yaml"],
-      "bumpType": "minor"
+      "bumpVersion": "minor"
     }
   ],
   "prHourlyLimit": 0,
   "dependencyDashboard": true,
   "prConcurrentLimit": 20,
   "branchConcurrentLimit": 20,
+  "bumpVersion": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}",
   "rebaseWhen": "behind-base-branch",
   "configMigration": true,
   "separateMinorPatch": true,
