@@ -9,20 +9,7 @@
       "matchUpdateTypes": [
         "patch"
       ],
-      "automerge": true,
-      "bumpVersion": "patch"
-    },
-    {
-      "matchUpdateTypes": [
-        "minor"
-      ],
-      "bumpVersion": "minor"
-    },
-    {
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "bumpVersion": "major"
+      "automerge": true
     },
     {
       "matchPackageNames": [
@@ -32,12 +19,22 @@
       "groupName": "immich"
     }
   ],
+  "bumpVersion": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}",
   "bumpVersions": [
     {
       "description": "Bump chart version for image updates in values.yaml",
       "matchFileNames": ["charts/*/values.yaml"],
       "matchDatasources": ["docker"],
-      "bumpVersionFiles": ["Chart.yaml"]
+      "bumpVersionFiles": ["Chart.yaml"],
+      "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
+    },
+    {
+      "description": "Bump chart version for digest updates in values.yaml", 
+      "matchFileNames": ["charts/*/values.yaml"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "bumpVersionFiles": ["Chart.yaml"],
+      "bumpType": "minor"
     }
   ],
   "prHourlyLimit": 0,
