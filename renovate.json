@@ -37,7 +37,7 @@
       "description": "Bump chart version for image updates in values.yaml",
       "matchFileNames": ["charts/*/values.yaml"],
       "matchDatasources": ["docker"],
-      "bumpVersionFiles": ["charts/*/Chart.yaml"]
+      "bumpVersionFiles": ["Chart.yaml"]
     }
   ],
   "prHourlyLimit": 0,
