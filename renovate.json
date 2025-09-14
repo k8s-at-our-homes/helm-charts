@@ -19,10 +19,30 @@
       "groupName": "immich"
     },
     {
+      "description": "Bump chart version when Docker images in values.yaml are updated",
       "matchFileNames": ["charts/*/values.yaml"],
       "matchDatasources": ["docker"],
+      "bumpVersions": [
+        {
+          "name": "Updating Chart.yaml version",
+          "filePatterns": ["Chart.yaml"],
+          "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}",
+          "matchStrings": ["^version: (?<version>.+)$"]
+        }
+      ]
+    },
+    {
+      "description": "Bump chart version for digest updates",
+      "matchDatasources": ["docker"],
       "matchUpdateTypes": ["digest"],
-      "bumpVersion": "minor"
+      "bumpVersions": [
+        {
+          "name": "Updating Chart.yaml version for digest updates",
+          "filePatterns": ["Chart.yaml"],
+          "bumpType": "minor",
+          "matchStrings": ["^version: (?<version>.+)$"]
+        }
+      ]
     }
   ],
   "prHourlyLimit": 0,
