@@ -1666,6 +1666,14 @@ entries:
     version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
+    created: "2025-09-14T08:33:56.229144653Z"
+    digest: 519d32a9d2e5d5284df517ce590e314a5001c332e85335ea1160fe5cc3996dd8
+    kubeVersion: '>=1.19.0-0'
+    name: generic-device-plugin
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.3.2/generic-device-plugin-1.3.2.tgz
+    version: 1.3.2
+  - apiVersion: v2
     created: "2025-09-05T12:50:22.422655736Z"
     digest: 3a4167a146d62e8022161bacc55158ec002470ce0ed4aeacbb5c33447e8d6bce
     kubeVersion: '>=1.19.0-0'
@@ -4471,4 +4479,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-13T20:20:52.022868456Z"
+generated: "2025-09-14T08:33:56.229769795Z"
