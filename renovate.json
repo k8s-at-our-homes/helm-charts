@@ -9,7 +9,20 @@
       "matchUpdateTypes": [
         "patch"
       ],
-      "automerge": true
+      "automerge": true,
+      "bumpVersion": "patch"
+    },
+    {
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "bumpVersion": "minor"
+    },
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "bumpVersion": "major"
     },
     {
       "matchPackageNames": [
@@ -19,11 +32,18 @@
       "groupName": "immich"
     }
   ],
+  "bumpVersions": [
+    {
+      "description": "Bump chart version for image updates in values.yaml",
+      "matchFileNames": ["charts/*/values.yaml"],
+      "matchDatasources": ["docker"],
+      "bumpVersionFiles": ["charts/*/Chart.yaml"]
+    }
+  ],
   "prHourlyLimit": 0,
   "dependencyDashboard": true,
   "prConcurrentLimit": 20,
   "branchConcurrentLimit": 20,
-  "bumpVersion": "patch",
   "rebaseWhen": "behind-base-branch",
   "configMigration": true,
   "separateMinorPatch": true,
