@@ -12,7 +12,7 @@
       "automerge": true
     },
     {
-      "matchDatasources": ["helmv3"],
+      "matchManagers": ["helmv3"],
       "matchFileNames": ["charts/*/Chart.{yaml,yml}"],
       "bumpVersions": [
         {
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "matchDatasources": ["docker"],
+      "matchManagers": ["helmv-values"],
       "matchFileNames": ["charts/*/values.yaml"],
       "bumpVersions": [
         {
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "matchDatasources": ["docker"],
+      "matchManagers": ["helmv-values"],
       "matchUpdateTypes": ["digest"],
       "matchFileNames": ["charts/*/values.yaml"],
       "bumpVersions": [
@@ -61,5 +61,7 @@
   "configMigration": true,
   "separateMinorPatch": true,
   "separateMajorMinor": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
+  "commitMessagePrefix": "[{{parentDir}}]",
+  "additionalBranchPrefix": "{{parentDir}}-"
 }
