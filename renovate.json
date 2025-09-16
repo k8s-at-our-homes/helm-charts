@@ -23,7 +23,7 @@
       ]
     },
     {
-      "matchManagers": ["helmv-values"],
+      "matchManagers": ["helm-values"],
       "matchFileNames": ["charts/*/values.yaml"],
       "bumpVersions": [
         {
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "matchManagers": ["helmv-values"],
+      "matchManagers": ["helm-values"],
       "matchUpdateTypes": ["digest"],
       "matchFileNames": ["charts/*/values.yaml"],
       "bumpVersions": [
