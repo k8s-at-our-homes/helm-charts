@@ -14,11 +14,14 @@
     {
       "matchDatasources": ["helmv3"],
       "matchFileNames": ["charts/*/Chart.{yaml,yml}"],
+      "additionalBranchPrefix": "chart-deps-",
+      "semanticCommitScope": "{{packageFileDir}}",
+      "separateMinorPatch": false,
       "bumpVersions": [
         {
-          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
-          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
-          "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
+          "filePatterns": ["charts/*/Chart.{yaml,yml}"],
+          "matchStrings": ["version:\\s*\"?(?<version>[^\"\\s]+)\"?"],
+          "bumpType": "patch"
         }
       ]
     },
