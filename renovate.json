@@ -12,12 +12,11 @@
       "automerge": true
     },
     {
-      "matchDatasources": ["helmv3"],
-      "matchFileNames": ["charts/*/Chart.{yaml,yml}"],
+      "matchFileNames": ["charts/**"],
       "bumpVersions": [
         {
           "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
-          "matchStrings": ["version:\\s*\"?(?<version>[^\"\\s]+)\"?"],
+          "matchStrings": ["version:\\s(?<version>\\S+)"],
           "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
         }
       ]
