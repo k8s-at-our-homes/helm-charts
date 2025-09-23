@@ -18,5 +18,7 @@ spec:
   - name: vchord
     ensure: present
     version: 0.4.2
+  - name: cube # required by earthdistance
+    ensure: present
   - name: earthdistance
     ensure: present
