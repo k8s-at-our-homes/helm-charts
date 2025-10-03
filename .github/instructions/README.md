@@ -17,6 +17,17 @@ The following instruction files are included in this repository:
 - **containerization-docker-best-practices.instructions.md** - Docker and containerization best practices including multi-stage builds, image optimization, and security
 - **github-actions-ci-cd-best-practices.instructions.md** - GitHub Actions workflow best practices for CI/CD pipelines
 
+### Code Quality & Best Practices
+
+- **taming-copilot.instructions.md** - Best practices for working effectively with GitHub Copilot
+- **self-explanatory-code-commenting.instructions.md** - Guidelines for writing clear, self-documenting code with meaningful comments
+- **security-and-owasp.instructions.md** - Security best practices and OWASP guidelines
+
+### Language & Tool Specific
+
+- **powershell.instructions.md** - PowerShell scripting conventions and best practices
+- **markdown.instructions.md** - Markdown formatting and documentation best practices
+
 ## How It Works
 
 GitHub Copilot automatically applies these instructions based on the file patterns specified in each instruction file's `applyTo` field. For example:
