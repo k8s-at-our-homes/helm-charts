@@ -25,7 +25,7 @@ securityContext:
 image:
   registry: docker.io
   repository: squat/generic-device-plugin
-  tag: latest@sha256:5aab484db48d662b48342476b431c842b95d3fcba419fe35c19afbb6ceab1658
+  tag: latest@sha256:359bcdd5c7b45a815a50e2f69c5942d85de6db03ff4a3923462af06161bead08
   pullPolicy: IfNotPresent
 
 readinessProbe:

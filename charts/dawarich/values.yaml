@@ -64,7 +64,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 0.31.0
+    tag: 0.33.0
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -88,7 +88,7 @@ photon:
   image:
     registry: ghcr.io
     repository: rtuszik/photon-docker
-    tag: 1.0.0
+    tag: 1.1.0
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
