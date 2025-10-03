@@ -16,8 +16,6 @@ The following instruction files are included in this repository:
 - **kubernetes-deployment-best-practices.instructions.md** - Comprehensive Kubernetes deployment best practices covering Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, health checks, and security
 - **containerization-docker-best-practices.instructions.md** - Docker and containerization best practices including multi-stage builds, image optimization, and security
 - **github-actions-ci-cd-best-practices.instructions.md** - GitHub Actions workflow best practices for CI/CD pipelines
-- **ansible.instructions.md** - Ansible conventions and best practices for configuration management
-- **terraform.instructions.md** - Terraform conventions and guidelines for infrastructure-as-code
 
 ## How It Works
 
@@ -26,7 +24,6 @@ GitHub Copilot automatically applies these instructions based on the file patter
 - Kubernetes instructions apply to all files (`applyTo: '*'`)
 - Docker instructions apply to Dockerfiles and docker-compose files
 - GitHub Actions instructions apply to workflow files in `.github/workflows/`
-- Terraform instructions apply to `*.tf` files
 
 ## Usage
 
@@ -38,7 +35,7 @@ To update these instruction files to the latest version from awesome-copilot:
 
 1. Visit https://github.com/github/awesome-copilot
 2. Navigate to the `instructions/` directory
-3. Copy the updated instruction files to `.github/copilot/`
+3. Copy the updated instruction files to `.github/instructions/`
 
 ## Repository-Specific Instructions
 
