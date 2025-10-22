@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2025-10-22T15:20:44.952373255Z"
+    digest: c9bc266a26655752552a27924c44b10f8571d3fd7d310554abd65606e96467f0
+    kubeVersion: '>=1.19.0-0'
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-3.17.0/adguard-3.17.0.tgz
+    version: 3.17.0
+  - apiVersion: v2
     created: "2025-09-30T08:43:49.559754855Z"
     digest: 532a502e1d87a555e72a197447ca18acfde45a20493595924e3f521c387faba0
     kubeVersion: '>=1.19.0-0'
@@ -4995,4 +5003,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-22T07:06:57.582111906Z"
+generated: "2025-10-22T15:20:44.953072532Z"
