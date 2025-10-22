@@ -59,6 +59,7 @@ secondary:
 
   persistence:
     # storageClass: ""
+    labels: {}
     size:
 
   service:

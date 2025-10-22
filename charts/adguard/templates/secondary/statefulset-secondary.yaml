@@ -73,8 +73,10 @@ spec:
           {{- if .Values.global.persistence.labels }}
           {{ toYaml .Values.global.persistence.labels | nindent 10 }}
           {{- end}}
+          {{- if .Values.secondary.persistence.labels }}
+          {{ toYaml .Values.secondary.persistence.labels | nindent 10 }}
+          {{- end}}
       spec:
-       
         {{- if hasKey .Values.secondary.persistence "storageClass" }}
         storageClassName: {{ .Values.secondary.persistence.storageClass | quote }}
         {{- else if hasKey .Values.global.persistence "storageClass" }}
