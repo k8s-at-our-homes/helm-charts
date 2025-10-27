@@ -148,9 +148,13 @@ photon:
 
 redis:
   enabled: true
-  architecture: standalone
-  auth:
+  # Configure redis-ha in standalone mode (single replica)
+  replicas: 1
+  auth: false
+  redis:
+    port: 6379
+  sentinel:
+    # Sentinel is required even with 1 replica for the redis-ha chart
+    port: 26379
+  haproxy:
     enabled: false
-    usePasswordFiles: false
-  master:
-    revisionHistoryLimit: 0

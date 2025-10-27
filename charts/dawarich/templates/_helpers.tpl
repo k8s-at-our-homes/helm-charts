@@ -99,5 +99,5 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
       key: password
 # Redis
 - name: REDIS_URL
-  value: redis://{{ .Release.Name }}-redis-master
+  value: redis://{{ .Release.Name }}-redis:6379
 {{- end }}
