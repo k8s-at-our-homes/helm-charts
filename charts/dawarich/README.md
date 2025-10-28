@@ -18,15 +18,6 @@ helm install dawarich oci://ghcr.io/k8s-at-our-homes/helm-charts
 
 ---
 
-## Dependencies
-
-This chart uses the following dependencies:
-
-- **Redis**: DandyDeveloper's [redis-ha](https://github.com/DandyDeveloper/charts/tree/master/charts/redis-ha) chart (version 4.35.0)
-  - Provides highly available Redis with Sentinel support
-  - Configured in standalone mode (1 replica) by default
-  - Repository: https://dandydeveloper.github.io/charts
-
 ### Redis Configuration
 
 Redis is configured via the `redis` values section. By default, it runs in standalone mode without authentication:
