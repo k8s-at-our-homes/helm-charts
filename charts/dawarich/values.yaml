@@ -153,8 +153,22 @@ redis:
   auth: false
   redis:
     port: 6379
+    config:
+      # Allow writes even without replicas in standalone mode
+      min-replicas-to-write: "0"
   sentinel:
     # Sentinel is required even with 1 replica for the redis-ha chart
     port: 26379
+    # Set quorum to 1 for single replica mode
+    quorum: 1
   haproxy:
     enabled: false
+  # Enable network policy to restrict access to dawarich pods only
+  networkPolicy:
+    enabled: true
+    ingressRules:
+      - selectors:
+          - podSelector:
+              matchLabels:
+                app.kubernetes.io/component: "app"
+                app.kubernetes.io/part-of: dawarich
