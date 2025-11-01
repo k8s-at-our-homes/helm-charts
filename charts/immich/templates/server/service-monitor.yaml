@@ -3,13 +3,11 @@ kind: ServiceMonitor
 metadata:
   name: {{ template "common.fullname" . }}-server
   labels:
-    app.kubernetes.io/component: "server"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "immich.api.podLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/component: "server"
-      {{- include "common.selectorLabels" . | nindent 6 }}
+      {{- include "immich.api.selectorLabels" . | nindent 6 }}
   endpoints:
     - port: server-metrics
       scheme: http
