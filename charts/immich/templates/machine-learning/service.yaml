@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-machine-learning
   labels:
-    app.kubernetes.io/component: "machine-learning"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "immich.worker.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,5 +11,4 @@ spec:
       port: 3003
       targetPort: http
   selector:
-    app.kubernetes.io/component: "machine-learning"
-    {{- include "common.selectorLabels" . | nindent 4 }}
+    {{- include "immich.worker.selectorLabels" . | nindent 4 }}
