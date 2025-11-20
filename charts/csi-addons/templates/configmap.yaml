@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: csi-addons-config
 data:
-  "reclaim-space-timeout": "{{.Values.config.reclaimSpaceTimeout}}"
-  "max-concurrent-reconciles": "{{.Values.config.maxConcurrentReconciles}}"
-  "max-group-pvcs": "{{.Values.config.maxGroupPvcs}}"
-  "schedule-precedence": "{{.Values.config.schedulePrecedence}}"
+  "reclaim-space-timeout": "{{ .Values.config.reclaimSpaceTimeout }}"
+  "max-concurrent-reconciles": "{{ .Values.config.maxConcurrentReconciles }}"
+  "max-group-pvcs": "{{ .Values.config.maxGroupPvcs }}"
+  "schedule-precedence": "{{ .Values.config.schedulePrecedence }}"

@@ -6,7 +6,7 @@ Add repository by running:
 
 ```bash
 helm repo add k8s-at-our-home https://k8s-at-our-homes.github.io/helm-charts/
-helm install adguard k8s-at-our-home/csi-addons
+helm install csi-addons k8s-at-our-home/csi-addons
 ```
 
 Or get the chart from ghcr.io:
