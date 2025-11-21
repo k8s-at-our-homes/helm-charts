@@ -1,0 +1,21 @@
+
+replicas: 1
+
+image:
+  registry: quay.io
+  repository: csiaddons/k8s-controller
+  tag: v0.13.0
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    memory: 256Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
+
+config:
+  reclaimSpaceTimeout: 15m
+  maxConcurrentReconciles: 1
+  maxGroupPvcs: 1
+  schedulePrecedence: "pvc"

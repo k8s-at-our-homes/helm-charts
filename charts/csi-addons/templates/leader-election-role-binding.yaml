@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ template "common.fullname" . }}-leader-election
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "common.fullname" . }}-leader-election
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "common.fullname" . }}-manager
+    namespace: {{ .Release.Namespace }}
