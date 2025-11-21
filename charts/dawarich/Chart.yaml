@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dawarich
-version: 8.7.0
+version: 9.0.0
 kubeVersion: ">=1.19.0-0"
 
 home: https://dawarich.app/
@@ -9,6 +9,6 @@ sources:
 
 dependencies:
 - name: redis
-  version: 22.0.7
+  version: 24.0.0
   repository: https://charts.bitnami.com/bitnami
   condition: redis.enabled
