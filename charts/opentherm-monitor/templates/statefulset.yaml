@@ -25,6 +25,9 @@ spec:
             capabilities:
               drop:
                 - ALL
+            seccompProfile:
+              type: RuntimeDefault
+
           env:
             - name: TZ
               value: {{ .Values.timezone }}
