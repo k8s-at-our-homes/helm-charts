@@ -11,6 +11,11 @@ spec:
   - name: http
     port: 3000
     targetPort: http
+  {{- if .Values.config.prometheus.enabled }}
+  - name: metrics
+    port: {{ .Values.config.prometheus.port }}
+    targetPort: metrics
+  {{- end }}
   selector:
     app.kubernetes.io/component: "app"
     {{- include "common.selectorLabels" . | nindent 4 }}

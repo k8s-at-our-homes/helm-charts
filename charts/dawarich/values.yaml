@@ -2,6 +2,16 @@ config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
   jobConcurrency: 10
+  railsEnv: production
+  railsLogToStdout: true
+  # SECRET_KEY_BASE is required for Rails session security in production
+  # If not provided, a random secret will be generated and stored in a Kubernetes secret
+  # For production deployments, it's recommended to set this explicitly
+  secretKeyBase: ""
+  prometheus:
+    enabled: false
+    host: "0.0.0.0"
+    port: 9394
 
 route:
   enabled: false
@@ -67,6 +77,13 @@ app:
     tag: 0.35.1
     pullPolicy: IfNotPresent
   podSecurityContext: {}
+
+  # Persistent storage for application data
+  persistence:
+    enabled: true
+    size: 5Gi
+    # storageClass: ""
+    # existingClaim: ""
 
 #  resources:
 #    requests:

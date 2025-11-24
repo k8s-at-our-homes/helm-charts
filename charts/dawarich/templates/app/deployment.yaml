@@ -49,11 +49,19 @@ spec:
             - name: Host
               value: {{ template "common.fullname" . }}
         volumeMounts:
-        - name: data
+        - name: storage
           mountPath: /var/app/storage
+        - name: public
+          mountPath: /var/app/public
+        - name: watched
+          mountPath: /var/app/tmp/imports/watched
         ports:
         - name: http
           containerPort: 3000
+        {{- if .Values.config.prometheus.enabled }}
+        - name: metrics
+          containerPort: {{ .Values.config.prometheus.port }}
+        {{- end }}
         resources: {{ toYaml .Values.app.resources | nindent 12 }}
       - name: {{ .Chart.Name }}-sidekiq
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
@@ -72,8 +80,21 @@ spec:
           exec:
             command: [ "sh", "-c", "pgrep -f sidekiq" ]
         volumeMounts:
-        - name: data
+        - name: storage
           mountPath: /var/app/storage
+        - name: public
+          mountPath: /var/app/public
+        - name: watched
+          mountPath: /var/app/tmp/imports/watched
       volumes:
-      - name: data
+      - name: storage
+        {{- if .Values.app.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ if .Values.app.persistence.existingClaim }}{{ .Values.app.persistence.existingClaim }}{{- else }}{{ template "common.fullname" . }}-storage{{- end }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      - name: public
+        emptyDir: {}
+      - name: watched
         emptyDir: {}

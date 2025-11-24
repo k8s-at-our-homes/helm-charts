@@ -18,6 +18,65 @@ helm install dawarich oci://ghcr.io/k8s-at-our-homes/helm-charts
 
 ---
 
+## Configuration
+
+### Rails Environment and Production Settings
+
+By default, the chart is configured for production deployments with the following settings:
+
+```yaml
+config:
+  railsEnv: production        # Rails environment (development or production)
+  railsLogToStdout: true     # Log to stdout for container logging
+  secretKeyBase: ""          # Leave empty to auto-generate, or set for production
+```
+
+**Important for Production:**
+- `railsEnv`: Set to `production` (default) for production deployments to enable asset caching, security features, and optimal performance
+- `secretKeyBase`: For production use, it's recommended to set a strong, random secret key base (128+ characters). If left empty, a random one will be generated and stored in a Kubernetes secret
+- `railsLogToStdout`: Enabled by default to ensure logs are captured by Kubernetes
+
+**Generating a secret key base:**
+```bash
+openssl rand -hex 64
+```
+
+### Persistent Storage
+
+Application data persistence is enabled by default:
+
+```yaml
+app:
+  persistence:
+    enabled: true              # Enable persistent storage
+    size: 5Gi                  # Storage size
+    # storageClass: ""         # Optional: specify storage class
+    # existingClaim: ""        # Optional: use existing PVC
+```
+
+The chart creates persistent volumes for:
+- `/var/app/storage` - Main application storage (configurable, persistent by default)
+- `/var/app/public` - Public assets (ephemeral, emptyDir)
+- `/var/app/tmp/imports/watched` - Import watched directory (ephemeral, emptyDir)
+
+**Note:** Only the main storage directory is persistent by default. If you need persistence for public assets or watched imports, you'll need to configure additional PVCs.
+
+### Prometheus Metrics
+
+Prometheus metrics exporter can be enabled for monitoring:
+
+```yaml
+config:
+  prometheus:
+    enabled: false             # Enable Prometheus exporter
+    host: "0.0.0.0"           # Exporter host
+    port: 9394                # Exporter port
+```
+
+When enabled, metrics will be exposed on port 9394 for both the main application and sidekiq worker.
+
+---
+
 ### Redis Configuration
 
 Redis is configured via the `redis` values section. By default, it runs in standalone mode without authentication:
