@@ -4,6 +4,7 @@ metadata:
   name: {{ template "common.fullname" . }}
 spec:
   replicas: 1
+  revisionHistoryLimit: 0
   selector:
     matchLabels:{{ include "common.selectorLabels" . | nindent 6 }}
   template:
