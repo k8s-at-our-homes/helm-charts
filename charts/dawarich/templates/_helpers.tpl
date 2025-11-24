@@ -64,9 +64,9 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 - name: APPLICATION_PROTOCOL
   value: http
 - name: RAILS_ENV
-  value: {{ .Values.config.railsEnv }}
+  value: production
 - name: RAILS_LOG_TO_STDOUT
-  value: {{ .Values.config.railsLogToStdout | quote }}
+  value: 'true'
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
 # Secret key base for Rails session security
@@ -75,13 +75,6 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
     secretKeyRef:
       name: {{ template "common.fullname" . }}-secret
       key: secret-key-base
-# Prometheus exporter configuration
-- name: PROMETHEUS_EXPORTER_ENABLED
-  value: {{ .Values.config.prometheus.enabled | quote }}
-- name: PROMETHEUS_EXPORTER_HOST
-  value: {{ .Values.config.prometheus.host | quote }}
-- name: PROMETHEUS_EXPORTER_PORT
-  value: {{ .Values.config.prometheus.port | quote }}
 # photon
 - name: STORE_GEODATA
   value: 'true'
@@ -97,8 +90,6 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
     secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: host
-- name: DATABASE_PORT
-  value: "5432"
 - name: DATABASE_NAME
   valueFrom:
     secretKeyRef:
