@@ -15,6 +15,13 @@ spec:
       containers:
         - name: {{ template "common.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}@{{ .Values.image.sha }}
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           env:
             - name: TZ
               value: Europe/Amsterdam
