@@ -5103,6 +5103,13 @@ entries:
     version: 1.0.0
   opentherm-monitor:
   - apiVersion: v2
+    created: "2025-11-24T18:58:41.050859194Z"
+    digest: cf5e0adc5269ef10f02fb01c1f29c6b61a3a4f589c829a2a3e149029d4d4aace
+    name: opentherm-monitor
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/opentherm-monitor-1.2.0/opentherm-monitor-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     created: "2025-11-24T18:27:12.538764397Z"
     digest: 9de574813d2204af17aff3ebdb880be1792d5dac14211d00645c84cdcc444db6
     name: opentherm-monitor
@@ -5317,4 +5324,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-24T18:27:12.539840868Z"
+generated: "2025-11-24T18:58:41.051994214Z"
