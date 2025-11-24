@@ -14,18 +14,3 @@ Or get the chart from ghcr.io:
 ```bash
 helm install immich oci://ghcr.io/k8s-at-our-homes/helm-charts
 ```
-
----
-
-## Redis Configuration
-
-Redis is configured via the `redis` values section. By default, it runs in standalone mode without authentication:
-
-```yaml
-redis:
-  enabled: true
-  replicas: 1
-  auth: false
-```
-
-The chart uses the [DandyDeveloper redis-ha](https://github.com/DandyDeveloper/charts/tree/master/charts/redis-ha) chart in standalone mode for simplicity and reliability.
