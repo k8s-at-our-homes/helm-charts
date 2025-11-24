@@ -158,8 +158,6 @@ redis:
       # Allow writes even without replicas in standalone mode
       min-replicas-to-write: "0"
   sentinel:
-    # Sentinel is required even with 1 replica for the redis-ha chart
-    port: 26379
     # Set quorum to 1 for single replica mode
     quorum: 1
   haproxy:
