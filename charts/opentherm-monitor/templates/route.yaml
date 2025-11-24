@@ -3,7 +3,9 @@ apiVersion: {{ .Values.route.apiVersion}}
 kind: {{ .Values.route.kind}}
 metadata:
   name: {{ template "common.fullname" . }}
-  annotations: {{ toYaml .Values.route.annotations | nindent 4 }}
+  {{- with .Values.route.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+  {{- end }}
   labels: {{ include "common.labels" . | nindent 4 }}
 spec:
   {{- with .Values.route.parentRefs }}
