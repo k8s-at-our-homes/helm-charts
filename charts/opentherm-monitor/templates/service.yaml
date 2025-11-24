@@ -8,4 +8,4 @@ spec:
     - name: http
       port: 8080
       targetPort: http
-  selector: {{ include "common.labels" . | nindent 4 }}
+  selector: {{ include "common.selectorLabels" . | nindent 4 }}
