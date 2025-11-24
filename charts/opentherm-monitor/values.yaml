@@ -18,7 +18,7 @@ route:
   timeouts: {}
 
 nodeSelector:
-  beta.kubernetes.io/arch: amd64 # image is only available for amd64, not arm64
+  kubernetes.io/arch: amd64 # image is only available for amd64, not arm64
 
 persistence:
   size: 1Gi
