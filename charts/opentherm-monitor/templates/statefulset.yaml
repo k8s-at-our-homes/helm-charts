@@ -17,6 +17,8 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}@{{ .Values.image.sha }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
             runAsNonRoot: true
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
