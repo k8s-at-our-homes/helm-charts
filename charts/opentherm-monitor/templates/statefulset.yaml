@@ -15,8 +15,7 @@ spec:
       containers:
         - name: {{ template "common.fullname" . }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}@{{ .Values.image.sha }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext:
             runAsNonRoot: true
             allowPrivilegeEscalation: false

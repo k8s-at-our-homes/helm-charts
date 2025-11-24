@@ -23,3 +23,7 @@ nodeSelector:
 persistence:
   size: 1Gi
 #  storageClass:
+
+timezone: Europe/Amsterdam
+
+resources: {}
