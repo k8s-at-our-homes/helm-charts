@@ -148,6 +148,7 @@ photon:
 
 redis:
   enabled: true
+  nameOverride: redis
   # Configure redis-ha in standalone mode (single replica)
   replicas: 1
   auth: false
