@@ -2,7 +2,7 @@ global:
   image:
     registry: docker.io
     repository: adguard/adguardhome
-    tag: v0.107.68
+    tag: v0.107.69
 
   persistence:
     labels: {}
