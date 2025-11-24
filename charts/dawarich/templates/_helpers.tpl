@@ -64,9 +64,17 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 - name: APPLICATION_PROTOCOL
   value: http
 - name: RAILS_ENV
-  value: development
+  value: production
+- name: RAILS_LOG_TO_STDOUT
+  value: 'true'
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
+# Secret key base for Rails session security
+- name: SECRET_KEY_BASE
+  valueFrom:
+    secretKeyRef:
+      name: {{ template "common.fullname" . }}-secret
+      key: secret-key-base
 # photon
 - name: STORE_GEODATA
   value: 'true'
