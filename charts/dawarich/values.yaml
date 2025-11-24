@@ -148,9 +148,26 @@ photon:
 
 redis:
   enabled: true
-  architecture: standalone
-  auth:
+  nameOverride: redis
+  # Configure redis-ha in standalone mode (single replica)
+  replicas: 1
+  auth: false
+  redis:
+    port: 6379
+    config:
+      # Allow writes even without replicas in standalone mode
+      min-replicas-to-write: "0"
+  sentinel:
+    # Set quorum to 1 for single replica mode
+    quorum: 1
+  haproxy:
     enabled: false
-    usePasswordFiles: false
-  master:
-    revisionHistoryLimit: 0
+  # Enable network policy to restrict access to dawarich pods only
+  networkPolicy:
+    enabled: true
+    ingressRules:
+      - selectors:
+          - podSelector:
+              matchLabels:
+                app.kubernetes.io/component: "app"
+                app.kubernetes.io/part-of: dawarich
