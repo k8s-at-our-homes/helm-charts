@@ -121,7 +121,3 @@ redis:
               matchLabels:
                 app.kubernetes.io/component: "server"
                 app.kubernetes.io/part-of: immich
-          - podSelector:
-              matchLabels:
-                app.kubernetes.io/component: "machine-learning"
-                app.kubernetes.io/part-of: immich
