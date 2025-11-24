@@ -5,10 +5,10 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels:{{ include "common.labels" . | nindent 6 }}
+    matchLabels:{{ include "common.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: {{ include "common.labels" . | nindent 8 }}
+      labels: {{ include "common.selectorLabels" . | nindent 8 }}
     spec:
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
       automountServiceAccountToken: false
