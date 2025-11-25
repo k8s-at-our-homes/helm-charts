@@ -9,7 +9,6 @@ config:
     clientSecret: your-client-secret
     redirectUri: https://timeline.example.com/users/auth/openid_connect/callback
     secretName: ""
-    secretKey: ""
     # Optional, override the default references to the keys in the secret above
     secretKeyRef:
       issuerUrl: issuerUrl

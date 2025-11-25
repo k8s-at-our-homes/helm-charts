@@ -98,26 +98,26 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
       name: {{ .Values.database.clusterName }}-app
       key: password
 # OIDC Auth
-{{- if and .Values.config.oidc.enabled .Values.config.oidc.secretKey}}
+{{- if and .Values.config.oidc.enabled .Values.config.oidc.secretName}}
 - name: OIDC_CLIENT_ID
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.config.oidc.secretKey }}
+      name: {{ .Values.config.oidc.secretName }}
       key: {{ .Values.config.oidc.secretKeyRef.clientId}}
 - name: OIDC_CLIENT_SECRET
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.config.oidc.secretKey }}
+      name: {{ .Values.config.oidc.secretName }}
       key: {{ .Values.config.oidc.secretKeyRef.clientSecret}}
 - name: OIDC_ISSUER
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.config.oidc.secretKey }}
+      name: {{ .Values.config.oidc.secretName }}
       key: {{ .Values.config.oidc.secretKeyRef.issuerUrl}}
 - name: OIDC_REDIRECT_URI
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.config.oidc.secretKey }}
+      name: {{ .Values.config.oidc.secretName }}
       key: {{ .Values.config.oidc.secretKeyRef.redirectUri}}
 - name: OIDC_AUTO_REGISTER
   value: {{ .Values.config.oidc.autoRegister | quote }}
