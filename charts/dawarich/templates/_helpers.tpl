@@ -92,7 +92,7 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
       key: {{ .Values.config.oidc.secretKeyRef.issuerUrl }}
   {{- end }}
 - name: OIDC_REDIRECT_URI
-  value: https://{{ .Values.hostname }}/users/auth/openid_connect/callback
+  value: https://{{ .Values.hostname | required "hostname is required when oidc is enabled" }}/users/auth/openid_connect/callback
 - name: OIDC_CLIENT_ID
   {{- with .Values.config.oidc.clientId }}
   value: {{ . }}

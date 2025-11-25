@@ -1,4 +1,4 @@
-hostname: timeline.example.com
+hostname:
 
 config:
   timezone: Europe/Amsterdam
