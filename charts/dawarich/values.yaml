@@ -7,7 +7,7 @@ config:
     issuerUrl: https://example.com/
     clientId: dawarich
     clientSecret: your-client-secret
-    redirectUri: https://timeline.example.com/oauth/callback
+    redirectUri: https://timeline.example.com/users/auth/openid_connect/callback
     secretKey: ""
     secretKeyRef:
       issuerUrl: issuerUrl
