@@ -2,6 +2,21 @@ config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
   jobConcurrency: 10
+  oidc:
+    enabled: false
+    issuerUrl: https://example.com/
+    clientId: dawarich
+    clientSecret: your-client-secret
+    redirectUri: https://timeline.example.com/oauth/callback
+    secretKey: ""
+    secretKeyRef:
+      issuerUrl: issuerUrl
+      clientId: clientId
+      clientSecret: clientSecret
+      redirectUri: redirectUri
+    autoRegister: false
+    providerName: YourProviderName
+    allowEmailPasswordRegistration: false
 
 route:
   enabled: false

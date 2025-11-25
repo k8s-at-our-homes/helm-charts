@@ -97,6 +97,50 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
     secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: password
+# OIDC Auth
+{{- if and .Values.config.oidc.enabled .Values.config.oidc.secretKey}}
+- name: OIDC_CLIENT_ID
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretKey }}
+      key: {{ .Values.config.oidc.secretKeyRef.clientId}}
+- name: OIDC_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretKey }}
+      key: {{ .Values.config.oidc.secretKeyRef.clientSecret}}
+- name: OIDC_ISSUER
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretKey }}
+      key: {{ .Values.config.oidc.secretKeyRef.issuerUrl}}
+- name: OIDC_REDIRECT_URI
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretKey }}
+      key: {{ .Values.config.oidc.secretKeyRef.redirectUri}}
+- name: OIDC_AUTO_REGISTER
+  value: {{ .Values.config.oidc.autoRegister | quote }}
+- name: OIDC_PROVIDER_NAME
+  value: {{ .Values.config.oidc.providerName }}
+- name: ALLOW_EMAIL_PASSWORD_REGISTRATION
+  value: {{ .Values.config.oidc.allowEmailPasswordRegistration | quote }}
+{{ else if .Values.config.oidc.enabled }}
+- name: OIDC_CLIENT_ID
+  value: {{ .Values.config.oidc.clientId }}
+- name: OIDC_CLIENT_SECRET
+  value: {{ .Values.config.oidc.clientSecret }}
+- name: OIDC_ISSUER
+  value: {{ .Values.config.oidc.issuerUrl }}
+- name: OIDC_REDIRECT_URI
+  value: {{ .Values.config.oidc.redirectUri }}
+- name: OIDC_AUTO_REGISTER
+  value: {{ .Values.config.oidc.autoRegister | quote }}
+- name: OIDC_PROVIDER_NAME
+  value: {{ .Values.config.oidc.providerName }}
+- name: ALLOW_EMAIL_PASSWORD_REGISTRATION
+  value: {{ .Values.config.oidc.allowEmailPasswordRegistration | quote }}
+{{- end }}
 # Redis
 - name: REDIS_URL
   value: redis://{{ .Release.Name }}-redis:{{ .Values.redis.redis.port }}
