@@ -34,13 +34,17 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc.cluster.local" (include "common.fullname" .) .Release.Namespace) -}}
 {{- $ingress := list -}}
 {{- $routes := list -}}
+{{- $hostname := list -}}
+{{- if .Values.hostname -}}
+{{- $hostname = list .Values.hostname -}}
+{{- end -}}
 {{- if .Values.route.enabled -}}
 {{- $routes = .Values.route.hostnames -}}
 {{- end -}}
 {{- if .Values.ingress.enabled -}}
 {{- $ingress = list .Values.ingress.domain -}}
 {{- end -}}
-{{- $all := concat $internal $routes $ingress -}}
+{{- $all := concat $internal $routes $ingress $hostname -}}
 {{- $hosts := $all | uniq | join "," -}}
 {{- $hosts -}}
 {{- end -}}
@@ -51,13 +55,6 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 
 {{- define "dawarich.env" -}}
-# config
-- name: MIN_MINUTES_SPENT_IN_CITY
-  value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
-- name: TIME_ZONE
-  value: {{ .Values.config.timezone }}
-- name: BACKGROUND_PROCESSING_CONCURRENCY
-  value: {{ .Values.config.jobConcurrency | quote }}
 # defaults
 - name: SELF_HOSTED
   value: 'true'
@@ -67,6 +64,51 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
   value: development
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
+# config
+- name: MIN_MINUTES_SPENT_IN_CITY
+  value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
+- name: TIME_ZONE
+  value: {{ .Values.config.timezone }}
+- name: BACKGROUND_PROCESSING_CONCURRENCY
+  value: {{ .Values.config.jobConcurrency | quote }}
+- name: ALLOW_EMAIL_PASSWORD_REGISTRATION
+  value: {{ .Values.config.allowEmailPasswordRegistration | quote }}
+# OIDC Auth
+{{- if .Values.config.oidc.enabled }}
+- name: OIDC_AUTO_REGISTER
+  value: {{ .Values.config.oidc.autoRegister | quote }}
+{{- with .Values.config.oidc.providerName}}
+- name: OIDC_PROVIDER_NAME
+  value: {{ . }}
+{{- end }}
+- name: OIDC_ISSUER
+  {{- with .Values.config.oidc.issuerUrl }}
+  value: {{ . }}
+  {{- end }}
+  {{- if not .Values.config.oidc.issuerUrl }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretName }}
+      key: {{ .Values.config.oidc.secretKeyRef.issuerUrl }}
+  {{- end }}
+- name: OIDC_REDIRECT_URI
+  value: https://{{ .Values.hostname }}/users/auth/openid_connect/callback
+- name: OIDC_CLIENT_ID
+  {{- with .Values.config.oidc.clientId }}
+  value: {{ . }}
+  {{- end }}
+  {{- if not .Values.config.oidc.clientId }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretName }}
+      key: {{ .Values.config.oidc.secretKeyRef.clientId }}
+  {{- end }}
+- name: OIDC_CLIENT_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.config.oidc.secretName }}
+      key: {{ .Values.config.oidc.secretKeyRef.clientSecret }}
+{{- end }}
 # photon
 - name: STORE_GEODATA
   value: 'true'
@@ -97,50 +139,6 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
     secretKeyRef:
       name: {{ .Values.database.clusterName }}-app
       key: password
-# OIDC Auth
-{{- if and .Values.config.oidc.enabled .Values.config.oidc.secretName }}
-- name: OIDC_CLIENT_ID
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.config.oidc.secretName }}
-      key: {{ .Values.config.oidc.secretKeyRef.clientId }}
-- name: OIDC_CLIENT_SECRET
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.config.oidc.secretName }}
-      key: {{ .Values.config.oidc.secretKeyRef.clientSecret }}
-- name: OIDC_ISSUER
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.config.oidc.secretName }}
-      key: {{ .Values.config.oidc.secretKeyRef.issuerUrl }}
-- name: OIDC_REDIRECT_URI
-  valueFrom:
-    secretKeyRef:
-      name: {{ .Values.config.oidc.secretName }}
-      key: {{ .Values.config.oidc.secretKeyRef.redirectUri }}
-- name: OIDC_AUTO_REGISTER
-  value: {{ .Values.config.oidc.autoRegister | quote }}
-- name: OIDC_PROVIDER_NAME
-  value: {{ .Values.config.oidc.providerName }}
-- name: ALLOW_EMAIL_PASSWORD_REGISTRATION
-  value: {{ .Values.config.oidc.allowEmailPasswordRegistration | quote }}
-{{ else if .Values.config.oidc.enabled }}
-- name: OIDC_CLIENT_ID
-  value: {{ .Values.config.oidc.clientId }}
-- name: OIDC_CLIENT_SECRET
-  value: {{ .Values.config.oidc.clientSecret }}
-- name: OIDC_ISSUER
-  value: {{ .Values.config.oidc.issuerUrl }}
-- name: OIDC_REDIRECT_URI
-  value: {{ .Values.config.oidc.redirectUri }}
-- name: OIDC_AUTO_REGISTER
-  value: {{ .Values.config.oidc.autoRegister | quote }}
-- name: OIDC_PROVIDER_NAME
-  value: {{ .Values.config.oidc.providerName }}
-- name: ALLOW_EMAIL_PASSWORD_REGISTRATION
-  value: {{ .Values.config.oidc.allowEmailPasswordRegistration | quote }}
-{{- end }}
 # Redis
 - name: REDIS_URL
   value: redis://{{ .Release.Name }}-redis:{{ .Values.redis.redis.port }}
