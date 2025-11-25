@@ -1,8 +1,22 @@
+hostname: timeline.example.com
+
 config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
   jobConcurrency: 10
-
+  allowEmailPasswordRegistration: false
+  oidc:
+    enabled: false
+    providerName:
+    autoRegister: false
+    issuerUrl:
+    clientId:
+    secretName: ""
+    # Optional, override the default references to the keys in the secret above
+    secretKeyRef:
+      issuerUrl: issuerUrl
+      clientId: clientId
+      clientSecret: clientSecret
 route:
   enabled: false
   apiVersion: gateway.networking.k8s.io/v1
