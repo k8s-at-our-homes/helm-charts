@@ -618,6 +618,23 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-11-29T21:05:10.997176896Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts
+      version: 4.35.3
+    digest: adc91302e4d54e01b77e41d75c2de4f644d56c42611a8b68e40189d00357efa5
+    home: https://dawarich.app/
+    kubeVersion: '>=1.19.0-0'
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-9.3.1/dawarich-9.3.1.tgz
+    version: 9.3.1
+  - apiVersion: v2
     created: "2025-11-25T18:11:58.851212199Z"
     dependencies:
     - alias: redis
@@ -2389,6 +2406,14 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2025-11-29T21:05:11.162941863Z"
+    digest: 3cb6fd1cee35b907f5e2823489ae87bc8970739d96db78b457e8bb7166acaf30
+    kubeVersion: '>=1.19.0-0'
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-2.0.2/home-assistant-2.0.2.tgz
+    version: 2.0.2
   - apiVersion: v2
     created: "2025-11-27T16:57:57.916532956Z"
     digest: 438c732507b0ebcc401ebad9cb36911a634e3153224286704000b65f333f09ab
@@ -5427,4 +5452,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-28T15:37:01.447830057Z"
+generated: "2025-11-29T21:05:11.163892152Z"
