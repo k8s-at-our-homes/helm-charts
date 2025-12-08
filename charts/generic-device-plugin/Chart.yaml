@@ -1,4 +1,4 @@
 apiVersion: v2
 name: generic-device-plugin
-version: 1.22.0
+version: 1.23.0
 kubeVersion: ">=1.19.0-0"
