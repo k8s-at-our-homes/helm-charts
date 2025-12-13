@@ -1,0 +1,107 @@
+replicas: 1
+
+nodeSelector: {}
+
+resources: {}
+#  requests:
+#    memory: 512Mi
+#    cpu: 100m
+#  limits:
+#    memory: 2048Mi
+
+persistence:
+  storageClass: ''
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+  fsGroupChangePolicy: OnRootMismatch
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  capabilities:
+    drop: [ "ALL" ]
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  privileged: false
+  seccompProfile:
+    type: RuntimeDefault
+
+image:
+  registry: ghcr.io
+  repository: mealie-recipes/mealie
+  tag: v3.7.0
+  pullPolicy: IfNotPresent
+
+route:
+  enabled: false
+  apiVersion: gateway.networking.k8s.io/v1
+  kind: HTTPRoute
+  annotations: {}
+  hostnames:
+    - mealie.example.com
+  parentRefs: []
+  filters: []
+  matches: []
+  timeouts: {}
+
+ingress:
+  enabled: true
+  domain: mealie.example.com
+  class:
+  annotations: {}
+  tls:
+    enabled: true
+    secretName:
+
+database:
+  clusterName: mealie-postgresql
+  logLevel: error
+  replicas: 2
+  size: 8Gi
+  # storageClass: ""
+
+  monitoring:
+    enabled: true
+
+  backups:
+    enabled: false
+    compression: bzip2
+    destination: ''
+    retention: '8d'
+    schedule: '0 0 0 * * *' #daily
+    secretName: ''
+    provider: azure # azure, s3
+    s3:
+      endpoint: ''
+      accessKeyName: 'ACCESS_KEY'
+      secretKeyName: 'SECRET_KEY'
+    azure:
+      connectionStringKeyName: 'CONNECTION_STRING'
+
+config:
+  baseUrl: mealie.example.com
+  allowSignups: false
+  allowPasswordLogin: false
+  logLevel: info # debug, info, warning, error, critical
+  timezone: Europe/Amsterdam
+  dailyScheduleTime: 23:45
+
+  oidc:
+    enabled: false
+    configurationUrl: https://auth.example.com/.well-known/openid-configuration
+    clientId: your-client-id
+    clientSecretName: your-client # name of the kubernetes secret containing the client secret, the key should be "clientSecret"
+    providerName: OIDC
+
+    userGroup: ''
+    adminGroup: ''
+    nameClaim: ''
+    userClaim: ''
+    groupsClaim: ''
