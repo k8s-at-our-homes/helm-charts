@@ -69,23 +69,23 @@ spec:
           {{- if hasKey .Values.config.oidc "userGroup" }}
           - name: OIDC_USER_GROUP
             value: {{ .Values.config.oidc.userGroup | squote }}
-          {{  end }}
+          {{- end }}
           {{- if hasKey .Values.config.oidc "adminGroup" }}
           - name: OIDC_ADMIN_GROUP
             value: {{ .Values.config.oidc.adminGroup | squote }}
-          {{  end }}
+          {{- end }}
           {{- if hasKey .Values.config.oidc "userClaim" }}
           - name: OIDC_USER_CLAIM
             value: {{ .Values.config.oidc.userClaim | squote }}
-          {{  end }}
+          {{- end }}
           {{- if hasKey .Values.config.oidc "nameClaim" }}
-          - name: OIDC_NAME_CLAIM
+          - name: OIDC_USER_CLAIM
             value: {{ .Values.config.oidc.nameClaim | squote }}
-          {{  end }}
+          {{- end }}
           {{- if hasKey .Values.config.oidc "groupsClaim" }}
           - name: OIDC_GROUPS_CLAIM
             value: {{ .Values.config.oidc.groupsClaim | squote }}
-          {{  end }}
+          {{- end }}
           {{- end }}
           resources: {{ toYaml .Values.resources | nindent 12 }}
           securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
