@@ -79,7 +79,7 @@ spec:
             value: {{ .Values.config.oidc.userClaim | squote }}
           {{  end }}
           {{- if hasKey .Values.config.oidc "nameClaim" }}
-          - name: OIDC_USER_CLAIM
+          - name: OIDC_NAME_CLAIM
             value: {{ .Values.config.oidc.nameClaim | squote }}
           {{  end }}
           {{- if hasKey .Values.config.oidc "groupsClaim" }}
