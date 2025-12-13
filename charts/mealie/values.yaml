@@ -100,8 +100,9 @@ config:
     clientSecretName: your-client # name of the kubernetes secret containing the client secret, the key should be "clientSecret"
     providerName: OIDC
 
-    userGroup: ''
-    adminGroup: ''
+    userGroup: 'mealie-admins'
+    adminGroup: 'mealie-users'
+
     nameClaim: ''
     userClaim: ''
     groupsClaim: ''
