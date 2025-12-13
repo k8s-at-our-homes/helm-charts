@@ -5,8 +5,8 @@
 Add repository by running:
 
 ```bash
-helm repo add k8s-at-our-home https://k8s-at-our-homes.github.io/helm-charts/
-helm install mealie k8s-at-our-home/mealie
+helm repo add k8s-at-our-homes https://k8s-at-our-homes.github.io/helm-charts/
+helm install mealie k8s-at-our-homes/mealie
 ```
 
 Or get the chart from ghcr.io:
