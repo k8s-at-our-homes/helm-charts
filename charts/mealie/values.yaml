@@ -103,6 +103,6 @@ config:
     userGroup: 'mealie-admins'
     adminGroup: 'mealie-users'
 
-    nameClaim: ''
-    userClaim: ''
-    groupsClaim: ''
+#    nameClaim: ''
+#    userClaim: ''
+#    groupsClaim: ''
