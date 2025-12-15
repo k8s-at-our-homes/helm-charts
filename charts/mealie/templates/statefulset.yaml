@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "common.fullname" . }}
+  labels: {{ include "common.labels" . | nindent 4 }}
+spec:
+  revisionHistoryLimit: 0
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels: {{ include "common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{ include "common.selectorLabels" . | nindent 8 }}
+    spec:
+      nodeSelector: {{ .Values.nodeSelector | toYaml | nindent 8 }}
+      securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: mealie
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+          env:
+          - name: PUID
+            value: '1000'
+          - name: PGID
+            value: '1000'
+          - name: ALLOW_SIGNUPS
+            value: {{ .Values.config.allowSignups | squote }}
+          - name: LOG_LEVEL
+            value: {{ .Values.config.logLevel | squote }}
+          - name: TZ
+            value: {{ .Values.config.timezone | squote }}
+          - name: ALLOW_PASSWORD_LOGIN
+            value: {{ .Values.config.allowPasswordLogin | squote }}
+          - name: DAILY_SCHEDULE_TIME
+            value: {{ .Values.config.dailyScheduleTime | squote }}
+          - name: BASE_URL
+            value: https://{{ .Values.config.baseUrl }}
+
+          # Database
+          - name: DB_ENGINE
+            value: 'postgres'
+          - name: POSTGRES_URL_OVERRIDE
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.database.clusterName }}-app
+                key: uri
+
+          # OIDC
+          {{- if .Values.config.oidc.enabled }}
+          - name: OIDC_AUTH_ENABLED
+            value: 'true'
+          - name: OIDC_CONFIGURATION_URL
+            value: {{ .Values.config.oidc.configurationUrl | squote }}
+          - name: OIDC_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.config.oidc.clientSecretName }}
+                key: clientSecret
+          - name: OIDC_CLIENT_ID
+            value: {{ .Values.config.oidc.clientId | squote }}
+          - name: OIDC_AUTO_REDIRECT
+            value: 'true'
+          - name: OIDC_PROVIDER_NAME
+            value: {{ .Values.config.oidc.providerName | squote }}
+          {{- if hasKey .Values.config.oidc "userGroup" }}
+          - name: OIDC_USER_GROUP
+            value: {{ .Values.config.oidc.userGroup | squote }}
+          {{- end }}
+          {{- if hasKey .Values.config.oidc "adminGroup" }}
+          - name: OIDC_ADMIN_GROUP
+            value: {{ .Values.config.oidc.adminGroup | squote }}
+          {{- end }}
+          {{- if hasKey .Values.config.oidc "userClaim" }}
+          - name: OIDC_USER_CLAIM
+            value: {{ .Values.config.oidc.userClaim | squote }}
+          {{- end }}
+          {{- if hasKey .Values.config.oidc "nameClaim" }}
+          - name: OIDC_USER_CLAIM
+            value: {{ .Values.config.oidc.nameClaim | squote }}
+          {{- end }}
+          {{- if hasKey .Values.config.oidc "groupsClaim" }}
+          - name: OIDC_GROUPS_CLAIM
+            value: {{ .Values.config.oidc.groupsClaim | squote }}
+          {{- end }}
+          {{- end }}
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/data/
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: {{ toYaml .Values.persistence.accessModes | nindent 8 }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}
+        {{- if hasKey .Values.persistence "storageClass" }}
+        {{- with .Values.persistence.storageClass }}
+        storageClassName: {{ . }}
+        {{- else }}
+        storageClassName: ""
+        {{- end }}
+        {{- end }}
