@@ -7,8 +7,8 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: "adguard-primary"
     {{- include "common.labels" . | nindent 4 }}
-    {{- if .Values.global.persistence.labels }}
-    {{ toYaml .Values.global.persistence.labels | nindent 4 }}
+    {{- if .Values.adguard.persistence.labels }}
+    {{ toYaml .Values.adguard.persistence.labels | nindent 4 }}
     {{- end}}
 spec:
   accessModes:
@@ -19,10 +19,10 @@ spec:
   {{- else }}
   {{- if hasKey .Values.primary.persistence "storageClass" }}
   storageClassName: {{ .Values.primary.persistence.storageClass | quote }}
-  {{- else if hasKey .Values.global.persistence "storageClass" }}
-  storageClassName: {{ .Values.global.persistence.storageClass | quote }}
+  {{- else if hasKey .Values.adguard.persistence "storageClass" }}
+  storageClassName: {{ .Values.adguard.persistence.storageClass | quote }}
   {{- end }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.primary.persistence.size | default .Values.global.persistence.size }}
+      storage: {{ .Values.primary.persistence.size | default .Values.adguard.persistence.size }}

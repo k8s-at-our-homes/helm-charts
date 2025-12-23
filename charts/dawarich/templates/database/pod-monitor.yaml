@@ -4,8 +4,7 @@ kind: PodMonitor
 metadata:
   name: {{ .Values.database.clusterName }}-monitor
   labels:
-    app.kubernetes.io/component: "db"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "dawarich.database.podLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

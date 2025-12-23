@@ -5,8 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.route.annotations | nindent 4 }}
   labels:
-    app.kubernetes.io/component: "server"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "immich.api.podLabels" . | nindent 4 }}
 spec:
   {{- with .Values.route.parentRefs }}
   parentRefs:

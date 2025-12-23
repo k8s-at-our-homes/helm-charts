@@ -4,8 +4,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-photon
   labels:
-    app.kubernetes.io/component: "photon"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "dawarich.photon.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -13,6 +12,5 @@ spec:
     port: 2322
     targetPort: http
   selector:
-    app.kubernetes.io/component: "photon"
-    {{- include "common.selectorLabels" . | nindent 4 }}
+    {{- include "dawarich.photon.selectorLabels" . | nindent 4 }}
 {{- end }}

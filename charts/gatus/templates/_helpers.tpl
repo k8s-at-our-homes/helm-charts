@@ -14,16 +14,32 @@
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Common selector labels - immutable, used for selectors (no version)
+*/}}
 {{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
+app.kubernetes.io/name: gatus
+app.kubernetes.io/component: monitoring
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: gatus
 {{- end -}}
 
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
+{{/*
+Common pod labels - includes version information
+*/}}
+{{- define "common.podLabels" -}}
+app.kubernetes.io/name: gatus
+app.kubernetes.io/component: monitoring
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Subcharts.gatus.Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ .Subcharts.gatus.Chart.AppVersion | default "unknown" | quote }}
+app.kubernetes.io/part-of: gatus
+{{- end -}}
+
+{{/*
+Legacy common labels - for compatibility
+*/}}
+{{- define "common.labels" -}}
+{{- include "common.podLabels" . -}}
 {{- end -}}
