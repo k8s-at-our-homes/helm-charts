@@ -634,6 +634,23 @@ entries:
     version: 1.0.0
   dawarich:
   - apiVersion: v2
+    created: "2025-12-26T17:13:47.718616554Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts
+      version: 4.35.5
+    digest: fccb536c3681ff41f17cc3ee9d7fce15c901d75434e3f2be1386885ad82ec222
+    home: https://dawarich.app/
+    kubeVersion: '>=1.19.0-0'
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-9.3.7/dawarich-9.3.7.tgz
+    version: 9.3.7
+  - apiVersion: v2
     created: "2025-12-14T14:35:56.073976979Z"
     dependencies:
     - alias: redis
@@ -5676,4 +5693,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-19T18:41:26.060272819Z"
+generated: "2025-12-26T17:13:47.719279909Z"
