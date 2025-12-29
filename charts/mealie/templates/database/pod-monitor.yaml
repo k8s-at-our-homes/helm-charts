@@ -1,0 +1,15 @@
+{{- if .Values.database.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Values.database.clusterName }}-monitor
+  labels:
+    app.kubernetes.io/component: "db"
+    {{- include "common.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      "cnpg.io/cluster": {{ .Values.database.clusterName }}
+  podMetricsEndpoints:
+    - port: metrics
+  {{- end }}
