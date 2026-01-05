@@ -78,7 +78,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 0.36.0
+    tag: 0.37.2
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -124,7 +124,7 @@ photon:
     image:
       registry: docker.io
       repository: envoyproxy/envoy
-      tag: v1.36.2
+      tag: v1.36.4
       pullPolicy: IfNotPresent
     podSecurityContext:
       runAsNonRoot: true

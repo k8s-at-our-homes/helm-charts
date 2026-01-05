@@ -1,7 +1,7 @@
 image:
   registry: ghcr.io
   repository: home-assistant/home-assistant
-  tag: 2025.11.3
+  tag: 2025.12.5
 
 nodeName:
 tolerations:
@@ -45,7 +45,7 @@ config:
   image:
     registry: ghcr.io
     repository: kiwigrid/k8s-sidecar
-    tag: 2.1.2
+    tag: 2.1.4
 
   resources: {}
 
