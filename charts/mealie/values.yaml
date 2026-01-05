@@ -61,7 +61,7 @@ ingress:
     secretName:
 
 database:
-  clusterName: mealie-postgresql
+  clusterName: mealie
   logLevel: error
   replicas: 2
   size: 8Gi
@@ -87,8 +87,8 @@ database:
 
 config:
   baseUrl: mealie.example.com
-  allowSignups: false
-  allowPasswordLogin: false
+  allowSignups: true
+  allowPasswordLogin: true
   logLevel: info # debug, info, warning, error, critical
   timezone: Europe/Amsterdam
   dailyScheduleTime: 23:45
@@ -100,9 +100,8 @@ config:
     clientSecretName: your-client # name of the kubernetes secret containing the client secret, the key should be "clientSecret"
     providerName: OIDC
 
-    userGroup: 'mealie-admins'
-    adminGroup: 'mealie-users'
-
+    userGroup: 'mealie-users'
+    adminGroup: 'mealie-admins'
 #    nameClaim: ''
 #    userClaim: ''
 #    groupsClaim: ''
