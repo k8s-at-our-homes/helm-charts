@@ -1,8 +1,22 @@
+hostname: timeline.example.com
+
 config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
   jobConcurrency: 10
-
+  allowEmailPasswordRegistration: false
+  oidc:
+    enabled: false
+    providerName:
+    autoRegister: false
+    issuerUrl:
+    clientId:
+    secretName: ""
+    # Optional, override the default references to the keys in the secret above
+    secretKeyRef:
+      issuerUrl: issuerUrl
+      clientId: clientId
+      clientSecret: clientSecret
 route:
   enabled: false
   apiVersion: gateway.networking.k8s.io/v1
@@ -38,7 +52,7 @@ database:
   # storageClass: ""
 
   nodeSelector:
-    beta.kubernetes.io/arch: amd64 # postgis is only available for amd64, not arm64
+    kubernetes.io/arch: amd64 # postgis is only available for amd64, not arm64
 
   monitoring:
     enabled: true
@@ -64,7 +78,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 0.35.1
+    tag: 0.37.2
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -110,7 +124,7 @@ photon:
     image:
       registry: docker.io
       repository: envoyproxy/envoy
-      tag: v1.36.2
+      tag: v1.36.4
       pullPolicy: IfNotPresent
     podSecurityContext:
       runAsNonRoot: true

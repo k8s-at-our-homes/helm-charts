@@ -1,6 +1,6 @@
 apiVersion: v2
 name: immich
-version: 10.1.0
+version: 10.2.1
 kubeVersion: ">=1.19.0-0"
 
 home: https://immich.app
@@ -9,7 +9,7 @@ sources:
 
 dependencies:
 - name: redis-ha
-  version: 4.35.3
+  version: 4.35.5
   repository: https://dandydeveloper.github.io/charts
   condition: redis.enabled
   alias: redis

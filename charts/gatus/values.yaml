@@ -28,7 +28,7 @@ gatus:
 
   extraInitContainers:
     - name: init-config-loader
-      image: ghcr.io/kiwigrid/k8s-sidecar:1.30.11
+      image: ghcr.io/kiwigrid/k8s-sidecar:2.2.2
       env:
         - name: METHOD
           value: "LIST"
@@ -46,7 +46,7 @@ gatus:
         - name: config
           mountPath: /configfiles
     - name: config-loader
-      image: ghcr.io/kiwigrid/k8s-sidecar:1.30.11
+      image: ghcr.io/kiwigrid/k8s-sidecar:2.1.4
       restartPolicy: Always
       env:
         - name: NAMESPACE
@@ -59,6 +59,20 @@ gatus:
           value: /configfiles
         - name: RESOURCE
           value: "both"
+        - name: HEALTH_PORT
+          value: "8081"
+      readinessProbe:
+        httpGet:
+          path: /healthz
+          port: 8081
+        initialDelaySeconds: 20
+        periodSeconds: 5
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 8081
+        initialDelaySeconds: 35
+        periodSeconds: 10
       volumeMounts:
         - name: config
           mountPath: /configfiles
