@@ -73,6 +73,7 @@ machineLearning:
     objectRecognition: # 'immich-app/ViT-L-16-SigLIP-384__webli'
     faceRecognition: # 'immich-app/buffalo_l'
 
+#  resourceClaims: []
 #  resources:
 #    requests:
 #      cpu: 10m

@@ -60,3 +60,6 @@ spec:
       volumes:
         - name: cache
           emptyDir: {}
+      {{- with .Values.machineLearning.resourceClaims }}
+      resourceClaims: {{ toYaml . | nindent 8 }}
+      {{- end }}
