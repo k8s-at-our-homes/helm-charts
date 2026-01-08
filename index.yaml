@@ -5592,6 +5592,15 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/infro-1.0.0/infro-1.0.0.tgz
     version: 1.0.0
+  mealie:
+  - apiVersion: v2
+    created: "2026-01-08T22:04:49.20282411Z"
+    digest: 75b61cf4b6d5d28ca7974fdc9b1d8ddecc114c1fc106627cc31c738799882444
+    kubeVersion: '>=1.19.0-0'
+    name: mealie
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/mealie-1.0.0/mealie-1.0.0.tgz
+    version: 1.0.0
   opentherm-monitor:
   - apiVersion: v2
     created: "2025-11-24T18:58:41.050859194Z"
@@ -5815,4 +5824,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-07T22:35:32.744955362Z"
+generated: "2026-01-08T22:04:49.203534874Z"
