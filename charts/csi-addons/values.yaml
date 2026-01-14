@@ -4,7 +4,7 @@ replicas: 1
 image:
   registry: quay.io
   repository: csiaddons/k8s-controller
-  tag: v0.13.0
+  tag: v0.14.0
   pullPolicy: IfNotPresent
 
 resources:
