@@ -28,7 +28,7 @@ gatus:
 
   extraInitContainers:
     - name: init-config-loader
-      image: ghcr.io/kiwigrid/k8s-sidecar:2.3.0
+      image: ghcr.io/kiwigrid/k8s-sidecar:2.4.0
       env:
         - name: METHOD
           value: "LIST"
@@ -46,7 +46,7 @@ gatus:
         - name: config
           mountPath: /configfiles
     - name: config-loader
-      image: ghcr.io/kiwigrid/k8s-sidecar:2.3.0
+      image: ghcr.io/kiwigrid/k8s-sidecar:2.4.0
       restartPolicy: Always
       env:
         - name: NAMESPACE
