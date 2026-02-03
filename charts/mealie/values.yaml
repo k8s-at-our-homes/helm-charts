@@ -36,7 +36,7 @@ securityContext:
 image:
   registry: ghcr.io
   repository: mealie-recipes/mealie
-  tag: v3.9.2
+  tag: v3.10.1
   pullPolicy: IfNotPresent
 
 route:
