@@ -25,7 +25,7 @@ securityContext:
 image:
   registry: ghcr.io
   repository: k8s-at-our-homes/cyberchef
-  tag: 10.20.0
+  tag: 10.21.0
   digest: sha256:b9c91f30bbfa782fc90e6662d72beae262aea9e43c43c86c3bf806cc268e92f1
   pullPolicy: IfNotPresent
 
