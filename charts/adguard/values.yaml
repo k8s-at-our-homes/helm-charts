@@ -49,7 +49,7 @@ primary:
     image:
       registry: ghcr.io
       repository: bakito/adguardhome-sync
-      tag: v0.8.2
+      tag: v0.9.0
 
 
 secondary:
