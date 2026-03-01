@@ -25,6 +25,10 @@ spec:
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
         env:
+        {{- with .Values.photon.config.fileUrl }}
+        - name: FILE_URL
+          value: {{ . | quote }}
+        {{- end }}
         {{- with (.Values.photon.config.country | default .Values.photon.config.region) }}
         - name: REGION
           value: {{ . }}
