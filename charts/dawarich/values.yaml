@@ -93,7 +93,9 @@ photon:
   enabled: true  # Controls whether to use photon at all
   deploy: true   # Controls whether to deploy internal photon instance
   config:
+    fileUrl: # If provided country, region are ignored
     country: # NL, BE, DE, FR, UK, US
+    region: # same as country
     logLevel: INFO # DEBUG, INFO, ERROR
     updateStrategy: PARALLEL # PARALLEL, SEQUENTIAL, DISABLED
     updateInterval: '168h' # Has to be a time string (60s, 60h)
