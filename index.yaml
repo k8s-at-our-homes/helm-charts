@@ -4157,6 +4157,23 @@ entries:
     version: 1.0.0
   immich:
   - apiVersion: v2
+    created: "2026-03-24T16:46:47.127279432Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts
+      version: 4.35.10
+    digest: 476e621d119e435064c1f2df69e2100d52f2f44a2c3768372d759f2aee250120
+    home: https://immich.app
+    kubeVersion: '>=1.19.0-0'
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-10.4.1/immich-10.4.1.tgz
+    version: 10.4.1
+  - apiVersion: v2
     created: "2026-03-20T07:47:51.418688534Z"
     dependencies:
     - alias: redis
@@ -6763,4 +6780,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-24T10:09:03.494529411Z"
+generated: "2026-03-24T16:46:47.128148119Z"
