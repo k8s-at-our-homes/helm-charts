@@ -71,7 +71,7 @@ secondary:
 secretInit:
   image:
     registry: docker.io
-    repository: alpine/k8s
+    repository: alpine/kubectl
     tag: 1.33.4
 
   primary:
