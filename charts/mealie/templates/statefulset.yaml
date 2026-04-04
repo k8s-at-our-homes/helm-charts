@@ -95,6 +95,10 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
+        {{- with .Values.persistence.labels }}
+        labels:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       spec:
         accessModes: {{ toYaml .Values.persistence.accessModes | nindent 8 }}
         resources:
