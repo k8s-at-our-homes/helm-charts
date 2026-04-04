@@ -14,6 +14,7 @@ persistence:
   accessModes:
     - ReadWriteOnce
   size: 10Gi
+  labels: {}
 
 podSecurityContext:
   runAsUser: 1000
