@@ -54,6 +54,14 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.clusterName }}-app
                   key: password
+            {{- if .Values.server.helmet.enabled }}
+            - name: IMMICH_HELMET_FILE
+              {{- if .Values.server.helmet.config }}
+              value: /etc/immich/helmet.json
+              {{- else }}
+              value: "true"
+              {{- end }}
+            {{- end }}
           startupProbe:
             periodSeconds: 10
             failureThreshold: 60
@@ -71,6 +79,11 @@ spec:
           volumeMounts:
             - name: library
               mountPath: /usr/src/app/upload
+            {{- if and .Values.server.helmet.enabled .Values.server.helmet.config }}
+            - name: helmet-config
+              mountPath: /etc/immich
+              readOnly: true
+            {{- end }}
           ports:
             - name: http
               containerPort: 2283
@@ -83,3 +96,8 @@ spec:
         - name: library
           persistentVolumeClaim:
               claimName: {{ template "common.fullname" . }}-library
+        {{- if and .Values.server.helmet.enabled .Values.server.helmet.config }}
+        - name: helmet-config
+          configMap:
+            name: {{ template "common.fullname" . }}-server-helmet
+        {{- end }}
