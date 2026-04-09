@@ -1,0 +1,11 @@
+{{- if and .Values.server.helmet.enabled .Values.server.helmet.config }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "common.fullname" . }}-server-helmet
+  labels:
+    app.kubernetes.io/component: "server"
+    {{- include "common.labels" . | nindent 4 }}
+data:
+  helmet.json: {{ .Values.server.helmet.config | toJson | quote }}
+{{- end }}

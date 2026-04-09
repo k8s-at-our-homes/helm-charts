@@ -89,6 +89,13 @@ server:
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
+  helmet:
+    enabled: true
+    # config:
+    #   contentSecurityPolicy:
+    #     directives:
+    #       defaultSrc: ["'self'"]
+
 #  resources:
 #    requests:
 #      cpu: 10m
