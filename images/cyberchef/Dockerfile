@@ -1,4 +1,4 @@
-FROM ghcr.io/gchq/cyberchef:10.23.0 AS upstream
+FROM ghcr.io/gchq/cyberchef:11.0.0 AS upstream
 
 # Apply patches to override default options
 FROM alpine:3.23 AS patcher
