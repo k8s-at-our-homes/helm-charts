@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-secondary
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-secondary"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "adguard.resolver.podLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   clusterIP: None
@@ -16,6 +13,4 @@ spec:
       protocol: TCP
       name: web
   selector:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-secondary"
+    {{- include "adguard.resolver.selectorLabels" . | nindent 4 }}

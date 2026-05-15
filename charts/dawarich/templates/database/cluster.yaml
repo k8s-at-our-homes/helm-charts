@@ -3,8 +3,7 @@ kind: Cluster
 metadata:
   name: {{ .Values.database.clusterName }}
   labels:
-    app.kubernetes.io/component: "db"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "dawarich.database.podLabels" . | nindent 4 }}
 spec:
   instances: {{ .Values.database.replicas }}
   imageName: {{ .Values.database.image.registry }}/{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}
