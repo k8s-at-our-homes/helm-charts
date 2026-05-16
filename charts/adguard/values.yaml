@@ -72,7 +72,7 @@ secretInit:
   image:
     registry: docker.io
     repository: alpine/kubectl
-    tag: 1.36.0
+    tag: 1.36.1
 
   primary:
     create: false
