@@ -78,7 +78,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 1.7.10
+    tag: 1.7.11
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
