@@ -1,4 +1,4 @@
 apiVersion: v2
 name: home-assistant
-version: 3.10.5
+version: 3.11.0
 kubeVersion: ">=1.19.0-0"
