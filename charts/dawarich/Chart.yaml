@@ -1,6 +1,6 @@
 apiVersion: v2
 name: dawarich
-version: 11.8.2
+version: 11.9.0
 kubeVersion: ">=1.19.0-0"
 
 home: https://dawarich.app/
@@ -9,7 +9,7 @@ sources:
 
 dependencies:
 - name: redis-ha
-  version: 4.35.10
+  version: 4.38.0
   repository: https://dandydeveloper.github.io/charts
   condition: redis.enabled
   alias: redis
