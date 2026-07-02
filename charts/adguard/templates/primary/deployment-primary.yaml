@@ -15,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "adguard.frontend.selectorLabels" . | nindent 8 }}
+        {{- include "adguard.frontend.podLabels" . | nindent 8 }}
     spec:
       initContainers:
         - name: sync

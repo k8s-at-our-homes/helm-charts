@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "dawarich.photonGateway.selectorLabels" . | nindent 8 }}
+        {{- include "dawarich.photonGateway.podLabels" . | nindent 8 }}
       annotations:
         checksum/config: {{ include "dawarich.photonGateway.configDataChecksum" . }}
     spec:

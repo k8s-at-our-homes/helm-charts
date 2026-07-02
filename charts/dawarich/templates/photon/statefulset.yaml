@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "dawarich.photon.selectorLabels" . | nindent 8 }}
+        {{- include "dawarich.photon.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.photon.podSecurityContext | nindent 8 }}
       containers:

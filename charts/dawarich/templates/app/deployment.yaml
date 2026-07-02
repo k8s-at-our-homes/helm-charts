@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "dawarich.backend.selectorLabels" . | nindent 8 }}
+        {{- include "dawarich.backend.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
       containers:

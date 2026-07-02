@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "immich.api.selectorLabels" . | nindent 8 }}
+        {{- include "immich.api.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.server.podSecurityContext | nindent 8 }}
       containers:

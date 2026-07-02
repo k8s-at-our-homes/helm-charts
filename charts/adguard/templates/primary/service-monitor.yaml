@@ -7,9 +7,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "common.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: "adguard-sync"
+      {{- include "adguard.sync.selectorLabels" . | nindent 6 }}
   namespaceSelector:
     matchNames:
       - adguard

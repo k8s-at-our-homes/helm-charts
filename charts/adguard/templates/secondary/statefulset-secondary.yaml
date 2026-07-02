@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "adguard.resolver.selectorLabels" . | nindent 8 }}
+        {{- include "adguard.resolver.podLabels" . | nindent 8 }}
     spec:
       priorityClassName: {{ .Values.secondary.priorityClassName }}
       {{- with .Values.secondary.topologySpreadConstraints }}
