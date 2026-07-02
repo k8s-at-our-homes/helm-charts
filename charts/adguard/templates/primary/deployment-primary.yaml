@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "common.fullname" . }}-primary
   labels:
-    {{- include "adguard.frontend.podLabels" . | nindent 4 }}
+    {{- include "adguard.frontend.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1

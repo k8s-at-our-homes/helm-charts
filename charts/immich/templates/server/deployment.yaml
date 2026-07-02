@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}-server
   labels:
-    {{- include "immich.api.podLabels" . | nindent 4 }}
+    {{- include "immich.api.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.server.replicas }}

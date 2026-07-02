@@ -20,3 +20,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.photon.image.tag | quote }}
 app.kubernetes.io/part-of: dawarich
 {{- end -}}
+
+{{/*
+Database (Photon) component labels - object labels
+*/}}
+{{- define "dawarich.photon.objectLabels" -}}
+{{ include "dawarich.photon.podLabels" . }}
+helm.sh/chart: {{ include "dawarich.chartName" . }}
+{{- end -}}

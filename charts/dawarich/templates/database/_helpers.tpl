@@ -20,3 +20,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.database.image.tag | quote }}
 app.kubernetes.io/part-of: dawarich
 {{- end -}}
+
+{{/*
+Database (PostgreSQL) component labels - object labels
+*/}}
+{{- define "dawarich.database.objectLabels" -}}
+{{ include "dawarich.database.podLabels" . }}
+helm.sh/chart: {{ include "dawarich.chartName" . }}
+{{- end -}}

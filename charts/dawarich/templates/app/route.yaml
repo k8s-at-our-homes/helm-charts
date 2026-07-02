@@ -5,7 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.route.annotations | nindent 4 }}
   labels:
-    {{- include "dawarich.backend.podLabels" . | nindent 4 }}
+    {{- include "dawarich.backend.objectLabels" . | nindent 4 }}
 spec:
   {{- with .Values.route.parentRefs }}
   parentRefs:

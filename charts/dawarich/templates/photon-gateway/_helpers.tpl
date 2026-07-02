@@ -20,3 +20,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Values.photon.gateway.image.tag | quote }}
 app.kubernetes.io/part-of: dawarich
 {{- end -}}
+
+{{/*
+Photon Gateway (load balancer) component labels - object labels
+*/}}
+{{- define "dawarich.photonGateway.objectLabels" -}}
+{{ include "dawarich.photonGateway.podLabels" . }}
+helm.sh/chart: {{ include "dawarich.chartName" . }}
+{{- end -}}

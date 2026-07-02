@@ -10,22 +10,24 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "openthermMonitor.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- define "openthermMonitor.selectorLabels" -}}
+app.kubernetes.io/name: opentherm-monitor
+app.kubernetes.io/component: monitor
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: "opentherm-monitor"
+app.kubernetes.io/part-of: opentherm-monitor
 {{- end -}}
 
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{- define "openthermMonitor.podLabels" -}}
+{{ include "openthermMonitor.selectorLabels" . }}
 app.kubernetes.io/version: {{ .Values.image.tag | quote }}
-app.kubernetes.io/part-of: "opentherm-monitor"
+{{- end -}}
+
+{{- define "openthermMonitor.objectLabels" -}}
+{{ include "openthermMonitor.podLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "openthermMonitor.chartName" . }}
 {{- end -}}

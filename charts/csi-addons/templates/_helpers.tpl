@@ -10,20 +10,24 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "csiAddons.selectorLabels" -}}
+app.kubernetes.io/name: csi-addons
+app.kubernetes.io/component: controller
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: csi-addons
+{{- end -}}
+
+{{- define "csiAddons.podLabels" -}}
+{{ include "csiAddons.selectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.image.tag | quote }}
+{{- end -}}
+
+{{- define "csiAddons.objectLabels" -}}
+{{ include "csiAddons.podLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "csiAddons.chartName" . }}
+{{- end -}}
+
+{{- define "csiAddons.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end -}}
-
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end -}}

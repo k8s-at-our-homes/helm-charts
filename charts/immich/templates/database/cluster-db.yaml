@@ -3,7 +3,7 @@ kind: Database
 metadata:
   name: app
   labels:
-    {{- include "immich.database.podLabels" . | nindent 4 }}
+    {{- include "immich.database.objectLabels" . | nindent 4 }}
 spec:
   name: app
   owner: app

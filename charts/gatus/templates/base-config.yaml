@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "common.fullname" . }}-base-config
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "gatus.objectLabels" . | nindent 4 }}
     gatus-configfile: "1"
 data:
   base-config.yaml: |-

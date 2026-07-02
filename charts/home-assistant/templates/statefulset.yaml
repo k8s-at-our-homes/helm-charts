@@ -2,19 +2,18 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "common.fullname" . }}
-  labels:
-    {{- include "common.labels" . | nindent 4 }}
+  labels: {{- include "homeAssistant.objectLabels" . | nindent 4 }}
 spec:
   serviceName: {{ template "common.fullname" . }}
   revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
-      {{- include "common.selectorLabels" . | nindent 6 }}
+      {{- include "homeAssistant.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "common.selectorLabels" . | nindent 8 }}
+        {{- include "homeAssistant.podLabels" . | nindent 8 }}
     spec:
       serviceAccountName: {{ template "common.fullname" . }}
       {{- if .Values.useHostNetworking}}
@@ -84,7 +83,7 @@ spec:
       metadata:
         name: config
         labels:
-          {{- include "common.selectorLabels" . | nindent 10 }}
+          {{- include "homeAssistant.selectorLabels" . | nindent 10 }}
           {{ if .Values.persistence.labels }}
           {{ toYaml .Values.persistence.labels | nindent 10 }}
           {{ end }}

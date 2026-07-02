@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-server-metrics
   labels:
-    {{- include "immich.api.podLabels" . | nindent 4 }}
+    {{- include "immich.api.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -14,5 +14,4 @@ spec:
       port: 8082
       targetPort: jobs-metrics
   selector:
-      app.kubernetes.io/component: "server"
-      {{- include "common.selectorLabels" . | nindent 6 }}
+      {{- include "immich.api.selectorLabels" . | nindent 6 }}

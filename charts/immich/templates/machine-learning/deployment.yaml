@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}-machine-learning
   labels:
-    {{- include "immich.worker.podLabels" . | nindent 4 }}
+    {{- include "immich.worker.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.machineLearning.replicas }}

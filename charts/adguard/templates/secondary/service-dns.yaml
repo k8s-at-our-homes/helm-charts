@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-dns
   labels:
-    {{- include "adguard.resolver.podLabels" . | nindent 4 }}
+    {{- include "adguard.resolver.objectLabels" . | nindent 4 }}
   annotations:
     {{- toYaml .Values.secondary.service.annotations | nindent 4 }}
 spec:

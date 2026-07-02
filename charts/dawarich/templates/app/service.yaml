@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    {{- include "dawarich.backend.podLabels" . | nindent 4 }}
+    {{- include "dawarich.backend.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:

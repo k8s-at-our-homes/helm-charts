@@ -3,6 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: csiaddonsnodes.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -162,6 +163,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: encryptionkeyrotationcronjobs.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -402,6 +404,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: encryptionkeyrotationjobs.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -589,6 +592,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: networkfenceclasses.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -663,6 +667,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: networkfences.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -865,6 +870,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: reclaimspacecronjobs.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -1103,6 +1109,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: reclaimspacejobs.csiaddons.openshift.io
 spec:
   group: csiaddons.openshift.io
@@ -1298,6 +1305,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: volumegroupreplicationclasses.replication.storage.openshift.io
 spec:
   group: replication.storage.openshift.io
@@ -1383,6 +1391,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: volumegroupreplicationcontents.replication.storage.openshift.io
 spec:
   group: replication.storage.openshift.io
@@ -1575,6 +1584,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: volumegroupreplications.replication.storage.openshift.io
 spec:
   group: replication.storage.openshift.io
@@ -1869,6 +1879,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: volumereplicationclasses.replication.storage.openshift.io
 spec:
   group: replication.storage.openshift.io
@@ -1956,6 +1967,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.17.3
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: volumereplications.replication.storage.openshift.io
 spec:
   group: replication.storage.openshift.io

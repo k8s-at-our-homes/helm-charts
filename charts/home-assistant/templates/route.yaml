@@ -5,7 +5,7 @@ metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.route.annotations | nindent 4 }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "homeAssistant.objectLabels" . | nindent 4 }}
 spec:
   {{- with .Values.route.parentRefs }}
   parentRefs:

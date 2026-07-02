@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-secondary
   labels:
-    {{- include "adguard.resolver.podLabels" . | nindent 4 }}
+    {{- include "adguard.resolver.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   clusterIP: None

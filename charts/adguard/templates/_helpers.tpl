@@ -10,36 +10,20 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "adguard.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/*
-Common selector labels - immutable, used for selectors (no version)
-*/}}
-{{- define "common.selectorLabels" -}}
+{{- define "adguard.chartLabels" -}}
 app.kubernetes.io/name: adguard
-app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: adguard
 {{- end -}}
 
-{{/*
-Common pod labels - includes version information
-*/}}
-{{- define "common.podLabels" -}}
-app.kubernetes.io/name: adguard
+{{- define "adguard.objectLabels" -}}
+{{ include "adguard.chartLabels" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Values.adguard.image.tag | quote }}
-app.kubernetes.io/part-of: adguard
-{{- end -}}
-
-{{/*
-Legacy common labels - for compatibility with non-component resources
-*/}}
-{{- define "common.labels" -}}
-{{- include "common.podLabels" . -}}
+helm.sh/chart: {{ include "adguard.chartName" . }}
 {{- end -}}
 
 

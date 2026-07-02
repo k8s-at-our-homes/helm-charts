@@ -3,6 +3,8 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: {{ .Values.database.clusterName }}
+  labels:
+    {{- include "mealie.database.objectLabels" . | nindent 4 }}
 spec:
   cluster:
     name: {{ .Values.database.clusterName }}

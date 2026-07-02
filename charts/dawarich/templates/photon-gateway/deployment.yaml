@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ template "common.fullname" . }}-photon-gateway
   labels:
-    {{- include "dawarich.photonGateway.podLabels" . | nindent 4 }}
+    {{- include "dawarich.photonGateway.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.photon.gateway.replicas }}

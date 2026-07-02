@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}-web
   labels:
-    {{- include "adguard.frontend.podLabels" . | nindent 4 }}
+    {{- include "adguard.frontend.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:

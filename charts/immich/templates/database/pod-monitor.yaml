@@ -4,7 +4,7 @@ kind: PodMonitor
 metadata:
   name: {{ .Values.database.clusterName }}-monitor
   labels:
-    {{- include "immich.database.podLabels" . | nindent 4 }}
+    {{- include "immich.database.objectLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

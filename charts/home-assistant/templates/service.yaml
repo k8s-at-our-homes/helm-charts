@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "homeAssistant.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -12,4 +12,4 @@ spec:
       port: 8123
       protocol: TCP
   selector:
-    {{- include "common.selectorLabels" . | nindent 4 }}
+    {{- include "homeAssistant.selectorLabels" . | nindent 4 }}

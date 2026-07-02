@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    {{- include "immich.api.podLabels" . | nindent 4 }}
+    {{- include "immich.api.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:

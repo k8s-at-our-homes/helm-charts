@@ -10,36 +10,25 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "homeAssistant.selectorLabels" -}}
+app.kubernetes.io/name: home-assistant
+app.kubernetes.io/component: frontend
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: home-assistant
+{{- end -}}
+
+{{- define "homeAssistant.podLabels" -}}
+{{ include "homeAssistant.selectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.image.tag | quote }}
+{{- end -}}
+
+{{- define "homeAssistant.objectLabels" -}}
+{{ include "homeAssistant.podLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "homeAssistant.chartName" . }}
+{{- end -}}
+
+{{- define "homeAssistant.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/*
-Common selector labels - immutable, used for selectors (no version)
-*/}}
-{{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: home-assistant
-app.kubernetes.io/component: frontend
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: home-assistant
-{{- end -}}
-
-{{/*
-Common pod labels - includes version information
-*/}}
-{{- define "common.podLabels" -}}
-app.kubernetes.io/name: home-assistant
-app.kubernetes.io/component: frontend
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Values.image.tag | quote }}
-app.kubernetes.io/part-of: home-assistant
-{{- end -}}
-
-{{/*
-Legacy common labels - for compatibility
-*/}}
-{{- define "common.labels" -}}
-{{- include "common.podLabels" . -}}
-{{- end -}}

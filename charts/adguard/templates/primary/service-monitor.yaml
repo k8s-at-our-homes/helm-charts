@@ -3,10 +3,7 @@ kind: ServiceMonitor
 metadata:
   name: {{ template "common.fullname" . }}-service-monitor
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-sync"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "adguard.sync.objectLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ template "common.fullname" . }}
-  labels: {{ include "common.labels" . | nindent 4 }}
+  labels: {{ include "mealie.objectLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   ports:
@@ -10,4 +10,4 @@ spec:
       targetPort: 9000
       port: 9000
       protocol: TCP
-  selector: {{ include "common.selectorLabels" . | nindent 4 }}
+  selector: {{ include "mealie.selectorLabels" . | nindent 4 }}

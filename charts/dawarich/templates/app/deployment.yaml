@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}
   labels:
-    {{- include "dawarich.backend.podLabels" . | nindent 4 }}
+    {{- include "dawarich.backend.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1

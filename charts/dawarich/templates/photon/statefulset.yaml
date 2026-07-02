@@ -4,7 +4,7 @@ apiVersion: apps/v1
 metadata:
   name: {{ template "common.fullname" . }}-photon
   labels:
-    {{- include "dawarich.photon.podLabels" . | nindent 4 }}
+    {{- include "dawarich.photon.objectLabels" . | nindent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: 1
