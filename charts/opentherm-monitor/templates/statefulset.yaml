@@ -2,14 +2,15 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "common.fullname" . }}
+  labels: {{ include "openthermMonitor.objectLabels" . | nindent 4 }}
 spec:
   replicas: 1
   revisionHistoryLimit: 0
   selector:
-    matchLabels:{{ include "common.selectorLabels" . | nindent 6 }}
+    matchLabels:{{ include "openthermMonitor.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      labels: {{ include "common.selectorLabels" . | nindent 8 }}
+      labels: {{ include "openthermMonitor.podLabels" . | nindent 8 }}
     spec:
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
       automountServiceAccountToken: false
@@ -63,6 +64,7 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
+        labels: {{ include "openthermMonitor.selectorLabels" . | nindent 10 }}
       spec:
         accessModes: [ReadWriteOnce]
         resources:

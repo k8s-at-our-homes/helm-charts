@@ -3,8 +3,7 @@ kind: Cluster
 metadata:
   name: {{ .Values.database.clusterName }}
   labels:
-    app.kubernetes.io/component: "db"
-    {{ include "common.labels" . | nindent 4 }}
+    {{ include "mealie.database.objectLabels" . | nindent 4 }}
 spec:
   instances: {{ .Values.database.replicas }}
 
@@ -17,10 +16,10 @@ spec:
     {{- end }}
   {{- if .Values.database.backups.enabled }}
   plugins:
-  - name: barman-cloud.cloudnative-pg.io
-    isWALArchiver: true
-    parameters:
-      barmanObjectName: {{ .Values.database.clusterName }}-backup-store
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: {{ .Values.database.clusterName }}-backup-store
   {{- end }}
 
   {{- if .Values.database.topologySpreadConstraints }}

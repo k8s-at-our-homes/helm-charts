@@ -6,7 +6,7 @@ metadata:
   {{- with .Values.route.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
   {{- end }}
-  labels: {{ include "common.labels" . | nindent 4 }}
+  labels: {{ include "openthermMonitor.objectLabels" . | nindent 4 }}
 spec:
   {{- with .Values.route.parentRefs }}
   parentRefs: {{ toYaml . | nindent 4 }}

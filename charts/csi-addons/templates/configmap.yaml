@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  labels: {{ include "csiAddons.objectLabels" . | nindent 4 }}
   name: csi-addons-config
 data:
   "reclaim-space-timeout": "{{ .Values.config.reclaimSpaceTimeout }}"

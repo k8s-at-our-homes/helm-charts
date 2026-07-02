@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: {{ template "common.fullname" . }}-cluster-role
   labels:
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "gatus.objectLabels" . | nindent 4 }}
 rules:
   - apiGroups: [""]
     resources: ["configmaps", "secrets"]
