@@ -1,9 +1,9 @@
 apiVersion: v2
 name: gatus
-version: 2.0.0
+version: 4.0.0
 kubeVersion: ">=1.19.0-0"
 
 dependencies:
   - name: gatus
-    version: 1.4.0
+    version: 1.5.0
     repository: https://twin.github.io/helm-charts

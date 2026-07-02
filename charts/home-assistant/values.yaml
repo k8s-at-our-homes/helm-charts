@@ -1,12 +1,15 @@
 image:
   registry: ghcr.io
   repository: home-assistant/home-assistant
-  tag: 2025.9.2
+  tag: 2026.7.0
 
 nodeName:
 tolerations:
 
 resources: {}
+env:
+  - name: TZ
+    value: "Europe/Amsterdam"
 
 podSecurityContext: {}
 
@@ -45,7 +48,7 @@ config:
   image:
     registry: ghcr.io
     repository: kiwigrid/k8s-sidecar
-    tag: 1.30.10
+    tag: 2.8.1
 
   resources: {}
 

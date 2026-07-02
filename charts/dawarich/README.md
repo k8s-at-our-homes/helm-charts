@@ -18,6 +18,19 @@ helm install dawarich oci://ghcr.io/k8s-at-our-homes/helm-charts
 
 ---
 
+### Redis Configuration
+
+Redis is configured via the `redis` values section. By default, it runs in standalone mode without authentication:
+
+```yaml
+redis:
+  enabled: true
+  replicas: 1
+  auth: false
+```
+
+---
+
 ## Photon Reverse Geocoding
 
 Photon Reverse Geocoding translates coordinates (latitude/longitude) into real-world locations (country, city, street, etc). This process sends your coordinates to a Photon host, which may have privacy implications. To protect your data, you can deploy a local Photon instance using this chart.

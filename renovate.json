@@ -12,6 +12,40 @@
       "automerge": true
     },
     {
+      "matchManagers": ["helmv3"],
+      "matchFileNames": ["charts/*/Chart.{yaml,yml}"],
+      "bumpVersions": [
+        {
+          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+          "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
+        }
+      ]
+    },
+    {
+      "matchManagers": ["helm-values"],
+      "matchFileNames": ["charts/*/values.yaml"],
+      "bumpVersions": [
+        {
+          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+          "bumpType": "{{#if isPatch}}patch{{else}}{{#if isMinor}}minor{{else}}major{{/if}}{{/if}}"
+        }
+      ]
+    },
+    {
+      "matchManagers": ["helm-values"],
+      "matchUpdateTypes": ["digest"],
+      "matchFileNames": ["charts/*/values.yaml"],
+      "bumpVersions": [
+        {
+          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
+          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
+          "bumpType": "minor"
+        }
+      ]
+    },
+    {
       "matchPackageNames": [
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-app/immich-machine-learning"
@@ -23,10 +57,11 @@
   "dependencyDashboard": true,
   "prConcurrentLimit": 20,
   "branchConcurrentLimit": 20,
-  "bumpVersion": "patch",
   "rebaseWhen": "behind-base-branch",
   "configMigration": true,
   "separateMinorPatch": true,
   "separateMajorMinor": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
+  "commitMessagePrefix": "[{{parentDir}}]",
+  "additionalBranchPrefix": "{{parentDir}}-"
 }

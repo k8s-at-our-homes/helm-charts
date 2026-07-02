@@ -60,6 +60,8 @@ spec:
           env:
             - name: TZ
               value: "Europe/Amsterdam"
+            - name: ADGUARD_HOME_DEFAULT_WEB_PORT
+              value: "3000"
           args:
             - --config
             - /opt/adguardhome/conf/AdGuardHome.yaml

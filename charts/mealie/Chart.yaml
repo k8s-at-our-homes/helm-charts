@@ -1,0 +1,4 @@
+apiVersion: v2
+name: mealie
+version: 1.13.0
+kubeVersion: ">=1.19.0-0"

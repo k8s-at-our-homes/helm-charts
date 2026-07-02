@@ -28,6 +28,8 @@ spec:
           env:
             - name: TZ
               value: "Europe/Amsterdam"
+            - name: ADGUARD_HOME_DEFAULT_WEB_PORT
+              value: "3000"
           args:
             - --config
             - /opt/adguardhome/conf/AdGuardHome.yaml
@@ -66,8 +68,10 @@ spec:
           {{- if .Values.adguard.persistence.labels }}
           {{ toYaml .Values.adguard.persistence.labels | nindent 10 }}
           {{- end}}
+          {{- if .Values.secondary.persistence.labels }}
+          {{ toYaml .Values.secondary.persistence.labels | nindent 10 }}
+          {{- end}}
       spec:
-       
         {{- if hasKey .Values.secondary.persistence "storageClass" }}
         storageClassName: {{ .Values.secondary.persistence.storageClass | quote }}
         {{- else if hasKey .Values.adguard.persistence "storageClass" }}

@@ -1,8 +1,22 @@
+hostname: timeline.example.com
+
 config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
   jobConcurrency: 10
-
+  allowEmailPasswordRegistration: false
+  oidc:
+    enabled: false
+    providerName:
+    autoRegister: false
+    issuerUrl:
+    clientId:
+    secretName: ""
+    # Optional, override the default references to the keys in the secret above
+    secretKeyRef:
+      issuerUrl: issuerUrl
+      clientId: clientId
+      clientSecret: clientSecret
 route:
   enabled: false
   apiVersion: gateway.networking.k8s.io/v1
@@ -38,7 +52,7 @@ database:
   # storageClass: ""
 
   nodeSelector:
-    beta.kubernetes.io/arch: amd64 # postgis is only available for amd64, not arm64
+    kubernetes.io/arch: amd64 # postgis is only available for amd64, not arm64
 
   monitoring:
     enabled: true
@@ -64,7 +78,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 0.31.0
+    tag: 1.9.2
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -88,7 +102,7 @@ photon:
   image:
     registry: ghcr.io
     repository: rtuszik/photon-docker
-    tag: 1.0.0
+    tag: 2.3.0
     pullPolicy: IfNotPresent
   podSecurityContext: {}
 
@@ -110,7 +124,7 @@ photon:
     image:
       registry: docker.io
       repository: envoyproxy/envoy
-      tag: v1.35.3
+      tag: v1.38.3
       pullPolicy: IfNotPresent
     podSecurityContext:
       runAsNonRoot: true
@@ -148,9 +162,26 @@ photon:
 
 redis:
   enabled: true
-  architecture: standalone
-  auth:
+  nameOverride: redis
+  # Configure redis-ha in standalone mode (single replica)
+  replicas: 1
+  auth: false
+  redis:
+    port: 6379
+    config:
+      # Allow writes even without replicas in standalone mode
+      min-replicas-to-write: "0"
+  sentinel:
+    # Set quorum to 1 for single replica mode
+    quorum: 1
+  haproxy:
     enabled: false
-    usePasswordFiles: false
-  master:
-    revisionHistoryLimit: 0
+  # Enable network policy to restrict access to dawarich pods only
+  networkPolicy:
+    enabled: true
+    ingressRules:
+      - selectors:
+          - podSelector:
+              matchLabels:
+                app.kubernetes.io/component: "app"
+                app.kubernetes.io/part-of: dawarich
