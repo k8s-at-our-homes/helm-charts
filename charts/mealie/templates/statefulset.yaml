@@ -95,9 +95,9 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data
-        {{- with .Values.persistence.labels }}
         labels:
           {{- include "mealie.selectorLabels" $ | nindent 10 }}
+        {{- with .Values.persistence.labels }}
           {{- toYaml . | nindent 10 }}
         {{- end }}
       spec:
