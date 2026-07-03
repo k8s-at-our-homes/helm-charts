@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   adguard:
   - apiVersion: v2
+    created: "2026-07-03T10:04:59.473654856Z"
+    digest: 4fd87b8d99c251361ebd52fd527a81dce7a4bae2727754f6630be959267dd299
+    kubeVersion: '>=1.19.0-0'
+    name: adguard
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/adguard-4.0.0/adguard-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v2
     created: "2026-06-24T20:44:01.794193471Z"
     digest: 0888f803adfb0ff3308ff08666af84a6e68482bf33a47453e532f655969a4c39
     kubeVersion: '>=1.19.0-0'
@@ -666,6 +674,13 @@ entries:
     version: 1.0.0
   csi-addons:
   - apiVersion: v2
+    created: "2026-07-03T10:04:59.631884686Z"
+    digest: a5b9aa9d0c171dfd752fdf75112cf8b52ec2f162b853f88ac34ae813c7228fa6
+    name: csi-addons
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/csi-addons-2.0.0/csi-addons-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
     created: "2026-01-16T10:09:17.671266457Z"
     digest: 069afc50a7c802e8cf0a230623b78cf44d2f7e77deb02fd6484ddaa14982ab1c
     name: csi-addons
@@ -687,6 +702,14 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/csi-addons-1.0.0/csi-addons-1.0.0.tgz
     version: 1.0.0
   cyberchef:
+  - apiVersion: v2
+    created: "2026-07-03T10:04:59.835555489Z"
+    digest: b9558b6be85870cd5352ccc206d39c57d9c2ec0ef806e4c8757062e5ec5801e9
+    kubeVersion: '>=1.19.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-3.0.0/cyberchef-3.0.0.tgz
+    version: 3.0.0
   - apiVersion: v2
     created: "2026-06-18T20:17:23.816162304Z"
     digest: c6ae13d83879564a252366ae483893702420deddb7533b7782554cc409ebaf99
@@ -816,6 +839,23 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-1.0.0/cyberchef-1.0.0.tgz
     version: 1.0.0
   dawarich:
+  - apiVersion: v2
+    created: "2026-07-03T10:05:00.00439835Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts
+      version: 4.39.0
+    digest: 958776077ceff9bf66f86c242b970186086dd975f1b31a6d3062a03afb6d06d7
+    home: https://dawarich.app/
+    kubeVersion: '>=1.19.0-0'
+    name: dawarich
+    sources:
+    - https://github.com/Freika/dawarich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/dawarich-12.0.0/dawarich-12.0.0.tgz
+    version: 12.0.0
   - apiVersion: v2
     created: "2026-06-28T23:44:53.471678862Z"
     dependencies:
@@ -3114,6 +3154,18 @@ entries:
     version: 0.0.1
   gatus:
   - apiVersion: v2
+    created: "2026-07-03T10:05:00.168009048Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.5.0
+    digest: ba0336af61549bb68998b3571e7d728228e2cfd109e00ea17c7a62eb2e7316cb
+    kubeVersion: '>=1.19.0-0'
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-4.0.0/gatus-4.0.0.tgz
+    version: 4.0.0
+  - apiVersion: v2
     created: "2026-07-01T23:10:25.978181383Z"
     dependencies:
     - name: gatus
@@ -3617,6 +3669,14 @@ entries:
     version: 1.0.0
   generic-device-plugin:
   - apiVersion: v2
+    created: "2026-07-03T10:05:00.314477374Z"
+    digest: 3fa7cabf46c974b05e04c110c0e5e082ccd723f47b5f10e546e009b661713a7a
+    kubeVersion: '>=1.19.0-0'
+    name: generic-device-plugin
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-2.0.0/generic-device-plugin-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
     created: "2026-05-16T13:35:10.42867254Z"
     digest: 1e08bebfac8f62362e6ad313d17940b4b5da0b92342c8938df82307896ea022f
     kubeVersion: '>=1.19.0-0'
@@ -4048,6 +4108,14 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/generic-device-plugin-1.0.0/generic-device-plugin-1.0.0.tgz
     version: 1.0.0
   home-assistant:
+  - apiVersion: v2
+    created: "2026-07-03T10:05:00.481345662Z"
+    digest: 22b1537386f56ffc21b1b7888f768f4316bc89e20b38fe342abd4074f9679f3f
+    kubeVersion: '>=1.19.0-0'
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-4.0.0/home-assistant-4.0.0.tgz
+    version: 4.0.0
   - apiVersion: v2
     created: "2026-07-02T18:24:13.622665971Z"
     digest: e39576c69be66c14ac34033a28feb03cd5f4350606c53de0b8ae52e46c4698a8
@@ -5181,6 +5249,23 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-1.0.0/home-assistant-1.0.0.tgz
     version: 1.0.0
   immich:
+  - apiVersion: v2
+    created: "2026-07-03T10:05:00.6532268Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts
+      version: 4.39.0
+    digest: 9e2caa5125742fcc269f65acd1ead2af141c2cc4ecc95dc1f47e5c7087ee715b
+    home: https://immich.app
+    kubeVersion: '>=1.19.0-0'
+    name: immich
+    sources:
+    - https://github.com/immich-app/immich
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/immich-12.0.0/immich-12.0.0.tgz
+    version: 12.0.0
   - apiVersion: v2
     created: "2026-07-03T02:49:37.923941784Z"
     dependencies:
@@ -7706,6 +7791,14 @@ entries:
     version: 1.0.0
   mealie:
   - apiVersion: v2
+    created: "2026-07-03T10:05:00.794975987Z"
+    digest: ec3e00bfe73505b8841eb46aec52938af6041d5e5ae8efa1671590a0b182e9a6
+    kubeVersion: '>=1.19.0-0'
+    name: mealie
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/mealie-2.0.0/mealie-2.0.0.tgz
+    version: 2.0.0
+  - apiVersion: v2
     created: "2026-07-01T07:14:07.242863472Z"
     digest: 12e56f7edf96dacad98b3e76c0b26bc8577e38d4a94455f5154ddbe761a62f31
     kubeVersion: '>=1.19.0-0'
@@ -7858,6 +7951,13 @@ entries:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/mealie-1.0.0/mealie-1.0.0.tgz
     version: 1.0.0
   opentherm-monitor:
+  - apiVersion: v2
+    created: "2026-07-03T10:05:00.944211787Z"
+    digest: d0af478cdcf0e7e0dae800fd8b695bf72d30098482003a5bcc89aefeacfecc7a
+    name: opentherm-monitor
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/opentherm-monitor-2.0.0/opentherm-monitor-2.0.0.tgz
+    version: 2.0.0
   - apiVersion: v2
     created: "2025-11-24T18:58:41.050859194Z"
     digest: cf5e0adc5269ef10f02fb01c1f29c6b61a3a4f589c829a2a3e149029d4d4aace
@@ -8080,4 +8180,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-03T02:49:37.92605348Z"
+generated: "2026-07-03T10:05:00.946477267Z"
