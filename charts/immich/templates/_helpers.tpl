@@ -10,22 +10,22 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "immich.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{/*
+Library component labels - for shared storage
+*/}}
+{{- define "immich.library.selectorLabels" -}}
+app.kubernetes.io/name: immich
+app.kubernetes.io/component: library
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: "immich"
+app.kubernetes.io/part-of: immich
 {{- end -}}
 
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
+{{- define "immich.library.objectLabels" -}}
+{{ include "immich.library.selectorLabels" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Values.server.image.tag | quote }}
-app.kubernetes.io/part-of: "immich"
+helm.sh/chart: {{ include "immich.chartName" . }}
 {{- end -}}

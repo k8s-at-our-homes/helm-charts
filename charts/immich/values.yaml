@@ -116,5 +116,5 @@ redis:
       - selectors:
           - podSelector:
               matchLabels:
-                app.kubernetes.io/component: "server"
+                app.kubernetes.io/component: "api"
                 app.kubernetes.io/part-of: immich

@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: {{ template "common.fullname" . }}
   annotations: {{ toYaml .Values.ingress.annotations | nindent 4 }}
-  labels: {{ include "common.labels" . | nindent 4 }}
+  labels: {{ include "mealie.objectLabels" . | nindent 4 }}
 spec:
   ingressClassName: {{ .Values.ingress.class }}
   rules:

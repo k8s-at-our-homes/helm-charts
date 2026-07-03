@@ -3,10 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "common.fullname" . }}-sync-config
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-sync"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "adguard.sync.objectLabels" . | nindent 4 }}
 data:
   LOG_LEVEL: "{{ .Values.primary.sync.config.loglevel }}"
   CRON: "{{ .Values.primary.sync.config.cron }}"

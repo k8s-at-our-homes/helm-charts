@@ -3,10 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ template "common.fullname" . }}-primary
   labels:
-    app.kubernetes.io/name: {{ template "common.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: "adguard-primary"
-    {{- include "common.labels" . | nindent 4 }}
+    {{- include "adguard.frontend.objectLabels" . | nindent 4 }}
     {{- if .Values.global.persistence.labels }}
     {{ toYaml .Values.global.persistence.labels | nindent 4 }}
     {{- end}}

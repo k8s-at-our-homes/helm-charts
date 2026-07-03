@@ -3,6 +3,8 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: {{ .Values.database.clusterName }}-backup-store
+  labels:
+    {{- include "dawarich.database.objectLabels" . | nindent 4 }}
 spec:
   retentionPolicy: {{ .Values.database.backups.retention }}
   configuration:

@@ -10,20 +10,24 @@
 {{- end -}}
 {{- end -}}
 
-{{- define "chartName" -}}
+{{- define "gatus.selectorLabels" -}}
+app.kubernetes.io/name: gatus
+app.kubernetes.io/component: monitoring
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/part-of: gatus
+{{- end -}}
+
+{{- define "gatus.podLabels" -}}
+{{ include "gatus.selectorLabels" . }}
+app.kubernetes.io/version: {{ (index .Subcharts "gatus").Chart.AppVersion | quote }}
+{{- end -}}
+
+{{- define "gatus.objectLabels" -}}
+{{ include "gatus.podLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "gatus.chartName" . }}
+{{- end -}}
+
+{{- define "gatus.chartName" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end -}}
-
-{{- define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: {{ .Subcharts.gatus.Chart.AppVersion | quote }}
 {{- end -}}

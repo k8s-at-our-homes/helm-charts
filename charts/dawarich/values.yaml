@@ -183,5 +183,5 @@ redis:
       - selectors:
           - podSelector:
               matchLabels:
-                app.kubernetes.io/component: "app"
+                app.kubernetes.io/component: "backend"
                 app.kubernetes.io/part-of: dawarich

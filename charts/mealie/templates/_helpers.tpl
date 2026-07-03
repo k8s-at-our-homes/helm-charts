@@ -10,22 +10,24 @@
 {{ end -}}
 {{ end -}}
 
-{{ define "chartName" -}}
+{{- define "mealie.chartName" -}}
 {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{ end -}}
 
-{{ define "common.selectorLabels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- define "mealie.selectorLabels" -}}
+app.kubernetes.io/name: mealie
+app.kubernetes.io/component: frontend
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: "mealie"
+app.kubernetes.io/part-of: mealie
 {{ end -}}
 
-{{ define "common.labels" -}}
-app.kubernetes.io/name: {{ template "common.name" . }}
-helm.sh/chart: {{ include "chartName" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{- define "mealie.podLabels" -}}
+{{ include "mealie.selectorLabels" . }}
 app.kubernetes.io/version: {{ .Values.image.tag | quote }}
-app.kubernetes.io/part-of: "mealie"
+{{- end -}}
+
+{{- define "mealie.objectLabels" -}}
+{{ include "mealie.podLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "mealie.chartName" . }}
 {{- end -}}
