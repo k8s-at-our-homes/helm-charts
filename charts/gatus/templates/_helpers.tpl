@@ -19,7 +19,7 @@ app.kubernetes.io/part-of: gatus
 
 {{- define "gatus.podLabels" -}}
 {{ include "gatus.selectorLabels" . }}
-app.kubernetes.io/version: {{ dig "gatus" "Chart" "AppVersion" "unknown" .Subcharts | quote }}
+app.kubernetes.io/version: {{ (index .Subcharts "gatus").Chart.AppVersion | quote }}
 {{- end -}}
 
 {{- define "gatus.objectLabels" -}}
