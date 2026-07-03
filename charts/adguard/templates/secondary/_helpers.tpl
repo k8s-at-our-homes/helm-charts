@@ -11,7 +11,7 @@ Resolver component labels - pod labels (with version)
 */}}
 {{- define "adguard.resolver.podLabels" -}}
 {{ include "adguard.resolver.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.adguard.image.tag | quote }}
+app.kubernetes.io/version: {{ .Values.global.image.tag | quote }}
 {{- end -}}
 
 {{- define "adguard.resolver.objectLabels" -}}

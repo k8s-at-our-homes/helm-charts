@@ -23,7 +23,7 @@ spec:
       tolerations: {{ toYaml .Values.secondary.tolerations | nindent 8 }}
       containers:
         - name: adguard
-          image: "{{ .Values.adguard.image.registry }}/{{ .Values.adguard.image.repository }}:{{ .Values.adguard.image.tag }}"
+          image: "{{ .Values.global.image.registry }}/{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -63,8 +63,8 @@ spec:
         name: data
         labels:
           {{- include "adguard.resolver.selectorLabels" . | nindent 10 }}
-          {{- if .Values.adguard.persistence.labels }}
-          {{ toYaml .Values.adguard.persistence.labels | nindent 10 }}
+          {{- if .Values.global.persistence.labels }}
+          {{ toYaml .Values.global.persistence.labels | nindent 10 }}
           {{- end}}
           {{- if .Values.secondary.persistence.labels }}
           {{ toYaml .Values.secondary.persistence.labels | nindent 10 }}
@@ -72,10 +72,10 @@ spec:
       spec:
         {{- if hasKey .Values.secondary.persistence "storageClass" }}
         storageClassName: {{ .Values.secondary.persistence.storageClass | quote }}
-        {{- else if hasKey .Values.adguard.persistence "storageClass" }}
-        storageClassName: {{ .Values.adguard.persistence.storageClass | quote }}
+        {{- else if hasKey .Values.global.persistence "storageClass" }}
+        storageClassName: {{ .Values.global.persistence.storageClass | quote }}
         {{- end }}
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ .Values.secondary.persistence.size | default .Values.adguard.persistence.size }}
+            storage: {{ .Values.secondary.persistence.size | default .Values.global.persistence.size }}
