@@ -3,7 +3,8 @@ hostname: timeline.example.com
 config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
-  jobConcurrency: 10
+  webConcurrency: 1
+  jobConcurrency: 3
   allowEmailPasswordRegistration: false
   oidc:
     enabled: false
