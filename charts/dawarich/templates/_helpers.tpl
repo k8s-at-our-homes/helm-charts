@@ -53,6 +53,8 @@
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
 - name: TIME_ZONE
   value: {{ .Values.config.timezone }}
+- name: WEB_CONCURRENCY
+  value: {{ .Values.config.webConcurrency | quote }}
 - name: BACKGROUND_PROCESSING_CONCURRENCY
   value: {{ .Values.config.jobConcurrency | quote }}
 - name: ALLOW_EMAIL_PASSWORD_REGISTRATION
