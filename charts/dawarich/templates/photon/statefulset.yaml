@@ -22,12 +22,26 @@ spec:
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
         env:
+        - name: LOG_LEVEL
+          value: {{ .Values.photon.config.logLevel }}
+        {{- if .Values.photon.config.reverseOnly }}
+        - name: REGION
+          value: planet
+        - name: IMPORT_MODE
+          value: jsonl
+        - name: REVERSE_ONLY
+          value: "TRUE"
+        - name: LANGUAGES
+          value: "en,nl,se"
+        {{- else }}
         {{- with (.Values.photon.config.country | default .Values.photon.config.region) }}
         - name: REGION
           value: {{ . }}
         {{- end }}
-        - name: LOG_LEVEL
-          value: {{ .Values.photon.config.logLevel }}
+        - name: LANGUAGES
+          value: {{ .Values.photon.config.languages }}
+        - name: IMPORT_MODE
+          value: {{ .Values.photon.config.importMode }}
         - name: UPDATE_STRATEGY
           value: {{ .Values.photon.config.updateStrategy }}
         - name: UPDATE_INTERVAL
@@ -36,6 +50,7 @@ spec:
           value: {{ .Values.photon.config.forceUpdate | quote }}
         - name: SKIP_MD5_CHECK
           value: {{ not .Values.photon.config.md5Check | quote }}
+        {{- end }}
         startupProbe:
           httpGet:
             path: /status
