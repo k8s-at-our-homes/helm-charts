@@ -38,10 +38,6 @@ spec:
         - name: REGION
           value: {{ . }}
         {{- end }}
-        - name: LANGUAGES
-          value: {{ .Values.photon.config.languages }}
-        - name: IMPORT_MODE
-          value: {{ .Values.photon.config.importMode }}
         - name: UPDATE_STRATEGY
           value: {{ .Values.photon.config.updateStrategy }}
         - name: UPDATE_INTERVAL
