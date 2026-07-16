@@ -94,6 +94,7 @@ photon:
   enabled: true  # Controls whether to use photon at all
   deploy: true   # Controls whether to deploy internal photon instance
   config:
+    reverseOnly: true
     country: # NL, BE, DE, FR, UK, US
     logLevel: INFO # DEBUG, INFO, ERROR
     updateStrategy: PARALLEL # PARALLEL, SEQUENTIAL, DISABLED
