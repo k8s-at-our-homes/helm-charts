@@ -94,9 +94,15 @@ photon:
   enabled: true  # Controls whether to use photon at all
   deploy: true   # Controls whether to deploy internal photon instance
   config:
-    reverseOnly: true
-    country: # NL, BE, DE, FR, UK, US
     logLevel: INFO # DEBUG, INFO, ERROR
+    reverseOnly: false
+    country: # NL, BE, DE, FR, UK, US, planet
+    # only valid in reverseOnly mode
+    languages:
+    - en
+    # - nl
+    # - se
+    # only valid with reverseOnly disabled
     updateStrategy: PARALLEL # PARALLEL, SEQUENTIAL, DISABLED
     updateInterval: '168h' # Has to be a time string (60s, 60h)
     md5Check: true
