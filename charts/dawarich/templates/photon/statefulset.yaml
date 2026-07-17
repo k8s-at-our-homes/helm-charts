@@ -32,7 +32,7 @@ spec:
         - name: REVERSE_ONLY
           value: "TRUE"
         - name: LANGUAGES
-          value: "en,nl,se"
+          value: {{ .Values.photon.config.languages | join "," }}
         {{- else }}
         {{- with (.Values.photon.config.country | default .Values.photon.config.region) }}
         - name: REGION
