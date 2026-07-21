@@ -4185,6 +4185,14 @@ entries:
     version: 1.0.0
   home-assistant:
   - apiVersion: v2
+    created: "2026-07-21T23:44:55.381079224Z"
+    digest: 22a443f387f53c96d66405edb51a02965f243f7cd6fdc3861c5bd7fa172dfc28
+    kubeVersion: '>=1.19.0-0'
+    name: home-assistant
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/home-assistant-4.0.3/home-assistant-4.0.3.tgz
+    version: 4.0.3
+  - apiVersion: v2
     created: "2026-07-10T23:17:21.624774717Z"
     digest: a8cf78eb162f76b5311811ce93aaf0a4f187fcab0fdc28bf20c32448a0ed3037
     kubeVersion: '>=1.19.0-0'
@@ -8306,4 +8314,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-20T03:23:43.648355578Z"
+generated: "2026-07-21T23:44:55.383067983Z"
