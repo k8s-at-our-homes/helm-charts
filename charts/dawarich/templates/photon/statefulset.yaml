@@ -34,7 +34,7 @@ spec:
         - name: LANGUAGES
           value: {{ .Values.photon.config.languages | join "," }}
         {{- else }}
-        {{- with (.Values.photon.config.country | default .Values.photon.config.region) }}
+        {{- with .Values.photon.config.region }}
         - name: REGION
           value: {{ . }}
         {{- end }}
