@@ -68,7 +68,7 @@ spec:
         ports:
         - name: http
           containerPort: 2322
-        resources: {{ toYaml .Values.app.resources | nindent 12 }}
+        resources: {{ toYaml .Values.photon.resources | nindent 12 }}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
