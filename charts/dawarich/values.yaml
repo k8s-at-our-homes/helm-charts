@@ -72,6 +72,20 @@ database:
       secretKeyName: 'SECRET_KEY'
     azure:
       connectionStringKeyName: 'CONNECTION_STRING'
+    secondary:
+      enabled: false
+      compression: bzip2
+      destination: ''
+      retention: '8d'
+      schedule: '0 0 1 * * *' #daily, offset from the primary backup
+      secretName: ''
+      provider: azure # azure, s3
+      s3:
+        endpoint: ''
+        accessKeyName: 'ACCESS_KEY'
+        secretKeyName: 'SECRET_KEY'
+      azure:
+        connectionStringKeyName: 'CONNECTION_STRING'
 
   topologySpreadConstraints:
 
