@@ -1,14 +1,14 @@
 {
   "features": {
-    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-      "version": "1.3.1",
-      "resolved": "ghcr.io/devcontainers/features/kubectl-helm-minikube@sha256:bbe8adf6b37fff8c67412ab0a4579f4c2f30bbaba1d9a5cebd9e38bade54025b",
-      "integrity": "sha256:bbe8adf6b37fff8c67412ab0a4579f4c2f30bbaba1d9a5cebd9e38bade54025b"
+    "ghcr.io/jsburckhardt/devcontainer-features/rtk:1.0.0": {
+      "version": "1.0.0",
+      "resolved": "ghcr.io/jsburckhardt/devcontainer-features/rtk@sha256:f393df8514c943c260e22e0e89fc224e3ba0ca6eeccbd6c562741cf8d7acfde4",
+      "integrity": "sha256:f393df8514c943c260e22e0e89fc224e3ba0ca6eeccbd6c562741cf8d7acfde4"
     },
-    "ghcr.io/larsnieuwenhuizen/features/jqyq:0": {
-      "version": "0.0.1",
-      "resolved": "ghcr.io/larsnieuwenhuizen/features/jqyq@sha256:4727add2a1e85173363d839d51f110a7df704c0996beebe90b1b78b429f69273",
-      "integrity": "sha256:4727add2a1e85173363d839d51f110a7df704c0996beebe90b1b78b429f69273"
+    "ghcr.io/postfinance/devcontainer-features/kubectl:1.1.0": {
+      "version": "1.1.0",
+      "resolved": "ghcr.io/postfinance/devcontainer-features/kubectl@sha256:e1cf91bc870eb4ba675ad69f443462a69f2aae43836782a52f923a2bf6f2aeea",
+      "integrity": "sha256:e1cf91bc870eb4ba675ad69f443462a69f2aae43836782a52f923a2bf6f2aeea"
     }
   }
 }
