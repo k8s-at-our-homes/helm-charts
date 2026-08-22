@@ -54,6 +54,30 @@ When `photon.deploy=true`, a local Photon instance is deployed for maximum priva
 **Combining Local and Public Instances:**
 Deploying a smaller local Photon instance with public load balancing provides privacy for your home location, while still allowing geocoding for coordinates outside your country.
 
+## Database Backups
+
+The chart can schedule an additional Barman Cloud base backup to a separate
+object store. Enable the primary backup configuration as well as the secondary target:
+
+```yaml
+database:
+  backups:
+    enabled: true
+    destination: s3://primary-backups/dawarich
+    secretName: primary-backup-credentials
+    secondary:
+      enabled: true
+      destination: s3://secondary-backups/dawarich
+      secretName: secondary-backup-credentials
+      schedule: '0 0 1 * * *'
+```
+
+The secondary target stores full base backups only. WAL archiving continues to
+use the primary target, so recovery from the secondary target still requires
+access to the appropriate WAL archive. The Barman Cloud CNPG-I plugin and its
+CRDs must be installed separately, and the referenced credentials must already
+exist.
+
 #### Example Configuration
 
 ```yaml

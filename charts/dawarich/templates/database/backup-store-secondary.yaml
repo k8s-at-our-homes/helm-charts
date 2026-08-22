@@ -1,0 +1,29 @@
+{{- if and .Values.database.backups.enabled .Values.database.backups.secondary.enabled }}
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: {{ .Values.database.clusterName }}-secondary-backup-store
+  labels:
+    {{- include "dawarich.database.objectLabels" . | nindent 4 }}
+spec:
+  retentionPolicy: {{ .Values.database.backups.secondary.retention }}
+  configuration:
+    destinationPath: {{ .Values.database.backups.secondary.destination | quote }}
+    {{- if eq .Values.database.backups.secondary.provider "s3" }}
+    endpointURL: {{ .Values.database.backups.secondary.s3.endpoint | quote }}
+    s3Credentials:
+      accessKeyId:
+        name: {{ .Values.database.backups.secondary.secretName }}
+        key: {{ .Values.database.backups.secondary.s3.accessKeyName }}
+      secretAccessKey:
+        name: {{ .Values.database.backups.secondary.secretName }}
+        key: {{ .Values.database.backups.secondary.s3.secretKeyName }}
+    {{- else if eq .Values.database.backups.secondary.provider "azure" }}
+    azureCredentials:
+      connectionString:
+        name: {{ .Values.database.backups.secondary.secretName }}
+        key: {{ .Values.database.backups.secondary.azure.connectionStringKeyName }}
+    {{- end }}
+    data:
+      compression: {{ .Values.database.backups.secondary.compression }}
+{{- end }}

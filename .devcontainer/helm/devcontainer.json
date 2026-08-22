@@ -3,9 +3,14 @@
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
   "remoteUser": "vscode",
   "features": {
-    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
-      "minikube": "none"
+    "ghcr.io/postfinance/devcontainer-features/kubectl:1.1.0": {
+      "version": "1.36.3",
+      "helmVersion": "3.21.4",
+      "kubectxVersion": "none",
+      "kubensVersion": "none"
     },
-    "ghcr.io/larsnieuwenhuizen/features/jqyq:0": {}
+    "ghcr.io/jsburckhardt/devcontainer-features/rtk:1.0.0": {
+      "version": "v0.45.0"
+    }
   }
 }
