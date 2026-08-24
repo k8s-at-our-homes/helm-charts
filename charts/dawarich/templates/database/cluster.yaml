@@ -2,6 +2,10 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: {{ .Values.database.clusterName }}
+  {{- if .Values.database.annotations }}
+  annotations:
+{{ toYaml .Values.database.annotations | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "dawarich.database.objectLabels" . | nindent 4 }}
 spec:

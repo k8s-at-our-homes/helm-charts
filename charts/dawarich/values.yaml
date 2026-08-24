@@ -47,6 +47,7 @@ database:
     tag: 17-3.5-103
 
   clusterName: dawarich
+  annotations: {}
   logLevel: error
   replicas: 2
   size: 5Gi
