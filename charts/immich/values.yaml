@@ -36,6 +36,7 @@ database:
     tag: 16-0.4.2 # 0.4.2 is the vectorchord version that is compatible with immich
 
   clusterName: immich-postgresql
+  annotations: {}
   logLevel: error
   replicas: 2
   size: 32Gi
