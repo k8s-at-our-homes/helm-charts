@@ -3481,6 +3481,18 @@ entries:
     version: 0.0.1
   gatus:
   - apiVersion: v2
+    created: "2026-08-28T14:16:49.872827836Z"
+    dependencies:
+    - name: gatus
+      repository: https://twin.github.io/helm-charts
+      version: 1.5.0
+    digest: dcf59c55d073659ba4e0706980c5d20d3f8fb83e32e2a5807c61d05229840717
+    kubeVersion: '>=1.19.0-0'
+    name: gatus
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/gatus-4.2.2/gatus-4.2.2.tgz
+    version: 4.2.2
+  - apiVersion: v2
     created: "2026-08-04T07:44:07.31916274Z"
     dependencies:
     - name: gatus
@@ -8751,4 +8763,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-08-28T08:08:36.168492217Z"
+generated: "2026-08-28T14:16:49.874316176Z"
