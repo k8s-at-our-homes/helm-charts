@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
         command: ["/bin/sh", "-c"]
         args:
-        - cp -a /var/app/db/. /mnt/db/ && chmod -R g+rwX /mnt/db
+        - cp -R /var/app/db/. /mnt/db/ && chmod -R g+rwX /mnt/db
         volumeMounts:
         - name: db
           mountPath: /mnt/db
