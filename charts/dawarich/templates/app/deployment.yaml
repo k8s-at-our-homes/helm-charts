@@ -22,10 +22,12 @@ spec:
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
         command: ["/bin/sh", "-c"]
         args:
-        - cp -R /var/app/db/. /mnt/db/ && find /mnt/db -mindepth 1 -exec chmod g+rwX {} +
+        - mkdir -p /mnt/tmp/dawarich && chmod 700 /mnt/tmp/dawarich && cp -R /var/app/db/. /mnt/db/ && find /mnt/db -mindepth 1 -exec chmod g+rwX {} +
         volumeMounts:
         - name: db
           mountPath: /mnt/db
+        - name: tmp
+          mountPath: /mnt/tmp
       containers:
       - name: {{ .Chart.Name }}
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
@@ -36,7 +38,7 @@ spec:
         env:
           {{- include "dawarich.env" . | nindent 8 }}
         - name: TMPDIR
-          value: /var/app/tmp
+          value: /var/app/tmp/dawarich
         startupProbe:
           httpGet:
             port: http
@@ -84,7 +86,7 @@ spec:
         env:
           {{- include "dawarich.env" . | nindent 8 }}
         - name: TMPDIR
-          value: /var/app/tmp
+          value: /var/app/tmp/dawarich
         startupProbe:
           exec:
             command: [ "sh", "-c", "pgrep -f sidekiq" ]
