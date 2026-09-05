@@ -113,7 +113,20 @@ photon:
     repository: rtuszik/photon-docker
     tag: 2.4.0
     pullPolicy: IfNotPresent
-  podSecurityContext: {}
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 9011
+    runAsGroup: 9011
+    fsGroup: 9011
+    fsGroupChangePolicy: OnRootMismatch
+    seccompProfile:
+      type: RuntimeDefault
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    readOnlyRootFilesystem: true
 
   persistence:
     # The geo database is over 100Gi, so we need to set this to 400Gi to allow updates of the data

@@ -21,6 +21,7 @@ spec:
       - name: photon
         image: '{{ .Values.photon.image.registry }}/{{ .Values.photon.image.repository }}:{{ .Values.photon.image.tag }}'
         imagePullPolicy: {{ .Values.photon.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.photon.securityContext | nindent 10 }}
         env:
         - name: LOG_LEVEL
           value: {{ .Values.photon.config.logLevel }}
@@ -63,12 +64,17 @@ spec:
             path: /status
             port: http
         volumeMounts:
+        - name: tmp
+          mountPath: /tmp
         - name: data
           mountPath: /photon/data
         ports:
         - name: http
           containerPort: 2322
         resources: {{ toYaml .Values.photon.resources | nindent 12 }}
+      volumes:
+      - name: tmp
+        emptyDir: {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
