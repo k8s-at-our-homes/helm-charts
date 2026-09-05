@@ -16,17 +16,17 @@ spec:
         {{- include "dawarich.backend.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
-    initContainers:
-    - name: initialize-db
-      image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
-      imagePullPolicy: {{ .Values.app.image.pullPolicy }}
-      command: ["/bin/sh", "-c"]
-      args:
-      - cp -a /var/app/db/. /mnt/db/ && chmod -R g+rwX /mnt/db
-      volumeMounts:
-      - name: db
-        mountPath: /mnt/db
-    containers:
+      initContainers:
+      - name: initialize-db
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ["/bin/sh", "-c"]
+        args:
+        - cp -a /var/app/db/. /mnt/db/ && chmod -R g+rwX /mnt/db
+        volumeMounts:
+        - name: db
+          mountPath: /mnt/db
+      containers:
       - name: {{ .Chart.Name }}
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
