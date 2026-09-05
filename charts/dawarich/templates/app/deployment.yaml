@@ -20,6 +20,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.app.securityContext | nindent 10 }}
         command: ['web-entrypoint.sh']
         args: ['bin/rails', 'server', '-p', '3000', '-b', '::']
         env:
@@ -48,6 +49,14 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: public
+          mountPath: /var/app/public
+        - name: tmp
+          mountPath: /var/app/tmp
+        - name: system-tmp
+          mountPath: /tmp
+        - name: log
+          mountPath: /var/app/log
         ports:
         - name: http
           containerPort: 3000
@@ -55,6 +64,7 @@ spec:
       - name: {{ .Chart.Name }}-sidekiq
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.app.securityContext | nindent 10 }}
         command: ['sidekiq-entrypoint.sh']
         args: ['bundle', 'exec', 'sidekiq']
         env:
@@ -71,6 +81,20 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: tmp
+          mountPath: /var/app/tmp
+        - name: system-tmp
+          mountPath: /tmp
+        - name: log
+          mountPath: /var/app/log
       volumes:
       - name: data
+        emptyDir: {}
+      - name: public
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+      - name: system-tmp
+        emptyDir: {}
+      - name: log
         emptyDir: {}
