@@ -16,7 +16,17 @@ spec:
         {{- include "dawarich.backend.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
-      containers:
+    initContainers:
+    - name: initialize-db
+      image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+      imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+      command: ["/bin/sh", "-c"]
+      args:
+      - cp -a /var/app/db/. /mnt/db/ && chmod -R g+rwX /mnt/db
+      volumeMounts:
+      - name: db
+        mountPath: /mnt/db
+    containers:
       - name: {{ .Chart.Name }}
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
@@ -49,6 +59,8 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: db
+          mountPath: /var/app/db
         - name: public
           mountPath: /var/app/public
         - name: tmp
@@ -81,6 +93,8 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: db
+          mountPath: /var/app/db
         - name: tmp
           mountPath: /var/app/tmp
         - name: system-tmp
@@ -89,6 +103,8 @@ spec:
           mountPath: /var/app/log
       volumes:
       - name: data
+        emptyDir: {}
+      - name: db
         emptyDir: {}
       - name: public
         emptyDir: {}

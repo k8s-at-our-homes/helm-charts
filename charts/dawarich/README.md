@@ -33,7 +33,8 @@ redis:
 
 The Dawarich application and Sidekiq containers run as non-root UID/GID 1000
 with a read-only root filesystem. Writable application paths are backed by
-ephemeral storage, while Photon geodata remains on its persistent volume.
+ephemeral storage, including the Rails database schema directory, while
+Photon geodata remains on its persistent volume.
 
 ---
 
