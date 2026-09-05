@@ -16,14 +16,29 @@ spec:
         {{- include "dawarich.backend.podLabels" . | nindent 8 }}
     spec:
       securityContext: {{ toYaml .Values.app.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: initialize-db
+        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
+        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        command: ["/bin/sh", "-c"]
+        args:
+        - mkdir -p /mnt/tmp/dawarich && chmod 700 /mnt/tmp/dawarich && cp -R /var/app/db/. /mnt/db/ && find /mnt/db -mindepth 1 -exec chmod g+rwX {} +
+        volumeMounts:
+        - name: db
+          mountPath: /mnt/db
+        - name: tmp
+          mountPath: /mnt/tmp
       containers:
       - name: {{ .Chart.Name }}
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.app.securityContext | nindent 10 }}
         command: ['web-entrypoint.sh']
         args: ['bin/rails', 'server', '-p', '3000', '-b', '::']
         env:
           {{- include "dawarich.env" . | nindent 8 }}
+        - name: TMPDIR
+          value: /var/app/tmp/dawarich
         startupProbe:
           httpGet:
             port: http
@@ -48,6 +63,16 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: db
+          mountPath: /var/app/db
+        - name: public
+          mountPath: /var/app/public
+        - name: tmp
+          mountPath: /var/app/tmp
+        - name: system-tmp
+          mountPath: /tmp
+        - name: log
+          mountPath: /var/app/log
         ports:
         - name: http
           containerPort: 3000
@@ -55,10 +80,13 @@ spec:
       - name: {{ .Chart.Name }}-sidekiq
         image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
         imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+        securityContext: {{ toYaml .Values.app.securityContext | nindent 10 }}
         command: ['sidekiq-entrypoint.sh']
         args: ['bundle', 'exec', 'sidekiq']
         env:
           {{- include "dawarich.env" . | nindent 8 }}
+        - name: TMPDIR
+          value: /var/app/tmp/dawarich
         startupProbe:
           exec:
             command: [ "sh", "-c", "pgrep -f sidekiq" ]
@@ -71,6 +99,24 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/app/storage
+        - name: db
+          mountPath: /var/app/db
+        - name: tmp
+          mountPath: /var/app/tmp
+        - name: system-tmp
+          mountPath: /tmp
+        - name: log
+          mountPath: /var/app/log
       volumes:
       - name: data
+        emptyDir: {}
+      - name: db
+        emptyDir: {}
+      - name: public
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+      - name: system-tmp
+        emptyDir: {}
+      - name: log
         emptyDir: {}

@@ -29,6 +29,13 @@ redis:
   auth: false
 ```
 
+### Application Security
+
+The Dawarich application and Sidekiq containers run as non-root UID/GID 1000
+with a read-only root filesystem. Writable application paths are backed by
+ephemeral storage, including the Rails database schema directory, while
+Photon geodata remains on its persistent volume.
+
 ---
 
 ## Photon Reverse Geocoding
@@ -50,6 +57,7 @@ When `photon.deploy=true`, a local Photon instance is deployed for maximum priva
 - **Privacy:** Your location data stays private.
 - **Resource Usage:** Photon uses OpenSearch, which is memory-intensive (recommended: 64GiB RAM for the full worldwide dataset).
 - **Dataset Limiting:** You can restrict the dataset to your home country to reduce resource usage. Note: The local instance will not resolve locations outside the selected dataset.
+- **Security:** Photon runs as a non-root user with a read-only root filesystem. Runtime files use ephemeral storage, while geodata persists in `/photon/data`.
 
 **Combining Local and Public Instances:**
 Deploying a smaller local Photon instance with public load balancing provides privacy for your home location, while still allowing geocoding for coordinates outside your country.
