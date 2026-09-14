@@ -8544,6 +8544,14 @@ entries:
     version: 1.0.0
   mealie:
   - apiVersion: v2
+    created: "2026-09-14T08:04:57.213328645Z"
+    digest: fad0bab66db2d98129999455a0fd846240620a2b724337edfd57b77c0c6d532b
+    kubeVersion: '>=1.19.0-0'
+    name: mealie
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/mealie-2.6.0/mealie-2.6.0.tgz
+    version: 2.6.0
+  - apiVersion: v2
     created: "2026-09-04T11:43:33.281584607Z"
     digest: 33855246fb319bf2befdcf366d2c2c3bc51a0bc9eb3789bfc2b912d39dbc7e37
     kubeVersion: '>=1.19.0-0'
@@ -8973,4 +8981,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-13T14:26:32.223141647Z"
+generated: "2026-09-14T08:04:57.214413046Z"
