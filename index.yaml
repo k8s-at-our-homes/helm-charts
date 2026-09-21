@@ -722,6 +722,13 @@ entries:
     version: 1.0.0
   csi-addons:
   - apiVersion: v2
+    created: "2026-09-21T21:24:20.135496676Z"
+    digest: 46a65855ba13a03be90faf5a554ff20b1afeb1190b26f5ef343ede2e619f7f18
+    name: csi-addons
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/csi-addons-2.1.1/csi-addons-2.1.1.tgz
+    version: 2.1.1
+  - apiVersion: v2
     created: "2026-08-28T08:08:36.167125126Z"
     digest: 0304ae2353287e191b6438eddee53be8e1b504d3a219dd42ca0b3f84de2f9323
     name: csi-addons
@@ -9039,4 +9046,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-09-19T18:08:22.157803438Z"
+generated: "2026-09-21T21:24:20.137111523Z"
