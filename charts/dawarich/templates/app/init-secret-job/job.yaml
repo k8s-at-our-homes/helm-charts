@@ -3,8 +3,8 @@ kind: Job
 metadata:
   name: {{ include "common.fullname" . }}-init-secret-job
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
   labels:
     {{- include "dawarich.secretInit.objectLabels" . | nindent 4 }}
 spec:
