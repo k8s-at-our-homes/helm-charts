@@ -38,10 +38,6 @@
 {{- toYaml $cm.data | sha256sum -}}
 {{- end -}}
 
-{{- define "dawarich.secretKeyBase.name" -}}
-{{- default (printf "%s-secret" (include "common.fullname" .)) .Values.app.secretKeyBase.existingSecret -}}
-{{- end -}}
-
 {{- define "dawarich.env" -}}
 # defaults
 - name: SELF_HOSTED
@@ -55,7 +51,7 @@
 - name: SECRET_KEY_BASE
   valueFrom:
     secretKeyRef:
-      name: {{ include "dawarich.secretKeyBase.name" . }}
+      name: {{ include "common.fullname" . }}-secret
       key: secret-key-base
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}

@@ -1,11 +1,10 @@
-{{- if not .Values.app.secretKeyBase.existingSecret }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "common.fullname" . }}-init-secret-job
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
   labels:
     {{- include "dawarich.secretInit.objectLabels" . | nindent 4 }}
 spec:
@@ -25,14 +24,11 @@ spec:
             - sh
             - -ec
             - |
-              secret={{ include "dawarich.secretKeyBase.name" . | quote }}
+              secret={{ printf "%s-secret" (include "common.fullname" .) | quote }}
               namespace={{ .Release.Namespace | quote }}
-              existing=$(kubectl get secret "$secret" -n "$namespace" --ignore-not-found -o jsonpath='{.metadata.name}:{.data.secret-key-base}')
+              existing=$(kubectl get secret "$secret" -n "$namespace" -o jsonpath='{.data.secret-key-base}')
               if [ -z "$existing" ]; then
                 key=$(head -c 64 /dev/urandom | od -An -tx1 | tr -d ' \n')
-                kubectl create secret generic "$secret" -n "$namespace" --from-literal=secret-key-base="$key"
-              elif [ "$existing" = "$secret:" ]; then
-                echo "Secret $secret exists without a non-empty secret-key-base" >&2
-                exit 1
+                kubectl patch secret "$secret" -n "$namespace" --type merge \
+                  -p "{\"stringData\":{\"secret-key-base\":\"$key\"}}"
               fi
-{{- end }}

@@ -82,8 +82,6 @@ app:
     repository: freikin/dawarich
     tag: 1.15.2
     pullPolicy: IfNotPresent
-  secretKeyBase:
-    existingSecret: ""
   podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000

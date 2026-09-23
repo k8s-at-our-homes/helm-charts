@@ -1,11 +1,7 @@
-{{- if not .Values.app.secretKeyBase.existingSecret }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ include "common.fullname" . }}-init-secret-job
-  annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation
   labels:
     {{- include "dawarich.secretInit.objectLabels" . | nindent 4 }}
 roleRef:
@@ -16,4 +12,3 @@ subjects:
   - kind: ServiceAccount
     name: {{ include "common.fullname" . }}-init-secret-job
     namespace: {{ .Release.Namespace }}
-{{- end }}
