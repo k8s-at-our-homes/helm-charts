@@ -82,6 +82,8 @@ app:
     repository: freikin/dawarich
     tag: 1.15.2
     pullPolicy: IfNotPresent
+  secretKeyBase:
+    existingSecret: ""
   podSecurityContext:
     runAsNonRoot: true
     runAsUser: 1000
@@ -103,6 +105,13 @@ app:
 #      memory: 128Mi
 #    limits:
 #      memory: 512Mi
+
+secretInit:
+  image:
+    registry: docker.io
+    repository: alpine/kubectl
+    tag: 1.37.0
+  resources: {}
 
 photon:
   enabled: true  # Controls whether to use photon at all

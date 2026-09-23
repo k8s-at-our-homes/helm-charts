@@ -46,6 +46,8 @@ spec:
             httpHeaders:
             - name: Host
               value: {{ template "common.fullname" . }}
+          periodSeconds: 10
+          failureThreshold: 180
         livenessProbe:
           httpGet:
             port: http
@@ -90,6 +92,8 @@ spec:
         startupProbe:
           exec:
             command: [ "sh", "-c", "pgrep -f sidekiq" ]
+          periodSeconds: 10
+          failureThreshold: 180
         livenessProbe:
           exec:
             command: [ "sh", "-c", "pgrep -f sidekiq" ]

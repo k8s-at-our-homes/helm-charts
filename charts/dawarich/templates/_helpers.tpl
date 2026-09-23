@@ -38,6 +38,10 @@
 {{- toYaml $cm.data | sha256sum -}}
 {{- end -}}
 
+{{- define "dawarich.secretKeyBase.name" -}}
+{{- default (printf "%s-secret" (include "common.fullname" .)) .Values.app.secretKeyBase.existingSecret -}}
+{{- end -}}
+
 {{- define "dawarich.env" -}}
 # defaults
 - name: SELF_HOSTED
@@ -45,9 +49,18 @@
 - name: APPLICATION_PROTOCOL
   value: http
 - name: RAILS_ENV
-  value: development
+  value: production
+- name: RAILS_LOG_TO_STDOUT
+  value: 'true'
+- name: SECRET_KEY_BASE
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "dawarich.secretKeyBase.name" . }}
+      key: secret-key-base
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
+- name: DOMAIN
+  value: {{ .Values.hostname | quote }}
 # config
 - name: MIN_MINUTES_SPENT_IN_CITY
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}

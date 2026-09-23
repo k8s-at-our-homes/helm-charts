@@ -36,6 +36,38 @@ with a read-only root filesystem. Writable application paths are backed by
 ephemeral storage, including the Rails database schema directory, while
 Photon geodata remains on its persistent volume.
 
+Both containers run Rails in production mode. The chart generates a
+`SECRET_KEY_BASE` in a Kubernetes Secret on first install and reuses it on
+upgrades. Back up this Secret: changing or losing the key signs everyone out
+and can make encrypted archives unreadable. The generated Secret is not
+managed by Helm and remains after uninstall; remove it manually only when
+you are certain it is no longer needed.
+
+To use an existing or externally managed Secret instead, create one with a
+`secret-key-base` key and set:
+
+```yaml
+app:
+  secretKeyBase:
+    existingSecret: my-dawarich-secret
+```
+
+The `hostname` value also sets `DOMAIN`, which production email links need.
+Set it to the public hostname of your instance (without a scheme or path).
+When switching an existing deployment from development mode, review the
+[upstream migration guidance](https://dawarich.app/docs/self-hosting/environment-variables/#switching-an-existing-instance-to-production):
+encrypted geocoding settings may need to be entered again, and existing
+archives may require preserving the previous encryption key.
+
+**Storage warning:** `/var/app/storage` uses `emptyDir`, not a persistent
+volume. Upstream Dawarich uses this directory for Active Storage files,
+including uploaded imports, posters, saved videos, and (if enabled) raw-data
+archives. These files are lost when the Pod is replaced even though their
+database records remain. Back up or migrate this data before upgrading or
+replacing Pods; this chart does not currently provide a persistent storage
+option for it. Watched-directory imports likewise are not exposed through
+a shared, persistent volume in this chart.
+
 ---
 
 ## Photon Reverse Geocoding
