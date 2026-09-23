@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "common.fullname" . }}-init-secret-job
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+  labels:
+    {{- include "dawarich.secretInit.objectLabels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "dawarich.secretInit.podLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "common.fullname" . }}-init-secret-job
+      restartPolicy: OnFailure
+      containers:
+        - name: secret-init
+          image: "{{ .Values.secretInit.image.registry }}/{{ .Values.secretInit.image.repository }}:{{ .Values.secretInit.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          resources: {{ toYaml .Values.secretInit.resources | nindent 12 }}
+          command:
+            - sh
+            - -ec
+            - |
+              secret={{ printf "%s-secret" (include "common.fullname" .) | quote }}
+              namespace={{ .Release.Namespace | quote }}
+              existing=$(kubectl get secret "$secret" -n "$namespace" -o jsonpath='{.data.secret-key-base}')
+              if [ -z "$existing" ]; then
+                key=$(head -c 64 /dev/urandom | od -An -tx1 | tr -d ' \n')
+                kubectl patch secret "$secret" -n "$namespace" --type merge \
+                  -p "{\"stringData\":{\"secret-key-base\":\"$key\"}}"
+              fi

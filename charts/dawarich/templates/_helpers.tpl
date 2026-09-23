@@ -45,9 +45,18 @@
 - name: APPLICATION_PROTOCOL
   value: http
 - name: RAILS_ENV
-  value: development
+  value: production
+- name: RAILS_LOG_TO_STDOUT
+  value: 'true'
+- name: SECRET_KEY_BASE
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "common.fullname" . }}-secret
+      key: secret-key-base
 - name: APPLICATION_HOSTS
   value: {{ include "dawarich.hosts" . | quote }}
+- name: DOMAIN
+  value: {{ .Values.hostname | quote }}
 # config
 - name: MIN_MINUTES_SPENT_IN_CITY
   value: {{ .Values.config.minimumMinutesSpentInCity | quote }}
