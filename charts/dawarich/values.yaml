@@ -166,7 +166,7 @@ photon:
     image:
       registry: docker.io
       repository: envoyproxy/envoy
-      tag: v1.40.0
+      tag: v1.40.1
       pullPolicy: IfNotPresent
     podSecurityContext:
       runAsNonRoot: true
