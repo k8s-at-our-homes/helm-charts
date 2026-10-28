@@ -31,3 +31,8 @@ app.kubernetes.io/part-of: dawarich
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ include "dawarich.chartName" . }}
 {{- end -}}
+
+{{- define "dawarich.photonGateway.configDataChecksum" -}}
+{{- $cm := include (print $.Template.BasePath "/photon-gateway/configmap.yaml") . | fromYaml -}}
+{{- toYaml $cm.data | sha256sum -}}
+{{- end -}}
