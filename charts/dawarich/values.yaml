@@ -129,7 +129,7 @@ photon:
   image:
     registry: ghcr.io
     repository: rtuszik/photon-docker
-    tag: 2.4.0
+    tag: 2.5.0
     pullPolicy: IfNotPresent
   podSecurityContext:
     runAsNonRoot: true
