@@ -3,8 +3,6 @@ hostname: timeline.example.com
 config:
   timezone: Europe/Amsterdam
   minimumMinutesSpentInCity: 60
-  webConcurrency: 1
-  jobConcurrency: 3
   allowEmailPasswordRegistration: false
   oidc:
     enabled: false
@@ -80,7 +78,7 @@ app:
   image:
     registry: docker.io
     repository: freikin/dawarich
-    tag: 1.16.0
+    tag: 1.19.0
     pullPolicy: IfNotPresent
   podSecurityContext:
     runAsNonRoot: true

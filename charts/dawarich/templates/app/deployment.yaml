@@ -79,38 +79,6 @@ spec:
         - name: http
           containerPort: 3000
         resources: {{ toYaml .Values.app.resources | nindent 12 }}
-      - name: {{ .Chart.Name }}-sidekiq
-        image: '{{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}'
-        imagePullPolicy: {{ .Values.app.image.pullPolicy }}
-        securityContext: {{ toYaml .Values.app.securityContext | nindent 10 }}
-        command: ['sidekiq-entrypoint.sh']
-        args: ['bundle', 'exec', 'sidekiq']
-        env:
-          {{- include "dawarich.env" . | nindent 8 }}
-        - name: TMPDIR
-          value: /var/app/tmp/dawarich
-        startupProbe:
-          exec:
-            command: [ "sh", "-c", "pgrep -f sidekiq" ]
-          periodSeconds: 10
-          failureThreshold: 180
-        livenessProbe:
-          exec:
-            command: [ "sh", "-c", "pgrep -f sidekiq" ]
-        readinessProbe:
-          exec:
-            command: [ "sh", "-c", "pgrep -f sidekiq" ]
-        volumeMounts:
-        - name: data
-          mountPath: /var/app/storage
-        - name: db
-          mountPath: /var/app/db
-        - name: tmp
-          mountPath: /var/app/tmp
-        - name: system-tmp
-          mountPath: /tmp
-        - name: log
-          mountPath: /var/app/log
       volumes:
       - name: data
         emptyDir: {}
