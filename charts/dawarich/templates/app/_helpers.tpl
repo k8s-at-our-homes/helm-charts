@@ -32,6 +32,25 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ include "dawarich.chartName" . }}
 {{- end -}}
 
+{{- define "dawarich.hosts" -}}
+{{- $internal := list (include "common.fullname" .) (printf "%s.%s" (include "common.fullname" .) .Release.Namespace) (printf "%s.%s.svc.cluster.local" (include "common.fullname" .) .Release.Namespace) -}}
+{{- $ingress := list -}}
+{{- $routes := list -}}
+{{- $hostname := list -}}
+{{- if .Values.hostname -}}
+{{- $hostname = list .Values.hostname -}}
+{{- end -}}
+{{- if .Values.route.enabled -}}
+{{- $routes = .Values.route.hostnames -}}
+{{- end -}}
+{{- if .Values.ingress.enabled -}}
+{{- $ingress = list .Values.ingress.domain -}}
+{{- end -}}
+{{- $all := concat $internal $routes $ingress $hostname -}}
+{{- $hosts := $all | uniq | join "," -}}
+{{- $hosts -}}
+{{- end -}}
+
 {{- define "dawarich.env" -}}
 # defaults
 - name: SELF_HOSTED
@@ -107,7 +126,7 @@ helm.sh/chart: {{ include "dawarich.chartName" . }}
 - name: PHOTON_API_USE_HTTPS
   value: 'false'
 - name: PHOTON_API_LANGUAGE
-  value: default
+  value: 'default' # This makes dawarich request place names in the local language of the place instead of everything in English
 {{- end }}
 # Database
 - name: DATABASE_HOST
