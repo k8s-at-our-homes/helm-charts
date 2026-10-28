@@ -106,6 +106,8 @@ helm.sh/chart: {{ include "dawarich.chartName" . }}
   value: {{ template "common.fullname" . }}-photon-gateway:8080
 - name: PHOTON_API_USE_HTTPS
   value: 'false'
+- name: PHOTON_API_LANGUAGE
+  value: default
 {{- end }}
 # Database
 - name: DATABASE_HOST
