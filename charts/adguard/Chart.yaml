@@ -1,4 +1,4 @@
 apiVersion: v2
 name: adguard
-version: 4.1.5
+version: 4.1.6
 kubeVersion: ">=1.19.0-0"
