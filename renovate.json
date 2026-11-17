@@ -54,7 +54,9 @@
     }
   ],
   "prHourlyLimit": 0,
-  "dependencyDashboard": true,
+  "dependencyDashboard": {
+    "enabled": true
+  },
   "prConcurrentLimit": 20,
   "branchConcurrentLimit": 20,
   "rebaseWhen": "behind-base-branch",
