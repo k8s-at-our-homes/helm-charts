@@ -820,6 +820,14 @@ entries:
     version: 1.0.0
   cyberchef:
   - apiVersion: v2
+    created: "2026-11-22T07:55:52.590973064Z"
+    digest: 7343d01a8d1cb1e2985c14cc90fc742c5e47d99d64e6420b5a4168fd65041fd8
+    kubeVersion: '>=1.19.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/k8s-at-our-homes/helm-charts/releases/download/cyberchef-4.1.0/cyberchef-4.1.0.tgz
+    version: 4.1.0
+  - apiVersion: v2
     created: "2026-10-20T15:31:53.507767976Z"
     digest: 430abc25de097b7d7b322b724d5bbe103ab365d1fba060c65e22d78f307c5e72
     kubeVersion: '>=1.19.0-0'
@@ -9764,4 +9772,4 @@ entries:
     urls:
     - https://github.com/k8s-at-our-homes/helm-charts/releases/download/plugin-barman-cloud-0.1.0/plugin-barman-cloud-0.1.0.tgz
     version: 0.1.0
-generated: "2026-11-21T19:31:02.3696169Z"
+generated: "2026-11-22T07:55:52.592132104Z"
