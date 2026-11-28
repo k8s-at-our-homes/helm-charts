@@ -106,7 +106,7 @@ secretInit:
   image:
     registry: docker.io
     repository: alpine/kubectl
-    tag: 1.37.2
+    tag: 1.37.3
   resources: {}
 
 photon:
